@@ -1,0 +1,124 @@
+/* Constants */
+:root {
+  --main-color: #233d4d;
+  --main-color: #23c9ff;
+  --accent-color: #fcca46;
+  --accent-color-hover: #c29d37;
+  --font-color-main: #f2fdff;
+  --font-color-main-2: #bbc4c6;
+  --font-color-contrast-1: #374f5d;
+  --font-color-contrast-2: #495f6c;
+  --green-color-2: #679436;
+  --green-color: #37cf2c; /*#63D471*/
+  --green-color-hover: #2c9425; /*#63D471*/
+  --pink-color: #fd4f4f;
+  --blue-color: #449dd1;
+  --gray-color: #989c94;
+
+  --mainWidth: 70%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /*color: var(--font-color-main);*/
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  width: 100%;
+}
+
+main {
+  width: var(--mainWidth);
+  background-color: beige;
+  margin: auto;
+}
+
+/* Header */
+
+.mainNav {
+  width: var(--mainWidth);
+  margin: 1rem auto 1rem auto;
+}
+
+.mainNav ul {
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--main-color);
+  border-radius: 5px;
+}
+
+.floatLeft {
+  float: left;
+}
+
+.floatRight {
+  float: right;
+}
+
+.mainNav ul li a {
+  display: block;
+  color: var(--font-color-main);
+  text-align: center;
+  padding: 25px 25px;
+  text-decoration: none;
+}
+
+.mainNav ul li a:hover {
+  color: var(--font-color-contrast-1);
+}
+
+.mainNav ul li .profileImageLink {
+  padding: 10px 25px 7px 25px;
+  padding-top: 10px;
+}
+
+.profileImageContainer {
+  width: 50px;
+  aspect-ratio: 1;
+}
+
+.profileImageContainer img {
+  width: 100%;
+  height: 100%;
+}
+
+/* HomePage */
+
+.homeImageContainer {
+  position: relative;
+  text-align: center;
+  height: 400px;
+  overflow: hidden;
+  font-size: 4rem;
+  color: var(--font-color-main);
+}
+
+.homeImageContainer img {
+  width: 100%;
+  margin-top: -250px;
+}
+
+.imageGradient {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.textBottomLeft {
+  position: absolute;
+
+  bottom: 8px;
+  left: 16px;
+}
