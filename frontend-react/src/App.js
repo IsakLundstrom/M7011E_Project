@@ -1,7 +1,9 @@
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import HomePage from "./pages/HomePage";
 import CoursesPage from "./pages/CoursesPage";
+import CoursePage from "./pages/CoursePage";
 import AboutPage from "./pages/AboutPage";
 import AdminPage from "./pages/AdminPage";
 
@@ -16,10 +18,13 @@ function App() {
 
         <Route path="/courses" element={<CoursesPage />} />
 
+        <Route path="/course/:id" element={<CoursePage />} />
+
         <Route path="/about" element={<AboutPage />} />
 
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
