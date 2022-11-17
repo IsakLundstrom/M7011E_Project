@@ -20,8 +20,8 @@ const Header = () => {
           <Link to="/admin">Admin pages</Link>
         </li>
         <li>
-          <Link className="profileImageLink floatRight" to="/">
-            <div className="profileImageContainer">
+          <Link className="profileImageLink floatRight" to="/profile">
+            <div className="headerProfileImageContainer">
               <img src={profileImage} alt="Profile" />
             </div>
           </Link>

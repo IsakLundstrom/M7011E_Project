@@ -13,7 +13,7 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        "https://jsonplaceholder.typicode.com/todos/1"
+        "http://127.0.0.1:8000/courses/"
       );
       const parsed = await response.json();
       setData(parsed);
