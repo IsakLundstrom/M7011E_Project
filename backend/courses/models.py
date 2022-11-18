@@ -12,3 +12,12 @@ class Courses(models.Model):
 
     class Meta:
         ordering = ['courseID']
+
+
+class CoursesVideos(models.Model):
+    videoID = models.AutoField(auto_created=True, primary_key=True)
+    courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
+    videoURL = models.URLField(blank=False)
+
+    class Meta:
+        ordering = ['videoID']
