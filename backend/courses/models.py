@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import ManyToManyField
 
 
 # Create your models here.
@@ -21,3 +22,17 @@ class CoursesVideos(models.Model):
 
     class Meta:
         ordering = ['videoID']
+
+
+class Subscription(models.Model):
+    courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
+
+    class Likes(models.IntegerChoices):
+        undefined = -1
+        dislike = 0
+        like = 1
+
+    like = models.IntegerField(choices=Likes.choices)
+
+    class Meta:
+        ordering = ['courseID']

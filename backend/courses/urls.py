@@ -7,6 +7,7 @@ from backend.courses import views
 router = DefaultRouter()
 router.register(r'courses', views.CoursesViewSet, basename="course")
 router.register(r'courseVideo', views.CoursesVideoViewSet, basename="video")
+router.register(r'subscription', views.SubscriptionViewSet, basename="subscription")
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import CoursesSerializer, CoursesVideosSerializer
-from .models import Courses, CoursesVideos
+from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer
+from .models import Courses, CoursesVideos, Subscription
 
 
 # Create your views here.
@@ -13,3 +13,8 @@ class CoursesViewSet(viewsets.ModelViewSet):
 class CoursesVideoViewSet(viewsets.ModelViewSet):
     queryset = CoursesVideos.objects.all()
     serializer_class = CoursesVideosSerializer
+
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    queryset = Subscription.objects.all()
+    serializer_class = SubscriptionSerializer
