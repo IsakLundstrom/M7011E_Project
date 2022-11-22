@@ -12,9 +12,7 @@ const HomePage = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(
-        "http://127.0.0.1:8000/courses/"
-      );
+      const response = await fetch("http://127.0.0.1:8000/courses/");
       const parsed = await response.json();
       setData(parsed);
       console.log(parsed);
@@ -71,7 +69,7 @@ const HomePage = () => {
       <h2 className="homeH2"> Top 3 courses right now! </h2>
 
       <div className="threeCards">
-        <Link to="/courses" className="card courseCard">
+        <Link to="/course/1" className="card courseCard">
           <div>
             <img src={homeImage} alt="course" />
             <div class="cardTextContainer">
@@ -83,7 +81,7 @@ const HomePage = () => {
           </div>
         </Link>
 
-        <Link to="/courses" className="card courseCard">
+        <Link to="/course/2" className="card courseCard">
           <div>
             <img src={homeImage} alt="course" />
             <div class="cardTextContainer">
@@ -98,7 +96,7 @@ const HomePage = () => {
           </div>
         </Link>
 
-        <Link to="/courses" className="card courseCard">
+        <Link to="/course/3" className="card courseCard">
           <div>
             <img src={homeImage} alt="course" />
             <div class="cardTextContainer">

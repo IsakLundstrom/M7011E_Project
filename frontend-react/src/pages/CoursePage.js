@@ -2,6 +2,9 @@ import React, { useState } from "react";
 
 import homeImage from "../images/home_image.png";
 
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 const CoursePage = () => {
   const [visible, setVisible] = useState(false);
 
@@ -50,10 +53,18 @@ const CoursePage = () => {
             </div>
           </div>
         </div>
-
-        <div className="courseVideos">
-          <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1"></iframe>
-        </div>
+        <Carousel>
+          {[...Array(5)].map((e, i) => {
+            return (
+              <div className="courseVideos">
+                <iframe
+                  title="video"
+                  src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                ></iframe>
+              </div>
+            );
+          })}
+        </Carousel>
       </div>
     </main>
   );

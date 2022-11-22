@@ -8,26 +8,79 @@ const Header = () => {
     <nav className="mainNav">
       <ul>
         <li className="floatLeft">
-          <Link to="/">Home</Link>
+          <Link className="mainLink" to="/">
+            Home
+          </Link>
         </li>
+
         <li className="floatLeft">
-          <Link to="/courses">Courses</Link>
+          <div className="subnav">
+            <Link className="mainLink" to="/course">
+              Courses
+            </Link>
+            <div class="subnavContent">
+              <h2>Search for courses</h2>
+              <input
+                className="inputField"
+                type="text"
+                placeholder="Search.."
+              />
+              <table className="subnavTable">
+                <tr>
+                  <th>Course</th>
+                  <th>Short Description</th>
+                </tr>
+                {[...Array(3)].map((e, i) => {
+                  return (
+                    <tr>
+                      <td>
+                        <Link to={`/course/${i + 1}`}>Course {i + 1}</Link>
+                      </td>
+                      <td>Course short description!</td>
+                    </tr>
+                  );
+                })}
+              </table>
+            </div>
+          </div>
         </li>
+
         <li className="floatLeft">
-          <Link to="/about">About</Link>
+          <Link className="mainLink" to="/about">
+            About
+          </Link>
         </li>
+
         <li className="floatLeft">
-          <Link to="/admin">Admin pages</Link>
+          <Link className="mainLink" to="/admin">
+            Admin pages
+          </Link>
         </li>
+
+        <li className="floatRight">
+          <Link className="mainLink" to="/register">
+            Register
+          </Link>
+        </li>
+
+        <li className="floatRight">
+          <Link className="mainLink" to="/login">
+            Log in
+          </Link>
+        </li>
+
         <li>
-          <Link className="profileImageLink floatRight" to="/profile">
+          <Link className="mainLink profileImageLink floatRight" to="/profile">
             <div className="headerProfileImageContainer">
               <img src={profileImage} alt="Profile" />
             </div>
           </Link>
         </li>
+
         <li className="floatRight">
-          <Link to="/login">Log in</Link>
+          <Link className="mainLink" to="/">
+            Log out
+          </Link>
         </li>
       </ul>
     </nav>

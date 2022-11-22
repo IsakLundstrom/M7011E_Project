@@ -5,6 +5,7 @@
   --accent-color-1-hover: #da4136;
   --accent-color-2: #ccd5ff;
   --accent-color-3: #e7bbe3;
+  --accent-color-4: #abe188;
   --black-color: #0c0f0a;
 
   --font-color-main: #f2fdff;
@@ -42,8 +43,16 @@ h1 {
 }
 
 button:hover,
-.profileButton:hover {
+.profileButton:hover,
+.coursesSortButton:hover,
+.mainNav a:hover {
   background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
+}
+
+.inputField {
+  width: 100%;
+  padding: 10px;
+  margin-top: 3px;
 }
 
 /* Header */
@@ -71,7 +80,7 @@ button:hover,
   float: right;
 }
 
-.mainNav ul li a {
+.mainLink {
   display: block;
   color: var(--font-color-main);
   text-align: center;
@@ -79,16 +88,16 @@ button:hover,
   text-decoration: none;
 }
 
-.mainNav ul li a:hover {
+.mainLink:hover {
   color: var(--font-color-contrast-1);
 }
 
-.mainNav ul li .profileImageLink {
+.profileImageLink {
   padding: calc(var(--gap) / 3) var(--gap);
 }
 
 .headerProfileImageContainer {
-  width: calc(var(--gap) * 2);
+  width: calc(var(--gap) * 1.92);
   aspect-ratio: 1/1;
 }
 
@@ -96,6 +105,53 @@ button:hover,
   width: 100%;
   height: 100%;
   border-radius: 100%;
+}
+
+.subnav {
+  float: left;
+  overflow: hidden;
+}
+
+.subnavContent {
+  text-align: left;
+  width: var(--mainWidth);
+  display: none;
+  position: absolute;
+
+  left: calc((100% - var(--mainWidth)) / 2);
+  background-color: var(--accent-color-2);
+  z-index: 1;
+
+  border-radius: 5px;
+  padding: calc(var(--gap) / 3) var(--gap);
+}
+
+.subnav:hover .subnavContent {
+  display: block;
+}
+
+.subnavTable {
+  margin-top: calc(var(--gap) / 4);
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.subnavTable td,
+.subnavTable th {
+  text-align: left;
+  padding: 8px 0;
+}
+
+.subnavTable td a {
+  color: var(--accent-color-1);
+  padding: 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.subnavTable td a:hover {
+  background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
 }
 
 /* Footer */
@@ -235,6 +291,25 @@ p {
 
 /* Courses page */
 
+.coursesSearchForm {
+  display: grid;
+  grid-template-columns: 5fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.coursesSortButton {
+  text-decoration: none;
+  border: none;
+  background-color: var(--accent-color-2);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 1rem;
+  padding: 0.75rem 2rem;
+}
+
 .fiveCards {
   margin: var(--gap) 0;
   display: grid;
@@ -359,6 +434,7 @@ p {
 .profileFormContainer {
   position: relative;
 }
+
 .profileFormContainer form {
   position: absolute;
   width: 100%;
@@ -369,10 +445,9 @@ p {
   grid-template-columns: 1fr 1fr;
 }
 
-.profileInputField {
-  width: 100%;
-  padding: 10px;
-  margin-top: 3px;
+.threeForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .profileButton {
@@ -393,12 +468,57 @@ p {
 }
 
 .profileUpdateButton {
-  background-color: var(--accent-color-3);
+  background-color: var(--accent-color-4);
 }
 
 .profileDeleteButton {
-  background-color: red;
   position: absolute;
   right: 0;
   bottom: 0;
+}
+
+/* Login page */
+
+.loginContent {
+  width: 50%;
+  margin: auto;
+}
+
+/* UserList and CourseList page */
+
+.adminTable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.adminTable td,
+.adminTable th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 1px;
+}
+
+.adminTable tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.adminTable tr a {
+  text-decoration: none;
+  color: black;
+}
+
+/* UserEdit, CourseEdit and CourseCreate page */
+
+.deleteButton {
+  background-color: red;
+}
+
+.checkboxField {
+  transform: scale(1.5);
+  margin: 8px;
+}
+
+textarea {
+  resize: none;
 }

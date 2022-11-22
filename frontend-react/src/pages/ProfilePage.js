@@ -11,6 +11,7 @@ const ProfilePage = () => {
           <div className="profileImageContainer">
             <img src={profileImage} alt="Profile" />
           </div>
+
           <form action="">
             <input
               className="profileButton profileUploadButton"
@@ -27,36 +28,35 @@ const ProfilePage = () => {
                 <label for="fname">Name</label>
                 <br />
                 <input
-                  className="profileInputField"
+                  className="inputField"
                   type="text"
-                  id="fname"
                   name="fname"
                   value="John"
                 />
               </div>
+
               <div>
                 <label for="lname"></label>
                 <br />
                 <input
-                  className="profileInputField"
+                  className="inputField"
                   required
                   type="text"
-                  id="lname"
                   name="lname"
                   value="Doe"
                 />
               </div>
             </div>
+
             <br />
             <br />
 
             <label for="email">Email</label>
             <br />
             <input
-              className="profileInputField"
+              className="inputField"
               required
               type="email"
-              id="fname"
               name="email"
               value="john.doe@gmail.com"
             />
@@ -64,38 +64,49 @@ const ProfilePage = () => {
             <br />
             <br />
 
-            <div className="twoForm">
+            <div className="threeForm">
               <div>
                 <label for="cpassword">Update password</label>
                 <br />
                 <input
-                  className="profileInputField"
+                  className="inputField"
                   type="password"
-                  id="fname"
                   name="cpassword"
                   placeholder="Current password"
                 />
               </div>
+
               <div>
                 <label for="npassword"></label>
                 <br />
                 <input
-                  className="profileInputField"
+                  className="inputField"
                   type="password"
-                  id="npassword"
-                  name="lname"
+                  name="npassword"
                   placeholder="New password"
                 />
               </div>
+
+              <div>
+                <label for="rpassword"></label>
+                <br />
+                <input
+                  className="inputField"
+                  type="password"
+                  name="rpassword"
+                  placeholder="Reapeat new password"
+                />
+              </div>
+
               <br />
             </div>
             <input
               className="profileButton profileUpdateButton"
               type="submit"
-              value="Update"
+              value="Update profile"
             />
           </form>
-          <button className="profileButton profileDeleteButton">
+          <button className="profileButton profileDeleteButton deleteButton">
             Delete profile
           </button>
         </div>
