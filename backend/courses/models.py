@@ -9,7 +9,7 @@ class Courses(models.Model):
     courseName = models.TextField(max_length=32, blank=False)
     shortDescription = models.TextField(max_length=80, default=courseName)
     longDescription = models.TextField(max_length=2000, default=shortDescription)
-    likeRatio = models.IntegerField()
+    likeRatio = models.IntegerField(default=-1)
 
     class Meta:
         ordering = ['courseID']

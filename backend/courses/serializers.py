@@ -6,7 +6,7 @@ from .models import Courses, CoursesVideos, Subscription
 class CoursesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courses
-        fields = ["courseID", "courseName", "shortDescription", "longDescription", "likeRatio"]
+        fields = ["courseID", "courseName", "shortDescription", "longDescription"]
 
 
 class CoursesVideosSerializer(serializers.ModelSerializer):
