@@ -19,7 +19,9 @@ from rest_framework import routers
 from courses import views
 
 router = routers.DefaultRouter()
-router.register(r'courses', views.CoursesViewSet)
+router.register(r'courses', views.CoursesViewSet, basename="course")
+router.register(r'courseVideo', views.CoursesVideoViewSet, basename="video")
+router.register(r'subscription', views.SubscriptionViewSet, basename="subscription")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

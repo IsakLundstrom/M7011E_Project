@@ -1,9 +1,15 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 from backend.courses import views
 
-urlpatterns = [
-    path('courses/', views.CoursesViewSet),
-]
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'courses', views.CoursesViewSet, basename="course")
+router.register(r'courseVideo', views.CoursesVideoViewSet, basename="video")
+router.register(r'subscription', views.SubscriptionViewSet, basename="subscription")
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+# The API URLs are now determined automatically by the router.
+urlpatterns = [
+    path('', include(router.urls)),
+]
