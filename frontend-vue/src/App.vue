@@ -1,4 +1,49 @@
-<script setup>
+<template>
+  <header>
+
+    <Header></Header>
+
+    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+
+    <h1 @click="changeTitle"> {{title}} </h1>
+  </header>
+
+  <main>
+    <input type="text" ref="name">
+    <button @click="handleClick">Click me</button>
+  </main>
+</template>
+
+<script>
+import Header from './components/Header.vue'
+
+export default {
+  name: 'App',
+  components: { Header },
+  data() {
+    return {
+      title: 'The Best Free Gym in Luleå'
+    }
+  }, 
+  methods: {
+    changeTitle(){
+      this.title = 'Hijacked!'
+    }, 
+    handleClick() {
+      console.log(this.$refs.name)
+      this.$refs.name.classList.add('active')
+      this.$refs.name.focus()
+    }
+  }
+}
+
+</script>
+
+
+
+
+<!-- original code -->
+<!-- <script setup>
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 </script>
@@ -44,4 +89,4 @@ header {
     flex-wrap: wrap;
   }
 }
-</style>
+</style> -->
