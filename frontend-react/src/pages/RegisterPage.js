@@ -20,6 +20,10 @@ const RegisterPage = () => {
         password: password,
         // rpassword: rpassword,
       }),
+    })
+    .then(res => res.json())
+    .then(resJson => {
+      console.log(resJson);
     });
 
     console.log(res);

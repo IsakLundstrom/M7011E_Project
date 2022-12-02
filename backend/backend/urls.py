@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+#from auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
 from .auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
 
 from courses import views as cViews
@@ -23,14 +24,15 @@ from user import views as uViews
 
 router = routers.DefaultRouter()
 # AUTHENTICATION
-# router.register(r'auth/login', LoginViewSet, basename='auth-login')
-# router.register(r'auth/register', RegistrationViewSet, basename='auth-register')
-# router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
+router.register(r'auth/login', LoginViewSet, basename='auth-login')
+router.register(r'auth/register', RegistrationViewSet, basename='auth-register')
+router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 
 router.register(r'courses', cViews.CoursesViewSet, basename="course")
 router.register(r'courseVideo', cViews.CoursesVideoViewSet, basename="video")
 router.register(r'subscription', cViews.SubscriptionViewSet, basename="subscription")
-router.register(r'User', uViews.UserViewSet, basename="user")
+router.register(r'user', uViews.UserViewSet, basename="user")
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
