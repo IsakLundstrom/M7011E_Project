@@ -7,7 +7,7 @@ const CourseCreatePage = () => {
   const [cImage, setCImage] = useState();
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     let res = await fetch("http://localhost:8000/courses/", {
       method: "POST",

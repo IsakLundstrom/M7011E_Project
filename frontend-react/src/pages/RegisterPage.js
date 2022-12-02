@@ -8,7 +8,7 @@ const RegisterPage = () => {
   const [rpassword, setRPassword] = useState("");
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     let res = await fetch("http://localhost:8000/auth/register/", {
       method: "POST",
@@ -18,6 +18,7 @@ const RegisterPage = () => {
         lName: lName,
         email: email,
         password: password,
+        // rpassword: rpassword,
       }),
     });
 
