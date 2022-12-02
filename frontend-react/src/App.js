@@ -24,9 +24,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
 
-        <Route path="/course" element={<CoursesPage />} />
+        <Route path="/courses" element={<CoursesPage />} />
 
-        <Route path="/course/:id" element={<CoursePage />} />
+        <Route path="/courses/:id" element={<CoursePage />} />
 
         <Route path="/about" element={<AboutPage />} />
 

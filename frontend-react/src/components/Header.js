@@ -15,10 +15,10 @@ const Header = () => {
 
         <li className="floatLeft">
           <div className="subnav">
-            <Link className="mainLink" to="/course">
+            <Link className="mainLink" to="/courses">
               Courses
             </Link>
-            <div class="subnavContent">
+            <div className="subnavContent">
               <h2>Search for courses</h2>
               <input
                 className="inputField"
@@ -26,20 +26,24 @@ const Header = () => {
                 placeholder="Search.."
               />
               <table className="subnavTable">
-                <tr>
-                  <th>Course</th>
-                  <th>Short Description</th>
-                </tr>
-                {[...Array(3)].map((e, i) => {
-                  return (
-                    <tr>
-                      <td>
-                        <Link to={`/course/${i + 1}`}>Course {i + 1}</Link>
-                      </td>
-                      <td>Course short description!</td>
-                    </tr>
-                  );
-                })}
+                <thead>
+                  <tr>
+                    <th>Course</th>
+                    <th>Short Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...Array(3)].map((e, i) => {
+                    return (
+                      <tr key={i + 1}>
+                        <td>
+                          <Link to={`/courses/${i + 1}`}>Course {i + 1}</Link>
+                        </td>
+                        <td>Course short description!</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
               </table>
             </div>
           </div>

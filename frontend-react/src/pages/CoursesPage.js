@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import homeImage from "../images/home_image.png";
 
 const CoursesPage = () => {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("http://127.0.0.1:8000/courses/");
+      const parsed = await response.json();
+      setCourses(parsed);
+    })();
+  }, []);
+
   return (
     <main>
       <h1>Our courses</h1>
@@ -21,21 +31,26 @@ const CoursesPage = () => {
         <input className="coursesSortButton" type="submit" value="Sort" />
       </form>
       <div className="fiveCards">
-        {[...Array(18)].map((e, i) => {
-          return (
-            <Link to={`/course/${i + 1}`} className="card courseCard">
-              <div>
-                <img src={homeImage} alt="course" />
-                <div class="cardTextContainer">
-                  <h3>
-                    <b>Course {i + 1} </b>
-                  </h3>
-                  <p>Course short description!</p>
+        {courses &&
+          courses.map((course) => {
+            return (
+              <Link
+                to={`/courses/${course.courseID}`}
+                className="card courseCard"
+                key={course.courseID}
+              >
+                <div>
+                  <img src={homeImage} alt="course" />
+                  <div className="cardTextContainer">
+                    <h3>
+                      <b>{course.courseName} </b>
+                    </h3>
+                    <p>{course.shortDescription}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })}
       </div>
     </main>
   );

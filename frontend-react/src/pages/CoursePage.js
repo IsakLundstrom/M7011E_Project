@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import homeImage from "../images/home_image.png";
 
@@ -8,17 +8,27 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 const CoursePage = () => {
   const [visible, setVisible] = useState(false);
 
+  const [course, setCourse] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        "http://127.0.0.1:8000/courses/" +
+          window.location.pathname.substring(
+            window.location.pathname.lastIndexOf("/") + 1
+          )
+      );
+      const parsed = await response.json();
+      setCourse(parsed);
+    })();
+  }, []);
+
   return (
     <main>
-      <div class="courseImageContainer">
+      <div className="courseImageContainer">
         <div className="imageGradient"></div>
         <img src={homeImage} alt="Home" />
-        <h1 className="textBottomLeft">
-          Course page{" "}
-          {window.location.pathname.substring(
-            window.location.pathname.lastIndexOf("/") + 1
-          )}
-        </h1>
+        <h1 className="textBottomLeft">{course.courseName}</h1>
         <p className="textBottomRight">Like ratio: XX%</p>
       </div>
 
@@ -40,20 +50,11 @@ const CoursePage = () => {
               Description {visible ? "▲" : "▼"}
             </button>
             <div className="courseDescriptionTextBox ">
-              {visible && (
-                <p>
-                  Duis Lorem consequat irure sint consectetur sunt anim nisi
-                  consectetur. Ea aliquip quis magna et anim consectetur labore
-                  incididunt adipisicing voluptate exercitation officia. Anim
-                  consectetur ea cillum excepteur ut aute do et do. Non
-                  excepteur elit cillum ullamco velit consectetur culpa ullamco
-                  excepteur cillum sit proident.
-                </p>
-              )}
+              {visible && <p>{course.longDescription}</p>}
             </div>
           </div>
         </div>
-        <Carousel>
+        <Carousel showThumbs={false}>
           {[...Array(5)].map((e, i) => {
             return (
               <div className="courseVideos">

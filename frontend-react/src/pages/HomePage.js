@@ -21,7 +21,7 @@ const HomePage = () => {
 
   return (
     <main>
-      <div class="homeImageContainer">
+      <div className="homeImageContainer">
         <div className="imageGradient"></div>
         <img src={homeImage} alt="Home" />
         <h1 className="homeH1 textBottomLeft">Home page</h1>
@@ -32,7 +32,7 @@ const HomePage = () => {
       <div className="threeCards threeMotivationCards">
         <div className="card motivationCard">
           <img src={dumbellSvg} alt="Dumbell" />
-          <div class="cardTextContainer">
+          <div className="cardTextContainer">
             <h3>
               <b>Gym training!</b>
             </h3>
@@ -42,7 +42,7 @@ const HomePage = () => {
 
         <div className="card motivationCard">
           <img src={runSvg} alt="Run" />
-          <div class="cardTextContainer">
+          <div className="cardTextContainer">
             <h3>
               <b>Run every day!</b>
             </h3>
@@ -54,7 +54,7 @@ const HomePage = () => {
 
         <div className="card motivationCard">
           <img src={fotballSvg} alt="Fotball" />
-          <div class="cardTextContainer">
+          <div className="cardTextContainer">
             <h3>
               <b>Sports!</b>
             </h3>
@@ -69,10 +69,10 @@ const HomePage = () => {
       <h2 className="homeH2"> Top 3 courses right now! </h2>
 
       <div className="threeCards">
-        <Link to="/course/1" className="card courseCard">
+        <Link to="/courses/1" className="card courseCard">
           <div>
             <img src={homeImage} alt="course" />
-            <div class="cardTextContainer">
+            <div className="cardTextContainer">
               <h3>
                 <b>Course 1</b>
               </h3>
@@ -81,10 +81,10 @@ const HomePage = () => {
           </div>
         </Link>
 
-        <Link to="/course/2" className="card courseCard">
+        <Link to="/courses/2" className="card courseCard">
           <div>
             <img src={homeImage} alt="course" />
-            <div class="cardTextContainer">
+            <div className="cardTextContainer">
               <h3>
                 <b>Course 2</b>
               </h3>
@@ -96,10 +96,10 @@ const HomePage = () => {
           </div>
         </Link>
 
-        <Link to="/course/3" className="card courseCard">
+        <Link to="/courses/3" className="card courseCard">
           <div>
             <img src={homeImage} alt="course" />
-            <div class="cardTextContainer">
+            <div className="cardTextContainer">
               <h3>
                 <b>Course 3</b>
               </h3>

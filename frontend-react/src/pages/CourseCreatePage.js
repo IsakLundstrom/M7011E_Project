@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 
 const CourseCreatePage = () => {
-  const [cName, setCName] = useState({});
-  const [shortDescription, setShortDescription] = useState({});
-  const [longDescription, setLongDescription] = useState({});
-  const [cImage, setCImage] = useState({});
+  const [cName, setCName] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
+  const [longDescription, setLongDescription] = useState("");
+  const [cImage, setCImage] = useState();
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
 
-    let res = await fetch("http://localhost:8000/courses", {
+    let res = await fetch("http://localhost:8000/courses/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         courseName: cName,
         shortDescription: shortDescription,
         longDescription: longDescription,
+        // image: cImage,
       }),
     });
+
+    console.log(res);
   };
 
   return (
     <main>
       <h1>Create Course</h1>
       <form onSubmit={handleSubmit}>
-        <label for="cname">Name</label>
+        <label htmlFor="cname">Name</label>
         <br />
         <input
           className="inputField"
@@ -37,7 +40,7 @@ const CourseCreatePage = () => {
 
         <br />
 
-        <label for="shortDescription">Short description</label>
+        <label htmlFor="shortDescription">Short description</label>
         <br />
         <input
           className="inputField"
@@ -50,7 +53,7 @@ const CourseCreatePage = () => {
 
         <br />
 
-        <label for="longDescription">Long description</label>
+        <label htmlFor="longDescription">Long description</label>
         <br />
         <textarea
           className="inputField"
@@ -63,16 +66,15 @@ const CourseCreatePage = () => {
 
         <br />
 
-        <label for="image">Image</label>
+        <label htmlFor="image">Image</label>
         <br />
-        <input
+        {/* <input
           className=""
           required
           type="file"
           name="image"
-          value={cImage}
-          onChange={(e) => setCImage(e.target.value)}
-        />
+          onChange={(e) => setCImage(e.target.files[0])}
+        /> */}
 
         <br />
         <br />
