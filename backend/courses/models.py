@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import ManyToManyField
 
 
 # Create your models here.
@@ -28,6 +27,7 @@ class CoursesVideos(models.Model):
 
 class Subscription(models.Model):
     courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
+    userID = models.ForeignKey("user.User", on_delete=models.CASCADE, to_field="id")
 
     class Likes(models.IntegerChoices):
         undefined = -1
