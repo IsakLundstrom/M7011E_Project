@@ -1,21 +1,16 @@
+<script setup>
+import Header from './components/Header.vue'
+</script>
+
 <template>
-  <header>
-
+  <nav>
     <Header></Header>
-
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <h1 @click="changeTitle"> {{title}} </h1>
-  </header>
-
-  <main>
-    <input type="text" ref="name">
-    <button @click="handleClick">Click me</button>
-  </main>
+    
+  </nav>
+  <router-view/>
 </template>
 
 <script>
-import Header from './components/Header.vue'
 
 export default {
   name: 'App',
@@ -25,68 +20,30 @@ export default {
       title: 'The Best Free Gym in Luleå'
     }
   }, 
-  methods: {
-    changeTitle(){
-      this.title = 'Hijacked!'
-    }, 
-    handleClick() {
-      console.log(this.$refs.name)
-      this.$refs.name.classList.add('active')
-      this.$refs.name.focus()
-    }
-  }
+  methods: {  }
 }
 
 </script>
 
-
-
-
-<!-- original code -->
-<!-- <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
-<template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
-</template>
-
-<style scoped>
-header {
-  line-height: 1.5;
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+nav {
+  padding: 30px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
 }
-</style> -->
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
