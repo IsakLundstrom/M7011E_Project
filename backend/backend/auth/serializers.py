@@ -8,6 +8,9 @@ from user.serializers import UserSerializer
 from user.models import User
 
 
+#from user.serializers import UserSerializer
+#from user.models import User
+
 class LoginSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
@@ -31,11 +34,13 @@ class RegistrationSerializer(UserSerializer):
 
     class Meta:
         model = User
-        fields = ['userID', 'fName', 'lName', 'email', 'password', 'is_active', 'created', 'updated']
+        #fields = ['userID', 'fName', 'lName', 'email', 'password', 'is_active', 'created', 'updated']
+        fields = ['fName', 'lName', 'email', 'password', 'is_active']
 
     def create(self, validated_data):
+        print("IN CREATE")
         try:
             user = User.objects.get(email=validated_data['email'])
         except ObjectDoesNotExist:
-            user = User.objects.create_user(**validated_data)
+            user = User.objects.createUser(**validated_data)
         return user
