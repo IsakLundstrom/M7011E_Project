@@ -34,7 +34,10 @@ class Subscription(models.Model):
         dislike = 0
         like = 1
 
-    like = models.IntegerField(choices=Likes.choices)
+    like = models.IntegerField(choices=Likes.choices, default=-1)
 
     class Meta:
+        constraints = [
+            models.constraints.UniqueConstraint(fields=['courseID', 'userID'], name='uniqueLike')
+        ]
         ordering = ['courseID']
