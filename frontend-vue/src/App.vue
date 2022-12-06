@@ -1,26 +1,35 @@
 <script setup>
 import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 </script>
 
 <template>
   <nav>
     <Header></Header>
-    
   </nav>
+
   <router-view/>
+  
+  <nav>
+    <Footer></Footer>
+  </nav>
+  
 </template>
 
 <script>
 
 export default {
   name: 'App',
-  components: { Header },
+  components: { Header, Footer },
+  
+  
   data() {
     return {
       title: 'The Best Free Gym in Luleå'
     }
   }, 
   methods: {  }
+
 }
 
 </script>

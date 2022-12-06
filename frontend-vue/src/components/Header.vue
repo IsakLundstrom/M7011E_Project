@@ -64,7 +64,7 @@
       <li class="floatRight">
       <router-link v-if="true" :to="{ name: 'Profile' }" class='mainLink'>
         <div className="headerProfileImageContainer">
-          <img src="../assets/default_profile.png" alt="Profile" />
+          <img src="../images/default_profile.png" alt="Profile" />
         </div>
       </router-link>
       </li>
