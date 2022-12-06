@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-#from auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
+# from auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
 from .auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
 
 from courses import views as cViews
@@ -33,9 +33,9 @@ router.register(r'courseVideo', cViews.CoursesVideoViewSet, basename="video")
 router.register(r'subscription', cViews.SubscriptionViewSet, basename="subscription")
 router.register(r'user', uViews.UserViewSet, basename="user")
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
+    path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

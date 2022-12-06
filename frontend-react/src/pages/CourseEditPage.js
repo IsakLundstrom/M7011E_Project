@@ -1,11 +1,62 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+import useAxios from "../utils/useAxios";
+import AuthContext from "../context/AuthContext";
 
 const CourseEditPage = () => {
+  const api = useAxios();
+  const { user } = useContext(AuthContext);
+
+  const [cID, setCID] = useState("");
+  const [cName, setCName] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
+  const [longDescription, setLongDescription] = useState("");
+  const [cImage, setCImage] = useState();
+
+  const navigate = useNavigate();
+
+  // get course
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        "http://127.0.0.1:8000/courses/" +
+          window.location.pathname.substring(
+            window.location.pathname.lastIndexOf("/") + 1
+          )
+      );
+      const course = await response.json();
+      setCID(course.courseID);
+      setCName(course.courseName);
+      setShortDescription(course.shortDescription);
+      setLongDescription(course.longDescription);
+      // setCImage(course.cImage)
+    })();
+  }, []);
+
+  // handle put
+  const putCourse = async (e) => {
+    e.preventDefault();
+
+    let res = await fetch(`http://localhost:8000/courses/${cID}/`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        courseName: cName,
+        shortDescription: shortDescription,
+        longDescription: longDescription,
+        // image: cImage,
+      }),
+    });
+
+    console.log(res);
+  };
+
   return (
     <main>
       <h1>Edit Course</h1>
-      <form action="">
-        <label for="id">ID</label>
+      <form onSubmit={putCourse}>
+        <label htmlFor="id">ID</label>
         <br />
         <input
           className="inputField"
@@ -13,49 +64,60 @@ const CourseEditPage = () => {
           type="text"
           name="id"
           disabled="disabled"
-          value="1"
+          value={cID}
+          onChange={(e) => setCID(e.target.value)}
         />
 
         <br />
 
-        <label for="name">Name</label>
+        <label htmlFor="name">Name</label>
         <br />
         <input
           className="inputField"
           required
           type="text"
           name="name"
-          value="Course 1"
+          value={cName}
+          onChange={(e) => setCName(e.target.value)}
         />
 
         <br />
 
-        <label for="shortDescription">Short description</label>
+        <label htmlFor="shortDescription">Short description</label>
         <br />
         <input
           className="inputField"
           required
           type="text"
           name="shortDescription"
-          value="This is a short description"
+          value={shortDescription}
+          onChange={(e) => setShortDescription(e.target.value)}
         />
 
         <br />
 
-        <label for="longDescription">Long description</label>
+        <label htmlFor="longDescription">Long description</label>
         <br />
         <textarea
           className="inputField"
           required
           name="longDescription"
           rows="5"
-        >
-          Elit do ipsum elit eu non enim pariatur esse ipsum id. Nulla dolor do
-          eu cillum aliqua proident enim minim magna dolore. Non sint officia
-          officia sint do amet et eiusmod commodo sint. Ipsum minim aliqua est
-          ut nisi ex voluptate velit ipsum in amet. Est qui ut adipisicing magna
-          qui aute esse fugiat.
-        </textarea>
+          value={longDescription}
+          onChange={(e) => setLongDescription(e.target.value)}
+        ></textarea>
+
+        <br />
+
+        <label htmlFor="image">Image</label>
+        <br />
+        <input
+          className=""
+          // required
+          type="file"
+          name="image"
+          onChange={(e) => setCImage(e.target.files[0])}
+        />
 
         <br />
         <br />
@@ -97,18 +159,18 @@ const CourseEditPage = () => {
 
       <br />
 
-      <h2>Add new videos to the course</h2>
+      <h3>Add new videos to the course</h3>
 
       <br />
 
       <form action="">
-        <label for="name">Name</label>
+        <label htmlFor="name">Name</label>
         <br />
         <input className="inputField" required type="text" name="id" />
 
         <br />
 
-        <label for="url">Url</label>
+        <label htmlFor="url">Url</label>
         <br />
         <input className="inputField" required type="text" name="url" />
 

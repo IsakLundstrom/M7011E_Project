@@ -420,7 +420,7 @@ p {
 }
 
 .profileImageContainer {
-  margin: var(--gap) auto;
+  margin: var(--gap) auto auto auto;
   width: 90%;
   aspect-ratio: 1/1;
 }
@@ -431,12 +431,12 @@ p {
   border-radius: 100%;
 }
 
-.profileFormContainer {
+/* .profileFormContainer {
   position: relative;
-}
+} */
 
 .profileFormContainer form {
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
 }
 
@@ -472,9 +472,10 @@ p {
 }
 
 .profileDeleteButton {
-  position: absolute;
+  /* position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: 0; */
+  margin: auto;
 }
 
 /* Login page */

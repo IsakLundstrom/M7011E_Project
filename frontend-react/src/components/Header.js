@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 import profileImage from "../images/default_profile.png";
 
 const Header = () => {
+  const { user, logoutUser } = useContext(AuthContext);
+
   return (
     <nav className="mainNav">
       <ul>
@@ -60,32 +63,40 @@ const Header = () => {
             Admin pages
           </Link>
         </li>
+        {!user ? (
+          <>
+            <li className="floatRight">
+              <Link className="mainLink" to="/register">
+                Register
+              </Link>
+            </li>
 
-        <li className="floatRight">
-          <Link className="mainLink" to="/register">
-            Register
-          </Link>
-        </li>
+            <li className="floatRight">
+              <Link className="mainLink" to="/login">
+                Log in
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link
+                className="mainLink profileImageLink floatRight"
+                to="/profile"
+              >
+                <div className="headerProfileImageContainer">
+                  <img src={profileImage} alt="Profile" />
+                </div>
+              </Link>
+            </li>
 
-        <li className="floatRight">
-          <Link className="mainLink" to="/login">
-            Log in
-          </Link>
-        </li>
-
-        <li>
-          <Link className="mainLink profileImageLink floatRight" to="/profile">
-            <div className="headerProfileImageContainer">
-              <img src={profileImage} alt="Profile" />
-            </div>
-          </Link>
-        </li>
-
-        <li className="floatRight">
-          <Link className="mainLink" to="/">
-            Log out
-          </Link>
-        </li>
+            <li className="floatRight">
+              <Link className="mainLink" to="/" onClick={logoutUser}>
+                Log out
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );

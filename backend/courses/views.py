@@ -18,5 +18,6 @@ class CoursesVideoViewSet(viewsets.ModelViewSet):
 class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
+    http_method_names = ['get', 'put', 'delete']
     lookup_field = 'userID'
 

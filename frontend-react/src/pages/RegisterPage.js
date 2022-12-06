@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 const RegisterPage = () => {
   const [fName, setFName] = useState("");
@@ -7,26 +8,11 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
 
+  const { registerUser } = useContext(AuthContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    let res = await fetch("http://localhost:8000/auth/register/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fName: fName,
-        lName: lName,
-        email: email,
-        password: password,
-        // rpassword: rpassword,
-      }),
-    })
-    .then(res => res.json())
-    .then(resJson => {
-      console.log(resJson);
-    });
-
-    console.log(res);
+    registerUser(fName, lName, email, password);
   };
 
   return (
@@ -36,7 +22,7 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit}>
           <br />
 
-          <label for="fname">Name</label>
+          <label htmlFor="fname">Name</label>
           <br />
           <input
             className="inputField"
@@ -50,7 +36,7 @@ const RegisterPage = () => {
           <br />
           <br />
 
-          <label for="lname">Lastname</label>
+          <label htmlFor="lname">Lastname</label>
           <br />
           <input
             className="inputField"
@@ -64,7 +50,7 @@ const RegisterPage = () => {
           <br />
           <br />
 
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <br />
           <input
             className="inputField"
@@ -78,7 +64,7 @@ const RegisterPage = () => {
           <br />
           <br />
 
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <br />
           <input
             className="inputField"
@@ -91,7 +77,7 @@ const RegisterPage = () => {
           <br />
           <br />
 
-          <label for="rpassword">Repeat password</label>
+          <label htmlFor="rpassword">Repeat password</label>
           <br />
           <input
             className="inputField"
