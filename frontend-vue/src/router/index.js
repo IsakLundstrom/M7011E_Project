@@ -18,11 +18,6 @@ const routes = [
     component: () => import('../views/courses/CourseView.vue')
   },
   {
-    path: '/coursesHeader',
-    name: 'CourseHeader',
-    component: () => import('../views/courses/CourseHeaderView.vue')
-  },
-  {
     path: '/about',
     name: 'About',
     component: () => import('../views/AboutView.vue')

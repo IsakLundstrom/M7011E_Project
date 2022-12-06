@@ -7,18 +7,18 @@
 
 <template>
       <main>
-      <div className="homeImageContainer">
-        <div className="imageGradient"></div>
+      <div class="homeImageContainer">
+        <div class="imageGradient"></div>
         <img :src=homeImage alt="Home" />
-        <h1 className="homeH1 textBottomLeft">Home page</h1>
+        <h1 class="homeH1 textBottomLeft">Home page</h1>
       </div>
 
-      <h2 className="homeH2"> We are fitness! </h2>
+      <h2 class="homeH2"> We are fitness! </h2>
 
-      <div className="threeCards threeMotivationCards">
-        <div className="card motivationCard">
+      <div class="threeCards threeMotivationCards">
+        <div class="card motivationCard">
           <img :src=dumbellSvg alt="Dumbell" />
-          <div className="cardTextContainer">
+          <div class="cardTextContainer">
             <h3>
               <b>Gym training!</b>
             </h3>
@@ -26,9 +26,9 @@
           </div>
         </div>
 
-        <div className="card motivationCard">
+        <div class="card motivationCard">
           <img :src=runSvg alt="Run" />
-          <div className="cardTextContainer">
+          <div class="cardTextContainer">
             <h3>
               <b>Run every day!</b>
             </h3>
@@ -38,9 +38,9 @@
           </div>
         </div>
 
-        <div className="card motivationCard">
+        <div class="card motivationCard">
           <img :src=fotballSvg alt="Fotball" />
-          <div className="cardTextContainer">
+          <div class="cardTextContainer">
             <h3>
               <b>Sports!</b>
             </h3>
@@ -52,13 +52,13 @@
         </div>
       </div>
 
-      <h2 className="homeH2"> Top 3 courses right now! </h2>
+      <h2 class="homeH2"> Top 3 courses right now! </h2>
 
-      <div className="threeCards">
-        <router-link :to="{ name: 'Course', params: {id:1}}" className="card courseCard">
+      <div class="threeCards">
+        <router-link :to="{ name: 'Course', params: {id:1}}" class="card courseCard">
           <div>
             <img :src=homeImage alt="course" />
-            <div className="cardTextContainer">
+            <div class="cardTextContainer">
               <h3>
                 <b>Course 1</b>
               </h3>
@@ -67,10 +67,10 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Course', params: {id:2}}" className="card courseCard">
+        <router-link :to="{ name: 'Course', params: {id:2}}" class="card courseCard">
           <div>
             <img :src=homeImage alt="course" />
-            <div className="cardTextContainer">
+            <div class="cardTextContainer">
               <h3>
                 <b>Course 2</b>
               </h3>
@@ -82,10 +82,10 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Course', params: {id:3}}" className="card courseCard">
+        <router-link :to="{ name: 'Course', params: {id:3}}" class="card courseCard">
           <div>
             <img :src=homeImage alt="course" />
-            <div className="cardTextContainer">
+            <div class="cardTextContainer">
               <h3>
                 <b>Course 3</b>
               </h3>
