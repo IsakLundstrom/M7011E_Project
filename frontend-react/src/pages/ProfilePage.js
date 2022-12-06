@@ -47,7 +47,7 @@ const ProfilePage = () => {
 
       if (password !== "") {
         try {
-          await api.patch(`/¨changepassword/`, { newPassword: password });
+          await api.patch(`/changePassword/`, { newPassword: password });
         } catch {
           alert("Could not patch password");
         }

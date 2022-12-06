@@ -15,6 +15,9 @@ class Courses(models.Model):
     class Meta:
         ordering = ['courseID']
 
+    def __str__(self):
+        return f"{self.courseName}"
+
 
 class CoursesVideos(models.Model):
     videoID = models.AutoField(auto_created=True, primary_key=True)

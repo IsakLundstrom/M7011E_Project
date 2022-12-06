@@ -6,9 +6,8 @@ from backend.user import views
 router = DefaultRouter()
 router.register(r'User', views.UserViewSet, basename="user")
 
-
-
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', include(router.urls)),
+    path("changePassword/", views.ChangePasswordView.as_view(), name="changePassword"),
 ]
