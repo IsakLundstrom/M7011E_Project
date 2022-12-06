@@ -1,20 +1,27 @@
 import React, { useState } from "react";
 
+// import jwt_decode from "jwt-decode";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { loginUser } = useContext(AuthContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    loginUser(email, password);
 
-    await fetch("http://localhost:8000/auth/login/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
+    // let res = await fetch("http://localhost:8000/auth/login/", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     email: email,
+    //     password: password,
+    //   }),
+    // });
   };
 
   return (
@@ -24,7 +31,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit}>
           <br />
 
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <br />
           <input
             className="inputField"
@@ -38,7 +45,7 @@ const LoginPage = () => {
           <br />
           <br />
 
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <br />
           <input
             className="inputField"

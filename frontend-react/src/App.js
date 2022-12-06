@@ -1,3 +1,8 @@
+// import React, { useState } from "react";
+// import axios from "axios";
+
+import { AuthProvider } from "./context/AuthContext";
+
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -20,35 +25,37 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-        <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses" element={<CoursesPage />} />
 
-        <Route path="/courses/:id" element={<CoursePage />} />
+          <Route path="/courses/:id" element={<CoursePage />} />
 
-        <Route path="/about" element={<AboutPage />} />
+          <Route path="/about" element={<AboutPage />} />
 
-        <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin" element={<AdminPage />} />
 
-        <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
-        <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/register" element={<RegisterPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-        <Route path="admin/userList" element={<UserListPage />} />
+          <Route path="admin/userList" element={<UserListPage />} />
 
-        <Route path="admin/userEdit/:id" element={<UserEditPage />} />
+          <Route path="admin/userEdit/:id" element={<UserEditPage />} />
 
-        <Route path="admin/courseList" element={<CourseListPage />} />
+          <Route path="admin/courseList" element={<CourseListPage />} />
 
-        <Route path="admin/courseEdit/:id" element={<CourseEditPage />} />
+          <Route path="admin/courseEdit/:id" element={<CourseEditPage />} />
 
-        <Route path="admin/courseCreate" element={<CourseCreatePage />} />
-      </Routes>
-      <Footer />
+          <Route path="admin/courseCreate" element={<CourseCreatePage />} />
+        </Routes>
+        <Footer />
+      </AuthProvider>
     </Router>
   );
 }

@@ -5,7 +5,7 @@ const UserEditPage = () => {
     <main>
       <h1>Edit User</h1>
       <form action="">
-        <label for="id">ID</label>
+        <label htmlFor="id">ID</label>
         <br />
         <input
           className="inputField"
@@ -18,7 +18,7 @@ const UserEditPage = () => {
 
         <br />
 
-        <label for="fname">First name</label>
+        <label htmlFor="fname">First name</label>
         <br />
         <input
           className="inputField"
@@ -30,7 +30,7 @@ const UserEditPage = () => {
 
         <br />
 
-        <label for="lname">Last name</label>
+        <label htmlFor="lname">Last name</label>
         <br />
         <input
           className="inputField"
@@ -42,7 +42,7 @@ const UserEditPage = () => {
 
         <br />
 
-        <label for="email">Email</label>
+        <label htmlFor="email">Email</label>
         <br />
         <input
           className="inputField"
@@ -54,25 +54,25 @@ const UserEditPage = () => {
 
         <br />
 
-        <label for="npassword">New Password</label>
+        <label htmlFor="npassword">New Password</label>
         <br />
         <input className="inputField" type="text" name="npassword" />
 
         <br />
 
-        <label for="rpassword">Repeat Password</label>
+        <label htmlFor="rpassword">Repeat Password</label>
         <br />
         <input className="inputField" type="text" name="rpassword" />
 
         <br />
 
         <input className="checkboxField" type="checkbox" name="staff" checked />
-        <label for="staff">is Staff?</label>
+        <label htmlFor="staff">is Staff?</label>
 
         <br />
 
         <input className="checkboxField" type="checkbox" name="admin" />
-        <label for="admin">is Admin?</label>
+        <label htmlFor="admin">is Admin?</label>
 
         <br />
         <br />

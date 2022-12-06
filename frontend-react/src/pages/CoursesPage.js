@@ -20,7 +20,7 @@ const CoursesPage = () => {
       <form className="coursesSearchForm" action="">
         <input className="inputField" type="text" placeholder="Search.." />
 
-        <label for="cars">Sort by: </label>
+        <label>Sort by: </label>
 
         <select className="inputField" name="casortrs">
           <option value="A-Z">A-Z</option>

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CourseCreatePage = () => {
   const [cName, setCName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [cImage, setCImage] = useState();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ const CourseCreatePage = () => {
     });
 
     console.log(res);
+    navigate("/admin/courseList");
   };
 
   return (
@@ -68,13 +72,13 @@ const CourseCreatePage = () => {
 
         <label htmlFor="image">Image</label>
         <br />
-        {/* <input
+        <input
           className=""
-          required
+          // required
           type="file"
           name="image"
           onChange={(e) => setCImage(e.target.files[0])}
-        /> */}
+        />
 
         <br />
         <br />
