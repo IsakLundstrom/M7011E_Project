@@ -1,7 +1,7 @@
 <template>
-    <div class="adminView">
+    <main class="adminView">
       <h1>this is the Admin page</h1>
-    </div>
+    </main>
   </template>
   
   <script>

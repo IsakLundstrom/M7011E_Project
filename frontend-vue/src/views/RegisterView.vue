@@ -1,7 +1,7 @@
 <template>
-    <div class="register">
+    <main class="register">
       <h1>here you will be able to creat an account in the future</h1>
-    </div>
+    </main>
   </template>
   
   <script>
