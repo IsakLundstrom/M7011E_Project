@@ -1,11 +1,11 @@
 <template>
-  <div class="about">
+  <main class="about">
     <h1>This is be dynamic</h1>
     <p>
       Course id is {{ id }}
     </p>
     
-  </div>
+  </main>
 </template>
 
 <script>

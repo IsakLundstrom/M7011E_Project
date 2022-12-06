@@ -68,6 +68,7 @@
       
   </nav>
 </template>
+
 <script>
   export default{
     name:'Header',
