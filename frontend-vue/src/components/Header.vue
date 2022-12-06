@@ -1,5 +1,7 @@
+<script setup>
+  import profileImage from "../images/default_profile.png"
+</script>
 <template>
-
   <nav class="mainNav">
     <ul>
 
@@ -62,9 +64,9 @@
       </li>
 
       <li class="floatRight">
-      <router-link v-if="true" :to="{ name: 'Profile' }" class='mainLink'>
+      <router-link v-if="true" :to="{ name: 'Profile' }" class='mainLink profileImageLink'>
         <div className="headerProfileImageContainer">
-          <img src="../images/default_profile.png" alt="Profile" />
+          <img :src="profileImage" alt="Profile" />
         </div>
       </router-link>
       </li>
