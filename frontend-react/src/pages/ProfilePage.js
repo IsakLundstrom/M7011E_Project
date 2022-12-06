@@ -46,17 +46,21 @@ const ProfilePage = () => {
       };
 
       if (password !== "") {
-        patch["password"] = password;
+        try {
+          await api.patch(`/¨changepassword/`, { newPassword: password });
+        } catch {
+          alert("Could not patch password");
+        }
       }
 
       console.log(patch);
       try {
         await api.patch(`/user/${user.user_id}/`, patch);
-        setPassword("");
-        setRPassword("");
       } catch {
         alert("Could not patch user");
       }
+      setPassword("");
+      setRPassword("");
     };
     patchData();
   };
