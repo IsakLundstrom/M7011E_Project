@@ -1,13 +1,15 @@
 <template>
-    <div class="about">
+    <main class="about">
       <h1>This is the courses page</h1>
-    </div>
+    </main>
   </template>
 
 <script>
   
 export default {
   name: 'CoursesView',
-  components: {  }
+  components: {  
+    
+  },
 }
 </script>

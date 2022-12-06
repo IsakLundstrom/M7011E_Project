@@ -1,5 +1,6 @@
 <script setup>
   import profileImage from "../images/default_profile.png"
+  import coursesForHeader from "../views/courses/CourseHeaderView.vue"
 </script>
 <template>
   <nav class="mainNav">
@@ -22,24 +23,17 @@
             <table className="subnavTable">
               <!-- Following must be translated from React to Vue -->
 
-              <!-- <thead>
+              <thead>
                 <tr>
                   <th>Course</th>
                   <th>Short Description</th>
                 </tr>
               </thead>
               <tbody>
-                {[...Array(3)].map((e, i) => {
-                  return (
-                    <tr key={i + 1}>
-                      <td>
-                        <Link to={`/courses/${i + 1}`}>Course {i + 1}</Link>
-                      </td>
-                      <td>Course short description!</td>
-                    </tr>
-                  );
-                })}
-              </tbody> -->
+
+                  <coursesForHeader></coursesForHeader>
+
+              </tbody>
 
             </table>
           </div>
@@ -70,7 +64,6 @@
         </div>
       </router-link>
       </li>
-
     </ul>
       
   </nav>
@@ -78,6 +71,9 @@
 <script>
   export default{
     name:'Header',
+    components: {
+      coursesForHeader
+    }, 
     data() {
       return {
         title: 'The Best Free Gym in Luleå'
