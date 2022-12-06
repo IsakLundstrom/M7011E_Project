@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#own additions
+node_modules
+frontend-vue(old)
+.vscode
+
 # C extensions
 *.so
 
