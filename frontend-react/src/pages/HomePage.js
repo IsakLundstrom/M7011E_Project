@@ -15,7 +15,7 @@ const HomePage = () => {
       const response = await fetch("http://127.0.0.1:8000/courses/");
       const parsed = await response.json();
       setData(parsed);
-      console.log(parsed);
+      // console.log(parsed);
     })();
   }, []);
 
@@ -24,7 +24,7 @@ const HomePage = () => {
       <div className="homeImageContainer">
         <div className="imageGradient"></div>
         <img src={homeImage} alt="Home" />
-        <h1 className="homeH1 textBottomLeft">Home page</h1>
+        <h1 className="homeH1 textBottomLeft">The Sweat Zone</h1>
       </div>
 
       <h2 className="homeH2"> We are fitness! </h2>

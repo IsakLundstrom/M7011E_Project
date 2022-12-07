@@ -34,8 +34,8 @@ const ProfilePage = () => {
     })();
   }, []);
 
-  // handle patch user data
-  const handleSubmit = async (e) => {
+  // patch user data
+  const patchUser = async (e) => {
     e.preventDefault();
 
     if (password !== "") {
@@ -88,7 +88,7 @@ const ProfilePage = () => {
         </div>
 
         <div className="profileFormContainer">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={patchUser}>
             <div className="twoForm">
               <div>
                 <label htmlFor="fname">Name</label>

@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState /*, useContext*/ } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
-import AuthContext from "../context/AuthContext";
+// import AuthContext from "../context/AuthContext";
 
 const CourseEditPage = () => {
   const params = useParams();
   const api = useAxios();
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // course variables
@@ -29,7 +29,7 @@ const CourseEditPage = () => {
         `http://127.0.0.1:8000/courses/${params.id}`
       );
       const course = await response.json();
-      await getVideo(course.courseID);
+      getVideo(course.courseID);
 
       setCID(course.courseID);
       setCName(course.courseName);
@@ -43,18 +43,26 @@ const CourseEditPage = () => {
   const putCourse = async (e) => {
     e.preventDefault();
 
-    let res = await fetch(`http://localhost:8000/courses/${params.id}/`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        courseName: cName,
-        shortDescription: shortDescription,
-        longDescription: longDescription,
-        // image: cImage,
-      }),
+    let res = await api.put(`/courses/${params.id}/`, {
+      courseName: cName,
+      shortDescription: shortDescription,
+      longDescription: longDescription,
+      // image: cImage,
     });
 
     console.log(res);
+  };
+
+  // delete course
+  const deleteCourse = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.delete(`/courses/${params.id}/`);
+      navigate("/admin/courseList");
+    } catch {
+      alert("Could not delete video");
+    }
   };
 
   // get videos
@@ -79,6 +87,18 @@ const CourseEditPage = () => {
       await getVideo(cID);
     } catch {
       alert("Could not post new video");
+    }
+  };
+
+  //delete video
+  const deleteVideo = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.delete(`/allCourseVideo/${e.target.value}/`);
+      await getVideo(cID);
+    } catch {
+      alert("Could not delete video");
     }
   };
 
@@ -182,7 +202,9 @@ const CourseEditPage = () => {
                   <td>{video.videoName}</td>
                   <td>{video.videoURL}</td>
                   <td>
-                    <button>❌</button>
+                    <button value={video.videoID} onClick={deleteVideo}>
+                      ❌
+                    </button>
                   </td>
                 </tr>
               );
@@ -234,7 +256,9 @@ const CourseEditPage = () => {
         <br />
       </form>
 
-      <button className="profileButton deleteButton">Delete course</button>
+      <button className="profileButton deleteButton" onClick={deleteCourse}>
+        Delete course
+      </button>
     </main>
   );
 };

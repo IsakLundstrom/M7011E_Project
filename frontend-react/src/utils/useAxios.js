@@ -20,18 +20,18 @@ const useAxios = () => {
 
     if (!isExpired) return req;
 
-    console.log("authTokens ");
-    console.log(authTokens);
-    console.log("authTokens.refresh");
-    console.log(authTokens.refresh);
+    // console.log("authTokens ");
+    // console.log(authTokens);
+    // console.log("authTokens.refresh");
+    // console.log(authTokens.refresh);
 
     const response = await axios.post(`${baseURL}/auth/refresh/`, {
       refresh: authTokens.refresh,
     });
 
     console.log("refresh OK!");
-    console.log(response);
-    console.log(response.data);
+    // console.log(response);
+    // console.log(response.data);
 
     localStorage.setItem("authTokens", JSON.stringify(response.data));
 

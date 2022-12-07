@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import useAxios from "../utils/useAxios";
+
 const UserListPage = () => {
+  const api = useAxios();
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await api.get(`/user`);
+      setUsers(response.data);
+    })();
+  }, []);
+
   return (
     <main>
       <h1>All users</h1>
@@ -16,21 +29,22 @@ const UserListPage = () => {
             <th>isAdmin</th>
             <th>Edit</th>
           </tr>
-          {[...Array(20)].map((e, i) => {
-            return (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>bob.bobson@gmail.com</td>
-                <td>Bob</td>
-                <td>Bobson</td>
-                <td>No</td>
-                <td>No</td>
-                <td>
-                  <Link to={`/admin/userEdit/${i + 1}`}>&#x270D;</Link>
-                </td>
-              </tr>
-            );
-          })}
+          {users &&
+            users.map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.email}</td>
+                  <td>{user.fName}</td>
+                  <td>{user.lName}</td>
+                  <td>No</td>
+                  <td>No</td>
+                  <td>
+                    <Link to={`/admin/userEdit/${user.id}`}>&#x270D;</Link>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </main>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 // import jwt_decode from "jwt-decode";
 import { useContext } from "react";
@@ -63,7 +64,15 @@ const LoginPage = () => {
             type="submit"
             value="Login"
           />
+
+          <br />
+          <br />
         </form>
+
+        <p>
+          Don't have an account? Register&nbsp;
+          <Link to={`/register`}>here</Link>!
+        </p>
       </div>
     </main>
   );

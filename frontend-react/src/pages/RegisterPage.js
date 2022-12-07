@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 const RegisterPage = () => {
@@ -95,7 +96,14 @@ const RegisterPage = () => {
             type="submit"
             value="Register"
           />
+
+          <br />
+          <br />
         </form>
+        <p>
+          Already have an account? Login&nbsp;
+          <Link to={`/login`}>here</Link>!
+        </p>
       </div>
     </main>
   );

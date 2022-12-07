@@ -76,7 +76,7 @@ const CoursePage = () => {
       {error ? (
         <div>
           <p>
-            This course does not exist, but you check out all our other
+            This course does not exist, but you can check out all our other
             courses&nbsp;
             <Link to={`/courses`}>here</Link>.
           </p>
