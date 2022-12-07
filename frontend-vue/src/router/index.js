@@ -42,6 +42,17 @@ const routes = [
     name: 'Login',
     component: () => import('../views/LoginView.vue')
   },
+  //redirect
+  {
+    path: '/redirect-me',
+    redirect: '/'
+  },
+  //catch all 404
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue')
+  },
 ]
 
 const router = createRouter({
