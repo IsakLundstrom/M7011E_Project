@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -12,6 +13,7 @@ const CoursePage = () => {
   const { user } = useContext(AuthContext);
 
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false);
   const [course, setCourse] = useState({});
   const [subscribed, setSubscribe] = useState(false);
 
@@ -26,6 +28,10 @@ const CoursePage = () => {
       );
       const parsed = await response.json();
       setCourse(parsed);
+
+      if (response.status !== 200) {
+        setError(true);
+      }
     })();
   }, []);
 
@@ -56,52 +62,64 @@ const CoursePage = () => {
 
   return (
     <main>
-      <div className="courseImageContainer">
-        <div className="imageGradient"></div>
-        <img src={homeImage} alt="Home" />
-        <h1 className="textBottomLeft">{course.courseName}</h1>
-        <p className="textBottomRight">{`Like ratio: ${course.LikeRatio}%`}</p>
-      </div>
-
-      <div className="courseContent">
-        <div className="courseLeftContent">
-          {user && (
-            <div className="courseButtons">
-              {!subscribed && (
-                <button onClick={postSubsribe}>
-                  <p>Subscribe</p>
-                </button>
-              )}
-              <button onClick={putLike} value={1}>
-                <p>👍 </p>
-              </button>
-              <button onClick={putLike} value={0}>
-                <p> 👎</p>
-              </button>
-            </div>
-          )}
-          <div className="courseDescription">
-            <button onClick={() => setVisible(!visible)}>
-              Description {visible ? "▲" : "▼"}
-            </button>
-            <div className="courseDescriptionTextBox ">
-              {visible && <p>{course.longDescription}</p>}
-            </div>
-          </div>
+      {error ? (
+        <div>
+          <p>
+            This course does not exist, but you check out all our other
+            courses&nbsp;
+            <Link to={`/courses`}>here</Link>.
+          </p>
         </div>
-        <Carousel showThumbs={false}>
-          {[...Array(5)].map((e, i) => {
-            return (
-              <div className="courseVideos" key={i}>
-                <iframe
-                  title="video"
-                  src="https://www.youtube.com/embed/tgbNymZ7vqY"
-                ></iframe>
+      ) : (
+        <>
+          <div className="courseImageContainer">
+            <div className="imageGradient"></div>
+            <img src={homeImage} alt="Home" />
+            <h1 className="textBottomLeft">{course.courseName}</h1>
+            <p className="textBottomRight">{`Like ratio: ${course.LikeRatio}%`}</p>
+          </div>
+
+          <div className="courseContent">
+            <div className="courseLeftContent">
+              {user && (
+                <div className="courseButtons">
+                  {!subscribed && (
+                    <button onClick={postSubsribe}>
+                      <p>Subscribe</p>
+                    </button>
+                  )}
+                  <button onClick={putLike} value={1}>
+                    <p>👍 </p>
+                  </button>
+                  <button onClick={putLike} value={0}>
+                    <p> 👎</p>
+                  </button>
+                </div>
+              )}
+              <div className="courseDescription">
+                <button onClick={() => setVisible(!visible)}>
+                  Description {visible ? "▲" : "▼"}
+                </button>
+                <div className="courseDescriptionTextBox ">
+                  {visible && <p>{course.longDescription}</p>}
+                </div>
               </div>
-            );
-          })}
-        </Carousel>
-      </div>
+            </div>
+            <Carousel showThumbs={false}>
+              {[...Array(5)].map((e, i) => {
+                return (
+                  <div className="courseVideos" key={i}>
+                    <iframe
+                      title="video"
+                      src="https://www.youtube.com/embed/tgbNymZ7vqY"
+                    ></iframe>
+                  </div>
+                );
+              })}
+            </Carousel>
+          </div>
+        </>
+      )}
     </main>
   );
 };
