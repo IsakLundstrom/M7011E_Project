@@ -8,20 +8,21 @@ import homeImage from "../images/home_image.png";
 import profileImage from "../images/default_profile.png";
 
 const ProfilePage = () => {
+  const api = useAxios();
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
 
+  const [subscriptions, setSubsciptions] = useState([]);
+
   // handle get user data
-  const api = useAxios();
-  const { user } = useContext(AuthContext);
-
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         const response = await api.get(`/user/${user.user_id}/`);
         setFName(response.data.fName);
@@ -30,44 +31,36 @@ const ProfilePage = () => {
       } catch {
         navigate("/login");
       }
-    };
-    fetchData();
-  });
+    })();
+  }, []);
 
   // handle patch user data
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const patchData = async () => {
-      let patch = {
+    if (password !== "") {
+      try {
+        await api.patch(`/changePassword/`, { newPassword: password });
+      } catch {
+        alert("Could not patch password");
+      }
+    }
+
+    try {
+      await api.patch(`/user/${user.user_id}/`, {
         fName: fName,
         lName: lName,
         email: email,
-      };
+      });
+    } catch {
+      alert("Could not patch user");
+    }
 
-      if (password !== "") {
-        try {
-          await api.patch(`/changePassword/`, { newPassword: password });
-        } catch {
-          alert("Could not patch password");
-        }
-      }
-
-      console.log(patch);
-      try {
-        await api.patch(`/user/${user.user_id}/`, patch);
-      } catch {
-        alert("Could not patch user");
-      }
-      setPassword("");
-      setRPassword("");
-    };
-    patchData();
+    setPassword("");
+    setRPassword("");
   };
 
   // handle fetch subscriptions
-  const [subscribtions, setSubsciptions] = useState([]);
-
   useEffect(() => {
     (async () => {
       const response = await fetch("http://127.0.0.1:8000/courses/");
@@ -142,7 +135,7 @@ const ProfilePage = () => {
 
             <div className="twoForm">
               <div>
-                <label htmlFor="npassword"></label>
+                <label htmlFor="npassword">Password</label>
                 <br />
                 <input
                   className="inputField"
@@ -177,24 +170,26 @@ const ProfilePage = () => {
           </form>
         </div>
       </div>
-      <br></br>
+
+      <br />
+
       <h2>Subscriptions</h2>
       <div className="threeCards">
-        {subscribtions &&
-          subscribtions.map((course) => {
+        {subscriptions &&
+          subscriptions.map((subscription) => {
             return (
               <Link
-                to={`/courses/${course.courseID}`}
+                to={`/courses/${subscription.courseID}`}
                 className="card courseCard"
-                key={course.courseID}
+                key={subscription.courseID}
               >
                 <div>
                   <img src={homeImage} alt="course" />
                   <div className="cardTextContainer">
                     <h3>
-                      <b>{course.courseName} </b>
+                      <b>{subscription.courseName} </b>
                     </h3>
-                    <p>{course.shortDescription}</p>
+                    <p>{subscription.shortDescription}</p>
                   </div>
                 </div>
               </Link>

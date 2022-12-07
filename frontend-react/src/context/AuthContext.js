@@ -36,9 +36,10 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
 
-      console.log("authTokens " + authTokens);
-      console.log("data " + data);
-      console.log("json(data) " + JSON.stringify(data));
+      // console.log("authTokens " + authTokens);
+      // console.log("data " + data);
+      // console.log("json(data) " + JSON.stringify(data));
+      console.log(data);
 
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
@@ -73,6 +74,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("authTokens");
     navigate("/");
+    console.log("Logged out!");
   };
 
   const contextData = {
