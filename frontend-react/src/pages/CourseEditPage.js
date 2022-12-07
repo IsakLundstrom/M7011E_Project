@@ -1,31 +1,36 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
 const CourseEditPage = () => {
+  const params = useParams();
   const api = useAxios();
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const [cID, setCID] = useState("");
+  // course variables
+  const [cID, setCID] = useState(-1);
   const [cName, setCName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [cImage, setCImage] = useState();
 
-  const navigate = useNavigate();
+  // video variables
+  const [videos, setVideos] = useState([]);
+  const [newVidName, setNewVidName] = useState("");
+  const [newVidUrl, setNewVidUrl] = useState("");
 
   // get course
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        "http://127.0.0.1:8000/courses/" +
-          window.location.pathname.substring(
-            window.location.pathname.lastIndexOf("/") + 1
-          )
+        `http://127.0.0.1:8000/courses/${params.id}`
       );
       const course = await response.json();
+      await getVideo(course.courseID);
+
       setCID(course.courseID);
       setCName(course.courseName);
       setShortDescription(course.shortDescription);
@@ -34,11 +39,11 @@ const CourseEditPage = () => {
     })();
   }, []);
 
-  // handle put
+  // put course
   const putCourse = async (e) => {
     e.preventDefault();
 
-    let res = await fetch(`http://localhost:8000/courses/${cID}/`, {
+    let res = await fetch(`http://localhost:8000/courses/${params.id}/`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -50,6 +55,31 @@ const CourseEditPage = () => {
     });
 
     console.log(res);
+  };
+
+  // get videos
+  function getVideo(id) {
+    (async () => {
+      const response = await fetch(`http://localhost:8000/courseVideo/${id}/`);
+      const videos = await response.json();
+      setVideos(videos);
+    })();
+  }
+
+  // post video
+  const postVideo = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.post(`/allCourseVideo/`, {
+        courseID: cID,
+        videoName: newVidName,
+        videoURL: newVidUrl,
+      });
+      await getVideo(cID);
+    } catch {
+      alert("Could not post new video");
+    }
   };
 
   return (
@@ -137,24 +167,27 @@ const CourseEditPage = () => {
       <br />
 
       <table className="adminTable">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Url</th>
-          <th>Delete</th>
-        </tr>
-        {[...Array(4)].map((e, i) => {
-          return (
-            <tr>
-              <td>{i + 1}</td>
-              <td>Video name </td>
-              <td>https://www.youtube.com/embed/tgbNymZ7vqY</td>
-              <td>
-                <button>❌</button>
-              </td>
-            </tr>
-          );
-        })}
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Url</th>
+            <th>Delete</th>
+          </tr>
+          {videos &&
+            videos.map((video) => {
+              return (
+                <tr key={video.videoID}>
+                  <td>{video.videoID}</td>
+                  <td>{video.videoName}</td>
+                  <td>{video.videoURL}</td>
+                  <td>
+                    <button>❌</button>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
       </table>
 
       <br />
@@ -163,16 +196,30 @@ const CourseEditPage = () => {
 
       <br />
 
-      <form action="">
+      <form onSubmit={postVideo}>
         <label htmlFor="name">Name</label>
         <br />
-        <input className="inputField" required type="text" name="id" />
+        <input
+          className="inputField"
+          required
+          type="text"
+          name="name"
+          value={newVidName}
+          onChange={(e) => setNewVidName(e.target.value)}
+        />
 
         <br />
 
         <label htmlFor="url">Url</label>
         <br />
-        <input className="inputField" required type="text" name="url" />
+        <input
+          className="inputField"
+          required
+          type="text"
+          name="url"
+          value={newVidUrl}
+          onChange={(e) => setNewVidUrl(e.target.value)}
+        />
 
         <br />
         <br />
