@@ -22,10 +22,11 @@ class Courses(models.Model):
 class CoursesVideos(models.Model):
     videoID = models.AutoField(auto_created=True, primary_key=True)
     courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
+    videoName = models.CharField(max_length=64, blank=False)
     videoURL = models.URLField(blank=False)
 
     class Meta:
-        ordering = ['videoID']
+        ordering = ['courseID']
 
 
 class Subscription(models.Model):
