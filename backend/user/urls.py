@@ -10,4 +10,5 @@ router.register(r'User', views.UserViewSet, basename="user")
 urlpatterns = [
     path('', include(router.urls)),
     path("changePassword/", views.ChangePasswordView.as_view(), name="changePassword"),
+    path('^courseVideo/(?P<id>.+)/$', views.CourseVideoView.as_view(), name="courseVideo"),
 ]

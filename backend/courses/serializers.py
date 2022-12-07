@@ -6,13 +6,13 @@ from .models import Courses, CoursesVideos, Subscription
 class CoursesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courses
-        fields = ["courseID", "courseName", "shortDescription", "longDescription", "courseIMG", "likeRatio"]
+        fields = ["courseID", "courseName", "shortDescription", "longDescription", "courseIMG", "likeRatio", "createDate"]
 
 
 class CoursesVideosSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoursesVideos
-        fields = ["videoID", "courseID", "videoURL"]
+        fields = ["videoID", "courseID", "videoName", "videoURL"]
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
