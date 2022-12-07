@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
@@ -11,6 +12,7 @@ class Courses(models.Model):
     courseIMG = models.URLField(default="https://cdn.discordapp.com/attachments/230245539520708608"
                                         "/1049264539629277194/image.png")
     likeRatio = models.IntegerField(default=-1)
+    createDate = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['courseID']

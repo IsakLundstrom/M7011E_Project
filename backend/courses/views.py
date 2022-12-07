@@ -31,6 +31,7 @@ class SubscriptionView(generics.ListAPIView):
 
     def get_queryset(self):
         cid = self.kwargs['id']
+
         if cid == {}:
             return Subscription.objects.all()
         return Subscription.objects.filter(courseID=cid)
