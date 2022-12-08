@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework import generics
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from rest_framework import permissions
-import django_filters.rest_framework
+# import django_filters.rest_framework
 
 from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer
 from .models import Courses, CoursesVideos, Subscription
@@ -15,7 +15,7 @@ class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     permission_classes = [IsCoursePermission]
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    # filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ["courseName", "owner"]
 
     def perform_create(self, serializer):
@@ -25,30 +25,32 @@ class CoursesViewSet(viewsets.ModelViewSet):
 class CoursesVideoViewSet(viewsets.ModelViewSet):
     queryset = CoursesVideos.objects.all()
     serializer_class = CoursesVideosSerializer
+    filterset_fields = ['courseID']
 
 
-class CourseVideoView(generics.ListAPIView):
-    serializer_class = CoursesVideosSerializer
-
-    def get_queryset(self):
-        cid = self.kwargs['id']
-        if cid == {}:
-            return CoursesVideos.objects.all()
-        return CoursesVideos.objects.filter(courseID=cid)
-
-
-class SubscriptionView(generics.ListAPIView):
-    serializer_class = SubscriptionSerializer
-
-    def get_queryset(self):
-        cid = self.kwargs['id']
-
-        if cid == {}:
-            return Subscription.objects.all()
-        return Subscription.objects.filter(courseID=cid)
+# class CourseVideoView(generics.ListAPIView):
+#     serializer_class = CoursesVideosSerializer
+#
+#     def get_queryset(self):
+#         cid = self.kwargs['id']
+#         if cid == {}:
+#             return CoursesVideos.objects.all()
+#         return CoursesVideos.objects.filter(courseID=cid)
+#
+#
+# class SubscriptionView(generics.ListAPIView):
+#     serializer_class = SubscriptionSerializer
+#
+#     def get_queryset(self):
+#         cid = self.kwargs['id']
+#
+#         if cid == {}:
+#             return Subscription.objects.all()
+#         return Subscription.objects.filter(courseID=cid)
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     http_method_names = ['get', 'put', 'delete', 'post']
+    filterset_fields = ['userID']

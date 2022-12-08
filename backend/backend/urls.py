@@ -31,15 +31,15 @@ router.register(r'auth/register', RegistrationViewSet, basename='auth-register')
 router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 
 router.register(r'courses', cViews.CoursesViewSet, basename="course")
-router.register(r'allCourseVideo', cViews.CoursesVideoViewSet, basename="video")
-router.register(r'allSubscription', cViews.SubscriptionViewSet, basename="subscription")
+router.register(r'CourseVideo', cViews.CoursesVideoViewSet, basename="video")
+router.register(r'Subscription', cViews.SubscriptionViewSet, basename="subscription")
 router.register(r'user', uViews.UserViewSet, basename="user")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
     path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
-    re_path('^courseVideo/(?P<id>.+)/$', cViews.CourseVideoView.as_view(), name="courseVideos"),
-    re_path('^subscription/(?P<id>.+)/$', cViews.SubscriptionView.as_view(), name="courseVideos"),
+    # re_path('^courseVideo/(?P<id>.+)/$', cViews.CourseVideoView.as_view(), name="courseVideos"),
+    # re_path('^subscription/(?P<id>.+)/$', cViews.SubscriptionView.as_view(), name="courseVideos"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
