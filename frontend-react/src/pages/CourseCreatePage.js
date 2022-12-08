@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import useAxios from "../utils/useAxios";
+
 const CourseCreatePage = () => {
+  const api = useAxios();
+  const navigate = useNavigate();
+
   const [cName, setCName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [cImage, setCImage] = useState();
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
+  const postCourse = async (e) => {
     e.preventDefault();
 
-    let res = await fetch("http://localhost:8000/courses/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        courseName: cName,
-        shortDescription: shortDescription,
-        longDescription: longDescription,
-        // image: cImage,
-      }),
+    let res = await api.post("http://localhost:8000/courses/", {
+      courseName: cName,
+      shortDescription: shortDescription,
+      longDescription: longDescription,
+      // image: cImage,
     });
 
     console.log(res);
@@ -30,7 +29,7 @@ const CourseCreatePage = () => {
   return (
     <main>
       <h1>Create Course</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={postCourse}>
         <label htmlFor="cname">Name</label>
         <br />
         <input
