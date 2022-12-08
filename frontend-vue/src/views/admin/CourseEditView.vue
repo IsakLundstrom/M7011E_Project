@@ -168,6 +168,7 @@
         shortDescription: 'shortDesc',
         longDescription: 'longDesc',
         newVidName: 'newVidName',
+        newVidUrl: 'newVidUrl',
 
         videos: [
           {          
