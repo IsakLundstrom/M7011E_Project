@@ -105,7 +105,7 @@
 
     <br />
 
-    <form @submit="postVideo">
+    <form @submit.prevent="postVideo">
       <label htmlFor="name">Name</label>
       <br />
       <input
