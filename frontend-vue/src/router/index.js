@@ -25,7 +25,7 @@ const routes = [
   {
     path: '/admin',
     name: 'AdminView',
-    component: () => import('../views/AdminView.vue')
+    component: () => import('../views/admin/AdminView.vue')
   },
   {
     path: '/profile',
@@ -41,6 +41,31 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('../views/LoginView.vue')
+  },  
+  {
+    path: '/admin/userList',
+    name: 'UserList',
+    component: () => import('../views/admin/UserListView.vue')
+  },  
+  {
+    path: '/admin/courseList',
+    name: 'CourseList',
+    component: () => import('../views/admin/CourseListView.vue')
+  },
+  {
+    path: '/admin/userEdit/:id',
+    name: 'UserEdit',
+    component: () => import('../views/admin/UserEditView.vue')
+  },
+  {
+    path: '/admin/courseCreate',
+    name: 'CourseCreate',
+    component: () => import('../views/admin/CourseCreateView.vue')
+  },
+  {
+    path: '/admin/courseEdit/:id',
+    name: 'CourseEdit',
+    component: () => import('../views/admin/CourseEditView.vue')
   },
   //redirect
   {
