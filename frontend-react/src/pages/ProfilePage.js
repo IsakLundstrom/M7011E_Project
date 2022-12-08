@@ -19,6 +19,7 @@ const ProfilePage = () => {
   const [rpassword, setRPassword] = useState("");
 
   const [subscriptions, setSubsciptions] = useState([]);
+  const [ownCourses, setOwnCourses] = useState([]);
 
   // handle get user data
   useEffect(() => {
@@ -60,12 +61,23 @@ const ProfilePage = () => {
     setRPassword("");
   };
 
-  // handle fetch subscriptions
+  // fetch subscriptions
   useEffect(() => {
     (async () => {
       const response = await fetch("http://127.0.0.1:8000/courses/");
       const parsed = await response.json();
       setSubsciptions(parsed);
+    })();
+  }, []);
+
+  // own courses
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        `http://127.0.0.1:8000/courses/?owner=${user.user_id}`
+      );
+      const courses = await response.json();
+      setOwnCourses(courses);
     })();
   }, []);
 
@@ -174,9 +186,9 @@ const ProfilePage = () => {
       <br />
 
       <h2>Subscriptions</h2>
-      <div className="threeCards">
-        {subscriptions &&
-          subscriptions.map((subscription) => {
+      {subscriptions.length != 0 ? (
+        <div className="threeCards">
+          {subscriptions.map((subscription) => {
             return (
               <Link
                 to={`/courses/${subscription.courseID}`}
@@ -195,7 +207,56 @@ const ProfilePage = () => {
               </Link>
             );
           })}
-      </div>
+        </div>
+      ) : (
+        <p>
+          You have not subscribed to any courses
+          <br />
+          <br />
+        </p>
+      )}
+
+      {user.is_staff && (
+        <>
+          <h2>Your Courses</h2>
+          <br />
+          <Link className="coursesSortButton" to={`/courseCreate`}>
+            Create new course
+          </Link>
+          <br />
+          <br />
+          <table className="adminTable">
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Short description</th>
+                <th>Like Ratio</th>
+                <th>Edit</th>
+              </tr>
+              {ownCourses &&
+                ownCourses.map((course) => {
+                  return (
+                    <tr key={course.courseID}>
+                      <td>{course.courseID}</td>
+                      <td>{course.courseName}</td>
+                      <td>{course.shortDescription}</td>
+                      <td>{`${course.likeRatio}%`}</td>
+                      <td>
+                        <Link to={`/courseEdit/${course.courseID}`}>
+                          &#x270D;
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+
+          <br />
+          <br />
+        </>
+      )}
 
       <button className="profileButton profileDeleteButton deleteButton">
         Delete profile
