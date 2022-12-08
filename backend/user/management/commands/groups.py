@@ -1,6 +1,7 @@
+from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from .models import User
+from backend.user.models import User
 
 new_group, created = Group.objects.get_or_create(name='Author')
 # Code to add permission to group ???
