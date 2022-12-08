@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from rest_framework import generics
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from rest_framework import permissions
+import django_filters.rest_framework
+
 from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer
 from .models import Courses, CoursesVideos, Subscription
 from .permissions import IsCoursePermission
@@ -13,15 +15,8 @@ class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     permission_classes = [IsCoursePermission]
-    #permission_required = ("courses.add_courses", "courses.change_courses", "courses.delete_courses",)
-
-    # def get_permissions(self):
-    #     # if self.action == 'create':
-    #     #     composed_perm = IsCoursePermission
-    #     #     return [composed_perm()]
-    #     #
-    #     # return super().get_permissions()
-    #     return [IsCoursePermission]
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ["courseName", "owner"]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

@@ -19,11 +19,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    is_staff = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
     fName = models.CharField(max_length=100)
     lName = models.CharField(max_length=100)
-
-    is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
 
