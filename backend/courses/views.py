@@ -16,9 +16,11 @@ class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Courses.objects.all()
     serializer_class = CoursesSerializer
     permission_classes = [IsCoursePermission]
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["owner"]
     search_fields = ["courseName", "shortDescription", "longDescription"]
+    ordering_fields = ['courseName', 'courseID', 'owner', 'likeRatio']
+    ordering = ['courseName']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
