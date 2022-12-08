@@ -23,6 +23,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     fName = models.CharField(max_length=100)
     lName = models.CharField(max_length=100)
 
+    is_staff = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
 
     objects = UserManager()

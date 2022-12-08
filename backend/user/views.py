@@ -13,6 +13,7 @@ from .serializers import UserSerializer, ChangePasswordSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
     http_method_names = ['get', 'put', 'delete', 'patch']
 
 
