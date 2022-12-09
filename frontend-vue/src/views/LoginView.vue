@@ -2,7 +2,7 @@
   <main class="login">
     <div class="loginContent">
         <h1>Login page</h1>
-        <form @submit="handleSubmit">
+        <form @submit.prevent="handleSubmit">
           <br />
 
           <label htmlFor="email">Email</label>
@@ -54,14 +54,26 @@ export default {
   name: 'LoginView',
   components: {  },
   methods: {
-    handleSubmit() {
-      alert(`${this.email}, ${this.password}`)
+    async handleSubmit() {
+      const response = await fetch("http://127.0.0.1:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: this.email,
+          password: this.password,
+        }),
+      });
+      const data = await response.json();
+      console.log(data)
+      // alert(`${this.email}, ${this.password}`)
     }
   },
   data() {
     return {
-      email: "example@example.com",
-      password: '',
+      email: "test@test.com",
+      password: 'test',
 
     }
   }

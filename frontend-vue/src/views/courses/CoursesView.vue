@@ -18,9 +18,13 @@
 
       <input class="coursesSortButton" type="submit" value="Sort" />
     </form>
-    <div class="fiveCards" v-for="course in courses" :key="course.id">
+    <div class="fiveCards">
 
-      <router-link :to="{name: 'Course', params: {id: course.id}}" class="card courseCard">
+      <router-link v-for="course in courses" 
+      :key="course.courseID" 
+      :to="{name: 'Course', params: {id: course.courseID}}" 
+      class="card courseCard"
+      >
         <div>
           <img :src=homeImage alt="course" />
           <div class="cardTextContainer">
@@ -33,6 +37,7 @@
       </router-link>
 
     </div>
+
   </main>
   </template>
 
@@ -42,10 +47,23 @@ export default {
   name: 'CoursesView',
   components: {  
   },
+  methods: {
+    async fetchCourses() {
+      const response = await fetch("http://127.0.0.1:8000/courses/");
+      console.log("response", response)
+      const parsed = await response.json();
+      console.log("parsed", parsed);
+      this.courses = parsed;
+      console.log("courses", this.courses)
+    }
+  },
   data() {
     return{
       courses : [],
     }
+  },
+  mounted() {
+    this.fetchCourses()
   }
 }
 </script>
