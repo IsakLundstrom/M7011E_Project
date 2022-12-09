@@ -17,7 +17,7 @@ const CourseListPage = () => {
       <h1>All courses</h1>
 
       <br />
-      <Link className="coursesSortButton" to={`/admin/courseCreate`}>
+      <Link className="coursesSortButton" to={`/courseCreate`}>
         Create new course
       </Link>
       <br />
@@ -27,6 +27,7 @@ const CourseListPage = () => {
         <tbody>
           <tr>
             <th>ID</th>
+            <th>Owner</th>
             <th>Name</th>
             <th>Short description</th>
             <th>Like Ratio</th>
@@ -37,13 +38,12 @@ const CourseListPage = () => {
               return (
                 <tr key={course.courseID}>
                   <td>{course.courseID}</td>
+                  <td>{course.owner}</td>
                   <td>{course.courseName}</td>
                   <td>{course.shortDescription}</td>
                   <td>{`${course.likeRatio}%`}</td>
                   <td>
-                    <Link to={`/admin/courseEdit/${course.courseID}`}>
-                      &#x270D;
-                    </Link>
+                    <Link to={`/courseEdit/${course.courseID}`}>&#x270D;</Link>
                   </td>
                 </tr>
               );

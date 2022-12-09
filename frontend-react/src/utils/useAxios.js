@@ -3,11 +3,14 @@ import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const baseURL = "http://127.0.0.1:8000";
 
 const useAxios = () => {
   const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const axiosInstance = axios.create({
     baseURL,
@@ -20,26 +23,25 @@ const useAxios = () => {
 
     if (!isExpired) return req;
 
-    // console.log("authTokens ");
-    // console.log(authTokens);
-    // console.log("authTokens.refresh");
-    // console.log(authTokens.refresh);
+    try {
+      const response = await axios.post(`${baseURL}/auth/refresh/`, {
+        refresh: authTokens.refresh,
+      });
 
-    const response = await axios.post(`${baseURL}/auth/refresh/`, {
-      refresh: authTokens.refresh,
-    });
+      console.log("refresh OK!");
 
-    console.log("refresh OK!");
-    // console.log(response);
-    // console.log(response.data);
+      localStorage.setItem("authTokens", JSON.stringify(response.data));
 
-    localStorage.setItem("authTokens", JSON.stringify(response.data));
+      setAuthTokens(response.data);
+      setUser(jwt_decode(response.data.access));
 
-    setAuthTokens(response.data);
-    setUser(jwt_decode(response.data.access));
+      req.headers.Authorization = `Bearer ${response.data.access}`;
+      return req;
+    } catch {
+      console.log("refresh NOT ok");
 
-    req.headers.Authorization = `Bearer ${response.data.access}`;
-    return req;
+      navigate("/login");
+    }
   });
 
   return axiosInstance;

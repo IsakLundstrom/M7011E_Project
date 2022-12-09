@@ -18,7 +18,7 @@ class LoginSerializer(TokenObtainPairSerializer):
 
         refresh = self.get_token(self.user)
 
-        data['user'] = UserSerializer(self.user).data
+        # data['user'] = UserSerializer(self.user).data
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
 
@@ -26,6 +26,16 @@ class LoginSerializer(TokenObtainPairSerializer):
             update_last_login(None, self.user)
 
         return data
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['fName'] = user.fName
+        token['lName'] = user.lName
+        token['email'] = user.email
+        token['is_staff'] = user.is_staff
+        token['is_superuser'] = user.is_superuser
+        return token
 
 
 class RegistrationSerializer(UserSerializer):

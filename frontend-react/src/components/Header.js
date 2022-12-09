@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
@@ -6,6 +6,31 @@ import profileImage from "../images/default_profile.png";
 
 const Header = () => {
   const { user, logoutUser } = useContext(AuthContext);
+  const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        `http://127.0.0.1:8000/courses/?search=${search}`
+      );
+      const parsed = await response.json();
+      setCourses(parsed);
+    })();
+  }, [search]);
+
+  // useEffect(() => {
+  //   console.log()
+  //   searchCourse();
+  // }, [search]);
+
+  // const searchCourse = async (e) => {
+  //   const response = await fetch(
+  //     `http://127.0.0.1:8000/courses/?search=${search}`
+  //   );
+  //   const parsed = await response.json();
+  //   setCourses(parsed);
+  // };
 
   return (
     <nav className="mainNav">
@@ -27,6 +52,8 @@ const Header = () => {
                 className="inputField"
                 type="text"
                 placeholder="Search.."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <table className="subnavTable">
                 <thead>
@@ -36,16 +63,19 @@ const Header = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {[...Array(3)].map((e, i) => {
-                    return (
-                      <tr key={i + 1}>
-                        <td>
-                          <Link to={`/courses/${i + 1}`}>Course {i + 1}</Link>
-                        </td>
-                        <td>Course short description!</td>
-                      </tr>
-                    );
-                  })}
+                  {courses &&
+                    courses.slice(0, 3).map((course) => {
+                      return (
+                        <tr key={course.courseID}>
+                          <td>
+                            <Link to={`/courses/${course.courseID}`}>
+                              {course.courseName}
+                            </Link>
+                          </td>
+                          <td>{course.shortDescription}</td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
@@ -57,12 +87,13 @@ const Header = () => {
             About
           </Link>
         </li>
-
-        <li className="floatLeft">
-          <Link className="mainLink" to="/admin">
-            Admin pages
-          </Link>
-        </li>
+        {user && user.is_superuser && (
+          <li className="floatLeft">
+            <Link className="mainLink" to="/admin">
+              Admin pages
+            </Link>
+          </li>
+        )}
         {!user ? (
           <>
             <li className="floatRight">

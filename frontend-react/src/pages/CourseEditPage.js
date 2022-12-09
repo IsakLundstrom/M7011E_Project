@@ -25,10 +25,10 @@ const CourseEditPage = () => {
   // get course
   useEffect(() => {
     (async () => {
-      const response = await fetch(
+      const response = await api.get(
         `http://127.0.0.1:8000/courses/${params.id}`
       );
-      const course = await response.json();
+      const course = await response.data;
       getVideo(course.courseID);
 
       setCID(course.courseID);
@@ -68,8 +68,10 @@ const CourseEditPage = () => {
   // get videos
   function getVideo(id) {
     (async () => {
-      const response = await fetch(`http://localhost:8000/courseVideo/${id}/`);
-      const videos = await response.json();
+      const response = await api.get(
+        `http://localhost:8000/courseVideo/?courseID=${id}`
+      );
+      const videos = await response.data;
       setVideos(videos);
     })();
   }
@@ -79,7 +81,7 @@ const CourseEditPage = () => {
     e.preventDefault();
 
     try {
-      await api.post(`/allCourseVideo/`, {
+      await api.post(`/courseVideo/`, {
         courseID: cID,
         videoName: newVidName,
         videoURL: newVidUrl,
@@ -95,7 +97,7 @@ const CourseEditPage = () => {
     e.preventDefault();
 
     try {
-      await api.delete(`/allCourseVideo/${e.target.value}/`);
+      await api.delete(`/courseVideo/${e.target.value}/`);
       await getVideo(cID);
     } catch {
       alert("Could not delete video");

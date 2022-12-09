@@ -20,6 +20,8 @@ import CourseListPage from "./pages/CourseListPage";
 import CourseEditPage from "./pages/CourseEditPage";
 import CourseCreatePage from "./pages/CourseCreatePage";
 
+import ProtectedRoute from "./utils/ProtectedRoute";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -44,15 +46,15 @@ function App() {
 
           <Route path="/register" element={<RegisterPage />} />
 
+          <Route path="/courseEdit/:id" element={<CourseEditPage />} />
+
+          <Route path="/courseCreate" element={<CourseCreatePage />} />
+
           <Route path="admin/userList" element={<UserListPage />} />
 
           <Route path="admin/userEdit/:id" element={<UserEditPage />} />
 
           <Route path="admin/courseList" element={<CourseListPage />} />
-
-          <Route path="admin/courseEdit/:id" element={<CourseEditPage />} />
-
-          <Route path="admin/courseCreate" element={<CourseCreatePage />} />
         </Routes>
         <Footer />
       </AuthProvider>

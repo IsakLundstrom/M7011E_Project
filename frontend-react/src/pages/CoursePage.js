@@ -39,7 +39,7 @@ const CoursePage = () => {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        `http://127.0.0.1:8000/courseVideo/${params.id}`
+        `http://127.0.0.1:8000/courseVideo/?courseID=${params.id}`
       );
       const videos = await response.json();
       setVideos(videos);
@@ -111,6 +111,8 @@ const CoursePage = () => {
                   </button>
                 </div>
               )}
+              <p>Course created by: {course.owner}</p>
+              <br />
               <div className="courseDescription">
                 <button onClick={() => setVisible(!visible)}>
                   Description {visible ? "▲" : "▼"}

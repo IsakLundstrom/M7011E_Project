@@ -5,25 +5,53 @@ import homeImage from "../images/home_image.png";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [ordering, setOrdering] = useState("courseName");
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://127.0.0.1:8000/courses/");
+      const response = await fetch(`http://127.0.0.1:8000/courses/`);
       const parsed = await response.json();
       setCourses(parsed);
     })();
   }, []);
 
+  const searchCourses = async (e) => {
+    e.preventDefault();
+
+    console.log(
+      `http://127.0.0.1:8000/courses/?ordering=${ordering}&search=${search}`
+    );
+
+    const response = await fetch(
+      `http://127.0.0.1:8000/courses/?ordering=${ordering}&search=${search}`
+    );
+    const parsed = await response.json();
+    setCourses(parsed);
+  };
+  // searchCourses();
+
   return (
     <main>
       <h1>Our courses</h1>
-      <form className="coursesSearchForm" action="">
-        <input className="inputField" type="text" placeholder="Search.." />
+      <form className="coursesSearchForm" onSubmit={searchCourses}>
+        <input
+          className="inputField"
+          type="text"
+          placeholder="Search.."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
         <label>Sort by: </label>
 
-        <select className="inputField" name="casortrs">
-          <option value="A-Z">A-Z</option>
+        <select
+          className="inputField"
+          name="sort"
+          value={ordering}
+          onChange={(e) => setOrdering(e.target.value)}
+        >
+          <option value="courseName">A-Z</option>
           <option value="likeRatio">Like ratio</option>
           <option value="date">Date created</option>
         </select>

@@ -7,15 +7,13 @@ import runSvg from "../images/run_svg.svg";
 import fotballSvg from "../images/fotball_svg.svg";
 
 const HomePage = () => {
-  // Test fetch and set data
-  const [data, setData] = useState({});
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     (async () => {
       const response = await fetch("http://127.0.0.1:8000/courses/");
       const parsed = await response.json();
-      setData(parsed);
-      // console.log(parsed);
+      setCourses(parsed.reverse());
     })();
   }, []);
 
@@ -69,44 +67,26 @@ const HomePage = () => {
       <h2 className="homeH2"> Top 3 courses right now! </h2>
 
       <div className="threeCards">
-        <Link to="/courses/1" className="card courseCard">
-          <div>
-            <img src={homeImage} alt="course" />
-            <div className="cardTextContainer">
-              <h3>
-                <b>Course 1</b>
-              </h3>
-              <p>Come and gym for free at 24/7Fittness every Monday 7am!</p>
-            </div>
-          </div>
-        </Link>
-
-        <Link to="/courses/2" className="card courseCard">
-          <div>
-            <img src={homeImage} alt="course" />
-            <div className="cardTextContainer">
-              <h3>
-                <b>Course 2</b>
-              </h3>
-              <p>
-                Come and do some uphill training at 3am every Sunday on
-                Ormberget's skislope!
-              </p>
-            </div>
-          </div>
-        </Link>
-
-        <Link to="/courses/3" className="card courseCard">
-          <div>
-            <img src={homeImage} alt="course" />
-            <div className="cardTextContainer">
-              <h3>
-                <b>Course 3</b>
-              </h3>
-              <p>Come and play fotball with us! Everyones invited!</p>
-            </div>
-          </div>
-        </Link>
+        {courses &&
+          courses.slice(0, 3).map((course) => {
+            return (
+              <Link
+                to={`/courses/${course.courseID}`}
+                className="card courseCard"
+                key={course.courseID}
+              >
+                <div>
+                  <img src={homeImage} alt="course" />
+                  <div className="cardTextContainer">
+                    <h3>
+                      <b>{course.courseName} </b>
+                    </h3>
+                    <p>{course.shortDescription}</p>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
       </div>
     </main>
   );
