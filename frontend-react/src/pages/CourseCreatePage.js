@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
+import AuthContext from "../context/AuthContext";
 
 const CourseCreatePage = () => {
   const api = useAxios();
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [cName, setCName] = useState("");
@@ -23,7 +25,11 @@ const CourseCreatePage = () => {
     });
 
     console.log(res);
-    navigate("/admin/courseList");
+    if (user.is_superuser) {
+      navigate("/admin/courses");
+    } else if (user.is_staff) {
+      navigate("/profile");
+    }
   };
 
   return (

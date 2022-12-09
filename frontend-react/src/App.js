@@ -20,7 +20,8 @@ import CourseListPage from "./pages/CourseListPage";
 import CourseEditPage from "./pages/CourseEditPage";
 import CourseCreatePage from "./pages/CourseCreatePage";
 
-import ProtectedRoute from "./utils/ProtectedRoute";
+import SuperuserRoute from "./utils/SuperuserRoute";
+import StaffRoute from "./utils/StaffRoute";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -38,23 +39,65 @@ function App() {
 
           <Route path="/about" element={<AboutPage />} />
 
-          <Route path="/admin" element={<AdminPage />} />
-
           <Route path="/profile" element={<ProfilePage />} />
 
           <Route path="/login" element={<LoginPage />} />
 
           <Route path="/register" element={<RegisterPage />} />
 
-          <Route path="/courseEdit/:id" element={<CourseEditPage />} />
+          <Route
+            path="/courses/:id/edit"
+            element={
+              <StaffRoute>
+                <CourseEditPage />
+              </StaffRoute>
+            }
+          />
 
-          <Route path="/courseCreate" element={<CourseCreatePage />} />
+          <Route
+            path="/courses/create"
+            element={
+              <StaffRoute>
+                <CourseCreatePage />
+              </StaffRoute>
+            }
+          />
 
-          <Route path="admin/userList" element={<UserListPage />} />
+          <Route
+            path="/admin"
+            element={
+              <SuperuserRoute>
+                <AdminPage />
+              </SuperuserRoute>
+            }
+          />
 
-          <Route path="admin/userEdit/:id" element={<UserEditPage />} />
+          <Route
+            path="admin/users"
+            element={
+              <SuperuserRoute>
+                <UserListPage />
+              </SuperuserRoute>
+            }
+          />
 
-          <Route path="admin/courseList" element={<CourseListPage />} />
+          <Route
+            path="admin/userEdit/:id"
+            element={
+              <SuperuserRoute>
+                <UserEditPage />
+              </SuperuserRoute>
+            }
+          />
+
+          <Route
+            path="admin/courses"
+            element={
+              <SuperuserRoute>
+                <CourseListPage />
+              </SuperuserRoute>
+            }
+          />
         </Routes>
         <Footer />
       </AuthProvider>

@@ -59,7 +59,7 @@ const CourseEditPage = () => {
 
     try {
       await api.delete(`/courses/${params.id}/`);
-      navigate("/admin/courseList");
+      navigate("/admin/courses");
     } catch {
       alert("Could not delete video");
     }

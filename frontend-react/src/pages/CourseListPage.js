@@ -3,24 +3,58 @@ import { Link } from "react-router-dom";
 
 const CourseListPage = () => {
   const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [ordering, setOrdering] = useState("courseID");
 
   useEffect(() => {
-    (async () => {
-      const response = await fetch("http://127.0.0.1:8000/courses/");
-      const courses = await response.json();
-      setCourses(courses);
+    (async (e) => {
+      const response = await fetch(
+        `http://127.0.0.1:8000/courses/?ordering=${ordering}&search=${search}`
+      );
+      const parsed = await response.json();
+      setCourses(parsed);
     })();
-  }, []);
+  }, [search, ordering]);
 
   return (
     <main>
       <h1>All courses</h1>
 
       <br />
-      <Link className="coursesSortButton" to={`/courseCreate`}>
+      <Link className="coursesSortButton" to={`/courses/create`}>
         Create new course
       </Link>
       <br />
+      <br />
+
+      <form className="coursesSearchForm" onSubmit={(e) => e.preventDefault()}>
+        <input
+          className="inputField"
+          type="text"
+          placeholder="Search.."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <label>Sort by: </label>
+
+        <select
+          className="inputField"
+          name="sort"
+          value={ordering}
+          onChange={(e) => setOrdering(e.target.value)}
+        >
+          <option value="courseID">CourseID ⬇</option>
+          <option value="-courseID">CourseID ⬆</option>
+          <option value="likeRatio">Like ratio ⬇</option>
+          <option value="-likeRatio">Like ratio ⬆</option>
+          <option value="courseName">Name ⬇</option>
+          <option value="-courseName">Name ⬆</option>
+          <option value="owner">Owner ⬇</option>
+          <option value="-owner">Owner ⬆</option>
+        </select>
+      </form>
+
       <br />
 
       <table className="adminTable">
@@ -43,7 +77,9 @@ const CourseListPage = () => {
                   <td>{course.shortDescription}</td>
                   <td>{`${course.likeRatio}%`}</td>
                   <td>
-                    <Link to={`/courseEdit/${course.courseID}`}>&#x270D;</Link>
+                    <Link to={`/courses/${course.courseID}/edit`}>
+                      &#x270D;
+                    </Link>
                   </td>
                 </tr>
               );
