@@ -16,8 +16,8 @@
       <label for="cars">Sort by: </label>
 
       <select class="inputField" name="sort" v-model="ordering">
-        <option value="courseID">Latest</option>
-        <option value="-courseID">Oldest</option>
+        <option value="-courseID">Latest</option>
+        <option value="courseID">Oldest</option>
         <option value="likeRatio">Like ratio</option>
         <option value="courseName">Name A-Z</option>
         <option value="-courseName">Name Z-A</option>
