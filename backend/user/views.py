@@ -7,13 +7,14 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import User
 from .serializers import UserSerializer, ChangePasswordSerializer
+from .permissions import IsUserPermission
 
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsUserPermission,)
     http_method_names = ['get', 'put', 'delete', 'patch']
 
 
