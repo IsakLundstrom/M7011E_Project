@@ -22,7 +22,7 @@
         </div>
 
         <div class="profileFormContainer">
-          <form @submit="patchUser">
+          <form @submit.prevent="patchUser">
             <div class="twoForm">
               <div>
                 <label htmlFor="fname">Name</label>

@@ -5,22 +5,32 @@
 <template>
   <main>
     <h1>Our courses</h1>
-    <form class="coursesSearchForm" action="">
-      <input class="inputField" type="text" placeholder="Search.." />
+    <form class="coursesSearchForm">
+      <input 
+        class="inputField" 
+        type="text" 
+        placeholder="Search.."
+        v-model="search" 
+      />
 
       <label for="cars">Sort by: </label>
 
-      <select class="inputField" name="casortrs">
-        <option value="A-Z">A-Z</option>
+      <select class="inputField" name="sort" v-model="ordering">
+        <option value="-courseID">Latest</option>
+        <option value="courseID">Oldest</option>
         <option value="likeRatio">Like ratio</option>
-        <option value="date">Date created</option>
+        <option value="courseName">Name A-Z</option>
+        <option value="-courseName">Name Z-A</option>
       </select>
 
-      <input class="coursesSortButton" type="submit" value="Sort" />
     </form>
-    <div class="fiveCards" v-for="course in courses" :key="course.id">
+    <div class="fiveCards">
 
-      <router-link :to="{name: 'Course', params: {id: course.id}}" class="card courseCard">
+      <router-link v-for="course in courses" 
+      :key="course.courseID" 
+      :to="{name: 'Course', params: {id: course.courseID}}" 
+      class="card courseCard"
+      >
         <div>
           <img :src=homeImage alt="course" />
           <div class="cardTextContainer">
@@ -33,6 +43,7 @@
       </router-link>
 
     </div>
+
   </main>
   </template>
 
@@ -42,10 +53,36 @@ export default {
   name: 'CoursesView',
   components: {  
   },
+  methods: {
+    async fetchCourses() {
+
+      // HÄR ÄR JAG HÄR SKA DU FORTSÄTTA EFTER LUNCH
+      const response = await fetch(`http://127.0.0.1:8000/courses/?ordering=${this.ordering}&search=${this.search}`);
+      console.log("response", response)
+      const parsed = await response.json();
+      console.log("parsed", parsed);
+      this.courses = parsed;
+      console.log("courses", this.courses)
+    }
+  },
   data() {
     return{
       courses : [],
+      search: '',
+      ordering: '-courseID',
     }
+  },
+  mounted() {
+    this.fetchCourses()
+  },
+  watch: {
+    search() {
+      this.fetchCourses()
+    },
+    ordering() {
+      this.fetchCourses()
+    }
+     
   }
 }
 </script>
