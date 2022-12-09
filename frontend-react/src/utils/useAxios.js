@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 const baseURL = "http://127.0.0.1:8000";
 
 const useAxios = () => {
-  const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);
+  const { authTokens, setUser, setAuthTokens, logoutUser } =
+    useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const useAxios = () => {
     } catch {
       console.log("refresh NOT ok");
 
+      logoutUser();
       navigate("/login");
     }
   });

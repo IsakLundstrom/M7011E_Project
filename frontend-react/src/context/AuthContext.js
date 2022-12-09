@@ -46,8 +46,10 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
       console.log("Logged in!");
+      return false;
     } else {
-      alert("Something went wrong!");
+      // alert("Something went wrong!");
+      return true;
     }
   };
 

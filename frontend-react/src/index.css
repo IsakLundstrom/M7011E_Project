@@ -140,6 +140,7 @@ button:hover,
 .subnavTable th {
   text-align: left;
   padding: 8px 0;
+  width: 50%;
 }
 
 .subnavTable td a {
@@ -483,6 +484,15 @@ p {
 .loginContent {
   width: 50%;
   margin: auto;
+}
+
+.errorBox {
+  border: 1px solid;
+  margin: 10px 0px;
+  text-align: center;
+  padding: calc(var(--gap) / 2);
+  color: #d8000c;
+  background-color: #ffbaba;
 }
 
 /* UserList and CourseList page */

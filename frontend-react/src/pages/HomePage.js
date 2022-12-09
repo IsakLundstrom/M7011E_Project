@@ -11,9 +11,11 @@ const HomePage = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://127.0.0.1:8000/courses/");
+      const response = await fetch(
+        "http://127.0.0.1:8000/courses/?ordering=-courseID"
+      );
       const parsed = await response.json();
-      setCourses(parsed.reverse());
+      setCourses(parsed);
     })();
   }, []);
 
@@ -64,7 +66,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <h2 className="homeH2"> Top 3 courses right now! </h2>
+      <h2 className="homeH2"> Our 3 latest courses! 🔥 </h2>
 
       <div className="threeCards">
         {courses &&

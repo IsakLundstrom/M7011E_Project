@@ -8,21 +8,14 @@ import AuthContext from "../context/AuthContext";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const { loginUser } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    loginUser(email, password);
-
-    // let res = await fetch("http://localhost:8000/auth/login/", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     email: email,
-    //     password: password,
-    //   }),
-    // });
+    let err = await loginUser(email, password);
+    setError(err);
   };
 
   return (
@@ -31,6 +24,7 @@ const LoginPage = () => {
         <h1>Login page</h1>
         <form onSubmit={handleSubmit}>
           <br />
+          {error && <div className="errorBox">Wrong email or password</div>}
 
           <label htmlFor="email">Email</label>
           <br />

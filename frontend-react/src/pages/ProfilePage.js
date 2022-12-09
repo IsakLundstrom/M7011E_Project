@@ -25,7 +25,8 @@ const ProfilePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await api.get(`/user/${user.user_id}/`);
+        // const response = await api.get(`/user/${user.user_id}/`);
+        const response = await api.get(`/user/1/`);
         setFName(response.data.fName);
         setLName(response.data.lName);
         setEmail(response.data.email);
@@ -62,6 +63,7 @@ const ProfilePage = () => {
   };
 
   // fetch subscriptions
+  // TODO fix
   useEffect(() => {
     (async () => {
       const response = await fetch("http://127.0.0.1:8000/courses/");
@@ -185,7 +187,7 @@ const ProfilePage = () => {
 
       <br />
 
-      <h2>Subscriptions</h2>
+      <h2>Your Subscriptions</h2>
       {subscriptions.length != 0 ? (
         <div className="threeCards">
           {subscriptions.map((subscription) => {
@@ -220,7 +222,7 @@ const ProfilePage = () => {
         <>
           <h2>Your Courses</h2>
           <br />
-          <Link className="coursesSortButton" to={`/courseCreate`}>
+          <Link className="coursesSortButton" to={`/course/create`}>
             Create new course
           </Link>
           <br />
@@ -243,7 +245,7 @@ const ProfilePage = () => {
                       <td>{course.shortDescription}</td>
                       <td>{`${course.likeRatio}%`}</td>
                       <td>
-                        <Link to={`/courseEdit/${course.courseID}`}>
+                        <Link to={`/courses/${course.courseID}/edit`}>
                           &#x270D;
                         </Link>
                       </td>

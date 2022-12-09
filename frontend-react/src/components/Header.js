@@ -19,19 +19,6 @@ const Header = () => {
     })();
   }, [search]);
 
-  // useEffect(() => {
-  //   console.log()
-  //   searchCourse();
-  // }, [search]);
-
-  // const searchCourse = async (e) => {
-  //   const response = await fetch(
-  //     `http://127.0.0.1:8000/courses/?search=${search}`
-  //   );
-  //   const parsed = await response.json();
-  //   setCourses(parsed);
-  // };
-
   return (
     <nav className="mainNav">
       <ul>
@@ -51,7 +38,7 @@ const Header = () => {
               <input
                 className="inputField"
                 type="text"
-                placeholder="Search.."
+                placeholder="Search..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
