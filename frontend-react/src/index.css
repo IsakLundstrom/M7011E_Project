@@ -293,7 +293,7 @@ p {
 
 .coursesSearchForm {
   display: grid;
-  grid-template-columns: 5fr 1fr 1fr 1fr;
+  grid-template-columns: 5fr 1fr 1fr;
   align-items: center;
   justify-items: center;
 }

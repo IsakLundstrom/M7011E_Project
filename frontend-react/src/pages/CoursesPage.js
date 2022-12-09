@@ -6,35 +6,22 @@ import homeImage from "../images/home_image.png";
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
-  const [ordering, setOrdering] = useState("courseName");
+  const [ordering, setOrdering] = useState("-courseID");
 
   useEffect(() => {
-    (async () => {
-      const response = await fetch(`http://127.0.0.1:8000/courses/`);
+    (async (e) => {
+      const response = await fetch(
+        `http://127.0.0.1:8000/courses/?ordering=${ordering}&search=${search}`
+      );
       const parsed = await response.json();
       setCourses(parsed);
     })();
-  }, []);
-
-  const searchCourses = async (e) => {
-    e.preventDefault();
-
-    console.log(
-      `http://127.0.0.1:8000/courses/?ordering=${ordering}&search=${search}`
-    );
-
-    const response = await fetch(
-      `http://127.0.0.1:8000/courses/?ordering=${ordering}&search=${search}`
-    );
-    const parsed = await response.json();
-    setCourses(parsed);
-  };
-  // searchCourses();
+  }, [search, ordering]);
 
   return (
     <main>
       <h1>Our courses</h1>
-      <form className="coursesSearchForm" onSubmit={searchCourses}>
+      <form className="coursesSearchForm" onSubmit={(e) => e.preventDefault()}>
         <input
           className="inputField"
           type="text"
@@ -51,12 +38,12 @@ const CoursesPage = () => {
           value={ordering}
           onChange={(e) => setOrdering(e.target.value)}
         >
-          <option value="courseName">A-Z</option>
+          <option value="courseID">Latest</option>
+          <option value="-courseID">Oldest</option>
           <option value="likeRatio">Like ratio</option>
-          <option value="date">Date created</option>
+          <option value="courseName">Name A-Z</option>
+          <option value="-courseName">Name Z-A</option>
         </select>
-
-        <input className="coursesSortButton" type="submit" value="Sort" />
       </form>
       <div className="fiveCards">
         {courses &&
