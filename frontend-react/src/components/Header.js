@@ -12,7 +12,7 @@ const Header = () => {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        `http://127.0.0.1:8000/courses/?search=${search}`
+        `http://127.0.0.1:8000/courses/?ordering=-courseID&search=${search}`
       );
       const parsed = await response.json();
       setCourses(parsed);

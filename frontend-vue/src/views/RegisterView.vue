@@ -4,7 +4,7 @@
 
         <h1>Register page</h1>
 
-        <form @submit="handleSubmit">
+        <form @submit.prevent="handleSubmit">
           <br />
 
           <label htmlFor="fname">Name</label>

@@ -37,8 +37,8 @@ const UserListPage = () => {
                   <td>{user.email}</td>
                   <td>{user.fName}</td>
                   <td>{user.lName}</td>
-                  <td>No</td>
-                  <td>No</td>
+                  <td>{user.is_staff ? <p>Yes</p> : <p>No</p>}</td>
+                  <td>{user.is_superuser ? <p>Yes</p> : <p>No</p>}</td>
                   <td>
                     <Link to={`/admin/userEdit/${user.id}`}>&#x270D;</Link>
                   </td>
