@@ -31,7 +31,7 @@ class CoursesVideoViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = CoursesVideos.objects.all()
     serializer_class = CoursesVideosSerializer
     filterset_fields = ['courseID']
-    # permission_classes = [IsVideoPermission]
+    permission_classes = [IsVideoPermission]
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):

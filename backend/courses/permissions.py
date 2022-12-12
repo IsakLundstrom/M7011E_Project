@@ -22,25 +22,31 @@ class IsCoursePermission(permissions.BasePermission):
 class IsVideoPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        print("has")
-        param = request.query_params
-        print(param)
-        cID = param.get("courseID")
-        print(cID, type(cID))
-        # try:
-        owner = Courses.objects.all().get(courseID = cID).owner
-        # except:
-        #     print("ERROR")
-        #     owner = Courses.objects.all().get(courseID=cID).owner
-        print(owner)
+        # print("has")
+        # param = request.query_params
+        # print(param)
+        # cID = param.get("courseID")
+        # print(cID, type(cID))
+        # # try:
+        # owner = Courses.objects.all().get(courseID = cID).owner
+        # # except:
+        # #     print("ERROR")
+        # #     owner = Courses.objects.all().get(courseID=cID).owner
+        # print(owner)
 
-        if request.method != 'POST' or (request.user.is_staff):
+        if request.method in permissions.SAFE_METHODS or request.user.is_superuser:
+            return True
+
+        cID = request.resolver_match.kwargs.get("parent_lookup_courseID")
+        owner = Courses.objects.all().get(courseID=cID).owner
+        #print(owner, request.user.email, str(request.user.email) == str(owner))
+        if str(request.user.email) == str(owner) and request.user.is_staff:
             return True
 
         return False
 
     def has_object_permission(self, request, view, obj):
-        print("has_object")
+        # print("has_object")
 
         if request.method in permissions.SAFE_METHODS or request.user.is_superuser:
             return True
