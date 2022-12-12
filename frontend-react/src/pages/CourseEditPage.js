@@ -2,12 +2,10 @@ import React, { useEffect, useState /*, useContext*/ } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
-// import AuthContext from "../context/AuthContext";
 
 const CourseEditPage = () => {
   const params = useParams();
   const api = useAxios();
-  // const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // course variables
@@ -30,7 +28,7 @@ const CourseEditPage = () => {
         `http://127.0.0.1:8000/courses/${params.id}`
       );
       const course = await response.data;
-      getVideo(course.courseID);
+      getVideos();
 
       setCID(course.courseID);
       setCAuthor(course.author);
@@ -68,7 +66,7 @@ const CourseEditPage = () => {
   };
 
   // get videos
-  function getVideo(id) {
+  function getVideos() {
     (async () => {
       const response = await api.get(`/courses/${params.id}/videos`);
       const videos = await response.data;
@@ -87,7 +85,7 @@ const CourseEditPage = () => {
         videoURL: newVidUrl,
         // courseAuthor: cAuthor,
       });
-      await getVideo(cID);
+      await getVideos();
     } catch {
       alert("Could not post new video");
     }
@@ -99,7 +97,7 @@ const CourseEditPage = () => {
 
     try {
       await api.delete(`/courses/${params.id}/videos/${e.target.value}/`);
-      await getVideo(cID);
+      await getVideos();
     } catch {
       alert("Could not delete video");
     }
