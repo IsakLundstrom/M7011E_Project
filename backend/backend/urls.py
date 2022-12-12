@@ -30,18 +30,20 @@ router = ExtendedSimpleRouter()
 router.register(r'auth/login', LoginViewSet, basename='auth-login')
 router.register(r'auth/register', RegistrationViewSet, basename='auth-register')
 router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
-(
-    router.register(r'courses', cViews.CoursesViewSet, basename="course")
-    .register(r'videos', cViews.CoursesVideoViewSet, basename="courses-video", parents_query_lookups=['courseID'])
-)
-router.register(r'subscription', cViews.SubscriptionViewSet, basename="subscription")
-router.register(r'likes', cViews.LikeViewSet, basename="likes")
+
+courseRouter = router.register(r'courses', cViews.CoursesViewSet, basename="course")
+courseRouter.register(r'videos', cViews.CoursesVideoViewSet, basename="courses-video", parents_query_lookups=['courseID'])
+courseRouter.register(r'likes', cViews.LikeViewSet, basename="courses-like", parents_query_lookups=['courseID'])
+courseRouter.register(r'subscriptions', cViews.SubscriptionViewSet, basename="courses-subscription", parents_query_lookups=['courseID'])
+
 router.register(r'user', uViews.UserViewSet, basename="user")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
     path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
+    path('user/subscriptions/', cViews.UserSubscriptions.as_view(), name="userSubscriptions"),
+
     # re_path('^courseVideo/(?P<id>.+)/$', cViews.CourseVideoView.as_view(), name="courseVideos"),
     # re_path('^subscription/(?P<id>.+)/$', cViews.SubscriptionView.as_view(), name="courseVideos"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

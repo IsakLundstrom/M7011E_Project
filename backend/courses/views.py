@@ -4,8 +4,9 @@ from rest_framework import generics
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework import permissions
-from rest_framework import filters
+from rest_framework import filters, status
 from rest_framework.response import Response
+from django.http import HttpResponseNotFound
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer, LikeSerializer
@@ -35,42 +36,75 @@ class CoursesVideoViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     permission_classes = [IsVideoPermission]
 
 
-class SubscriptionViewSet(viewsets.ModelViewSet):
+class SubscriptionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     http_method_names = ['get', 'put', 'delete', 'post']
     filterset_fields = ['userID', 'courseID']
 
-    # def retrieve(self, request):
-    #     print("re")
-    #     print(request.resolver_match)
-    #     queryset = Courses.objects.all()
+    def retrieve(self, request, *args, **kwargs):
+        courseID = kwargs.get("parent_lookup_courseID")
+        userID = kwargs.get("pk")
+        sub = Subscription.objects.all().filter(userID=int(userID), courseID=int(courseID))
+        if len(sub) != 1:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        subSerializer = SubscriptionSerializer(sub[0])
+        return Response(subSerializer.data)
+
+    # def list(self, request, *args, **kwargs):
+    #     # print("list")
+    #     user = request.query_params.get("userID")
+    #     # courseID = kwargs.get("parent_lookup_courseID")
+    #     # print(user)
+    #     if user is None:
+    #         return super().list(self, request)
     #
-    def list(self, request):
-        # print("list")
-        user = request.query_params.get("userID")
-        # print(user)
-        if user is None:
-            return super().list(self, request)
+    #     subs = Subscription.objects.all().filter(userID=int(user))
+    #
+    #     course = request.query_params.get("courseID")
+    #     if course is not None:
+    #         subs = subs.filter(courseID = int(course))
+    #
+    #     courses = []
+    #     for sub in subs:
+    #         courses.append(sub.courseID)
+    #     # courseSerializer = CoursesSerializer(courses, many=True)
+    #     subSerializer = SubscriptionSerializer(subs, many=True)
+    #     return Response(subSerializer.data)
+    #     # return Response({"courses": courseSerializer.data,
+    #     #                  "subscription": subSerializer.data})
 
-        subs = Subscription.objects.all().filter(userID=int(user))
 
-        course = request.query_params.get("courseID")
-        if course is not None:
-            subs = subs.filter(courseID = int(course))
+class UserSubscriptions(generics.ListAPIView):
+    queryset = Courses.objects.all()
+    serializer_class = CoursesVideosSerializer
 
-        courses = []
+    def get(self, request, *args, **kwargs):
+        try:
+            subs = Subscription.objects.all().filter(userID=int(request.user.userID))
+        except:
+            return Response(status.HTTP_404_NOT_FOUND)
+
+        courses = Courses.objects.all()
+        subCourses = []
         for sub in subs:
-            courses.append(sub.courseID)
-        courseSerializer = CoursesSerializer(courses, many=True)
-        subSerializer = SubscriptionSerializer(subs, many=True)
-        # return Response(courseSerializer.data)
-        return Response({"courses": courseSerializer.data,
-                         "subscription": subSerializer.data})
+            subCourses.append(courses.get(courseID=sub.courseID))
+
+        self.queryset = subCourses
+        super().get(self, request, args, kwargs)
 
 
-class LikeViewSet(viewsets.ModelViewSet):
+class LikeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     http_method_names = ['get', 'put', 'delete', 'post']
     filterset_fields = ['userID']
+
+    def retrieve(self, request, *args, **kwargs):
+        courseID = kwargs.get("parent_lookup_courseID")
+        userID = kwargs.get("pk")
+        sub = Like.objects.all().filter(userID=int(userID), courseID=int(courseID))
+        if len(sub) != 1:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        likeSerializer = LikeSerializer(sub[0])
+        return Response(likeSerializer.data)
