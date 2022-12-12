@@ -1,3 +1,5 @@
+from functools import partial
+
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import generics
@@ -14,6 +16,7 @@ from .models import Courses, CoursesVideos, Subscription, Like
 from .permissions import IsCoursePermission, IsVideoPermission
 
 
+
 # Create your views here.
 class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Courses.objects.all()
@@ -27,6 +30,36 @@ class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        courseID = int(kwargs.get("pk"))
+        likesObjects = Like.objects.all().filter(courseID=courseID)
+        print(request.data)
+
+        likes = 0
+        dislikes = 0
+        undefined = 0
+        likeRatio = 0
+        for like in likesObjects:
+            if like.like == 1:
+                likes += 1
+            elif like.like == 0:
+                dislikes += 1
+            else:
+                undefined += 1
+        if likes + dislikes == 0:
+            likeRatio = 0
+        else:
+            likeRatio = likes / (likes + dislikes) * 100
+
+        instance = self.get_object()
+        instance.likeRatio = likeRatio
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
 
 
 class CoursesVideoViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -97,6 +130,8 @@ class UserSubscriptions(generics.ListAPIView):
 class LikeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     http_method_names = ['get', 'put', 'delete', 'post']
     filterset_fields = ['userID']
 
