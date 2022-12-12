@@ -54,21 +54,40 @@ export default {
   name: 'LoginView',
   components: {  },
   methods: {
-    async handleSubmit() {
-      const response = await fetch("http://127.0.0.1:8000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    async handleSubmit(user) {
+      user.email = this.email
+      user.password = this.password      
+
+      this.$store.dispatch("auth/login", user).then(
+        () => {
+          this.$router.push({ name: 'Profile'});
         },
-        body: JSON.stringify({
-          username: this.email,
-          password: this.password,
-        }),
-      });
-      const data = await response.json();
-      console.log(data)
-      // alert(`${this.email}, ${this.password}`)
-    }
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+
+// OLD CODE REMOVE WHEN FETCHING WORKS AS IT SHOULD
+      // const response = await fetch("http://127.0.0.1:8000/auth/login/", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     email: this.email,
+      //     password: this.password,
+      //   }),
+      // });
+      // const data = await response.json();
+      // console.log(data)
+      // // alert(`${this.email}, ${this.password}`)
+    },
   },
   data() {
     return {
@@ -76,6 +95,11 @@ export default {
       password: 'test',
 
     }
-  }
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/profile");
+    }
+  },
 }
 </script>

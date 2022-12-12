@@ -56,13 +56,9 @@ export default {
   methods: {
     async fetchCourses() {
 
-      // HÄR ÄR JAG HÄR SKA DU FORTSÄTTA EFTER LUNCH
       const response = await fetch(`http://127.0.0.1:8000/courses/?ordering=${this.ordering}&search=${this.search}`);
-      console.log("response", response)
       const parsed = await response.json();
-      console.log("parsed", parsed);
       this.courses = parsed;
-      console.log("courses", this.courses)
     }
   },
   data() {

@@ -43,27 +43,27 @@ const routes = [
     component: () => import('../views/LoginView.vue')
   },  
   {
-    path: '/admin/userList',
+    path: '/admin/users',
     name: 'UserList',
     component: () => import('../views/admin/UserListView.vue')
   },  
   {
-    path: '/admin/courseList',
+    path: '/admin/courses',
     name: 'CourseList',
     component: () => import('../views/admin/CourseListView.vue')
   },
   {
-    path: '/admin/userEdit/:id',
+    path: '/admin/users/:id/edit',
     name: 'UserEdit',
     component: () => import('../views/admin/UserEditView.vue')
   },
   {
-    path: '/admin/courseCreate',
+    path: '/admin/courses/create',
     name: 'CourseCreate',
     component: () => import('../views/admin/CourseCreateView.vue')
   },
   {
-    path: '/admin/courseEdit/:id',
+    path: '/admin/courses/:id/edit',
     name: 'CourseEdit',
     component: () => import('../views/admin/CourseEditView.vue')
   },

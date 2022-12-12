@@ -49,16 +49,16 @@
       </li>
 
       <li class="floatRight">
-      <router-link :to="{ name: 'Register' }" class='mainLink'>Register </router-link>
+      <router-link v-if="!loggedIn" :to="{ name: 'Register' }" class='mainLink'>Register </router-link>
       </li>
 
       <li class="floatRight">
-        <router-link v-if="false" :to="{ name: 'Home' }" class='mainLink'>Log out</router-link> <!--should also log out a person and only visible to inlogged person-->
+        <router-link v-if="loggedIn" @click="logOut" :to="{ name: 'Home' }" class='mainLink'>Log out</router-link> <!--should also log out a person and only visible to inlogged person-->
         <router-link v-else :to="{ name: 'Login' }" class='mainLink'>Log in</router-link>
       </li>
 
       <li class="floatRight">
-      <router-link v-if="true" :to="{ name: 'Profile' }" class='mainLink profileImageLink'>
+      <router-link v-if="loggedIn" :to="{ name: 'Profile' }" class='mainLink profileImageLink'>
         <div className="headerProfileImageContainer">
           <img :src="profileImage" alt="Profile" />
         </div>
@@ -70,14 +70,40 @@
 </template>
 
 <script>
+import jwt_decode from "jwt-decode";
   export default{
     name:'Header',
     components: {
       coursesForHeader
     }, 
+    computed: {
+      loggedIn(){
+        // console.log(this.$store.state.auth.user)
+        // console.log(jwt_decode(this.$store.state.auth.user.access).is_staff)
+        // return this.$store.state.auth.user
+      },
+    },
+    methods: {
+      logOut() {
+        // this.$store.dispatch("auth/logout").then(
+        //   () => {
+        //     this.$router.push({ name: 'Home'});
+        //   },
+        //   (error) => {
+        //     this.loading = false;
+        //     this.message =
+        //       (error.response &&
+        //         error.response.data &&
+        //         error.response.data.message) ||
+        //       error.message ||
+        //       error.toString();
+        //   }
+        // )
+      }
+    },
     data() {
       return {
-        title: 'The Best Free Gym in Luleå'
+        
       }
     },
   }
