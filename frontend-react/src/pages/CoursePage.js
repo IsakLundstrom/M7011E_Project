@@ -39,7 +39,7 @@ const CoursePage = () => {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        `http://127.0.0.1:8000/courseVideo/?courseID=${params.id}`
+        `http://127.0.0.1:8000/courses/${params.id}/videos`
       );
       const videos = await response.json();
       setVideos(videos);

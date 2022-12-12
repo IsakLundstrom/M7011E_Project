@@ -12,6 +12,7 @@ const CourseEditPage = () => {
 
   // course variables
   const [cID, setCID] = useState(-1);
+  const [cAuthor, setCAuthor] = useState("");
   const [cName, setCName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
@@ -32,6 +33,7 @@ const CourseEditPage = () => {
       getVideo(course.courseID);
 
       setCID(course.courseID);
+      setCAuthor(course.author);
       setCName(course.courseName);
       setShortDescription(course.shortDescription);
       setLongDescription(course.longDescription);
@@ -68,9 +70,7 @@ const CourseEditPage = () => {
   // get videos
   function getVideo(id) {
     (async () => {
-      const response = await api.get(
-        `http://localhost:8000/courseVideo/?courseID=${id}`
-      );
+      const response = await api.get(`/courses/${params.id}/videos`);
       const videos = await response.data;
       setVideos(videos);
     })();
@@ -81,10 +81,11 @@ const CourseEditPage = () => {
     e.preventDefault();
 
     try {
-      await api.post(`/courseVideo/`, {
+      await api.post(`/courses/${params.id}/videos/`, {
         courseID: cID,
         videoName: newVidName,
         videoURL: newVidUrl,
+        // courseAuthor: cAuthor,
       });
       await getVideo(cID);
     } catch {
@@ -97,7 +98,7 @@ const CourseEditPage = () => {
     e.preventDefault();
 
     try {
-      await api.delete(`/courseVideo/${e.target.value}/`);
+      await api.delete(`/courses/${params.id}/videos/${e.target.value}/`);
       await getVideo(cID);
     } catch {
       alert("Could not delete video");
