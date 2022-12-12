@@ -35,6 +35,7 @@ router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
     .register(r'videos', cViews.CoursesVideoViewSet, basename="courses-video", parents_query_lookups=['courseID'])
 )
 router.register(r'subscription', cViews.SubscriptionViewSet, basename="subscription")
+router.register(r'likes', cViews.LikeViewSet, basename="likes")
 router.register(r'user', uViews.UserViewSet, basename="user")
 
 urlpatterns = [

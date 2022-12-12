@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Courses, CoursesVideos, Subscription
+from .models import Courses, CoursesVideos, Subscription, Like
 
 
 class CoursesSerializer(serializers.ModelSerializer):
@@ -21,4 +21,10 @@ class CoursesVideosSerializer(serializers.ModelSerializer):
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
+        fields = ["id", "courseID", "userID"]
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
         fields = ["courseID", "userID", "like"]

@@ -5,10 +5,11 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from rest_framework import permissions
 from rest_framework import filters
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer
-from .models import Courses, CoursesVideos, Subscription
+from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer, LikeSerializer
+from .models import Courses, CoursesVideos, Subscription, Like
 from .permissions import IsCoursePermission, IsVideoPermission
 
 
@@ -37,5 +38,33 @@ class CoursesVideoViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
+    http_method_names = ['get', 'put', 'delete', 'post']
+    filterset_fields = ['userID', 'courseID']
+
+    # def retrieve(self, request):
+    #     print("re")
+    #     print(request.resolver_match)
+    #     queryset = Courses.objects.all()
+    #
+    def list(self, request):
+        # print("list")
+        user = request.query_params.get("userID")
+        # print(user)
+        if user is None:
+            return super().list(self, request)
+        subs = Subscription.objects.all().filter(userID=int(user))
+        courses = []
+        for sub in subs:
+            courses.append(sub.courseID)
+        courseSerializer = CoursesSerializer(courses, many=True)
+        # subSerializer = SubscriptionSerializer(subs, many=True)
+        return Response(courseSerializer.data)
+        # return Response({"courses": courseSerializer.data,
+        #                  "subscription" : subSerializer.data})
+
+
+class LikeViewSet(viewsets.ModelViewSet):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
     http_method_names = ['get', 'put', 'delete', 'post']
     filterset_fields = ['userID']

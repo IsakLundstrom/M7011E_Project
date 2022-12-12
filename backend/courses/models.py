@@ -11,7 +11,7 @@ class Courses(models.Model):
     longDescription = models.TextField(max_length=2000, default=shortDescription)
     courseIMG = models.URLField(default="https://cdn.discordapp.com/attachments/230245539520708608"
                                         "/1049264539629277194/image.png")
-    owner = models.ForeignKey('user.User',  on_delete=models.CASCADE)
+    owner = models.ForeignKey('user.User', on_delete=models.CASCADE)
     likeRatio = models.IntegerField(default=-1)
     createDate = models.DateTimeField(auto_now_add=True)
 
@@ -33,6 +33,17 @@ class CoursesVideos(models.Model):
 
 
 class Subscription(models.Model):
+    courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
+    userID = models.ForeignKey("user.User", on_delete=models.CASCADE, to_field="id")
+
+    class Meta:
+        constraints = [
+            models.constraints.UniqueConstraint(fields=['courseID', 'userID'], name='uniqueSub')
+        ]
+        ordering = ['courseID']
+
+
+class Like(models.Model):
     courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
     userID = models.ForeignKey("user.User", on_delete=models.CASCADE, to_field="id")
 
