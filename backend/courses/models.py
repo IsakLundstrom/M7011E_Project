@@ -33,6 +33,7 @@ class CoursesVideos(models.Model):
 
 
 class Subscription(models.Model):
+    subID = models.AutoField(auto_created=True, primary_key=True)
     courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
     userID = models.ForeignKey("user.User", on_delete=models.CASCADE, to_field="id")
 
@@ -44,6 +45,7 @@ class Subscription(models.Model):
 
 
 class Like(models.Model):
+    likeID = models.AutoField(auto_created=True, primary_key=True)
     courseID = models.ForeignKey("Courses", on_delete=models.CASCADE, to_field="courseID")
     userID = models.ForeignKey("user.User", on_delete=models.CASCADE, to_field="id")
 

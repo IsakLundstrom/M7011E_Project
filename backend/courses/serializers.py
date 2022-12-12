@@ -21,10 +21,10 @@ class CoursesVideosSerializer(serializers.ModelSerializer):
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
-        fields = ["id", "courseID", "userID"]
+        fields = ["subID", "courseID", "userID"]
 
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = ["courseID", "userID", "like"]
+        fields = ["likeID", "courseID", "userID", "like"]

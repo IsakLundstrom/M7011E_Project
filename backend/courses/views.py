@@ -52,15 +52,21 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         # print(user)
         if user is None:
             return super().list(self, request)
+
         subs = Subscription.objects.all().filter(userID=int(user))
+
+        course = request.query_params.get("courseID")
+        if course is not None:
+            subs = subs.filter(courseID = int(course))
+
         courses = []
         for sub in subs:
             courses.append(sub.courseID)
         courseSerializer = CoursesSerializer(courses, many=True)
-        # subSerializer = SubscriptionSerializer(subs, many=True)
-        return Response(courseSerializer.data)
-        # return Response({"courses": courseSerializer.data,
-        #                  "subscription" : subSerializer.data})
+        subSerializer = SubscriptionSerializer(subs, many=True)
+        # return Response(courseSerializer.data)
+        return Response({"courses": courseSerializer.data,
+                         "subscription": subSerializer.data})
 
 
 class LikeViewSet(viewsets.ModelViewSet):
