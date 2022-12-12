@@ -25,8 +25,8 @@ const ProfilePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const response = await api.get(`/user/${user.user_id}/`);
-        const response = await api.get(`/user/1/`);
+        const response = await api.get(`/user/${user.user_id}/`);
+        // const response = await api.get(`/user/1/`);
         setFName(response.data.fName);
         setLName(response.data.lName);
         setEmail(response.data.email);
@@ -66,7 +66,7 @@ const ProfilePage = () => {
   // TODO fix
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://127.0.0.1:8000/courses/");
+      const response = await api.get(`/user/subscriptions`);
       const parsed = await response.json();
       setSubsciptions(parsed);
     })();

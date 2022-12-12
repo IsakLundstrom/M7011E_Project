@@ -2,16 +2,15 @@ import React, { useEffect, useState /*, useContext*/ } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
-// import AuthContext from "../context/AuthContext";
 
 const CourseEditPage = () => {
   const params = useParams();
   const api = useAxios();
-  // const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // course variables
   const [cID, setCID] = useState(-1);
+  const [cAuthor, setCAuthor] = useState("");
   const [cName, setCName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
@@ -29,9 +28,10 @@ const CourseEditPage = () => {
         `http://127.0.0.1:8000/courses/${params.id}`
       );
       const course = await response.data;
-      getVideo(course.courseID);
+      getVideos();
 
       setCID(course.courseID);
+      setCAuthor(course.author);
       setCName(course.courseName);
       setShortDescription(course.shortDescription);
       setLongDescription(course.longDescription);
@@ -66,11 +66,9 @@ const CourseEditPage = () => {
   };
 
   // get videos
-  function getVideo(id) {
+  function getVideos() {
     (async () => {
-      const response = await api.get(
-        `http://localhost:8000/courseVideo/?courseID=${id}`
-      );
+      const response = await api.get(`/courses/${params.id}/videos`);
       const videos = await response.data;
       setVideos(videos);
     })();
@@ -81,12 +79,13 @@ const CourseEditPage = () => {
     e.preventDefault();
 
     try {
-      await api.post(`/courseVideo/`, {
+      await api.post(`/courses/${params.id}/videos/`, {
         courseID: cID,
         videoName: newVidName,
         videoURL: newVidUrl,
+        // courseAuthor: cAuthor,
       });
-      await getVideo(cID);
+      await getVideos();
     } catch {
       alert("Could not post new video");
     }
@@ -97,8 +96,8 @@ const CourseEditPage = () => {
     e.preventDefault();
 
     try {
-      await api.delete(`/courseVideo/${e.target.value}/`);
-      await getVideo(cID);
+      await api.delete(`/courses/${params.id}/videos/${e.target.value}/`);
+      await getVideos();
     } catch {
       alert("Could not delete video");
     }

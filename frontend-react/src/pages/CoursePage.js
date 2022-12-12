@@ -19,6 +19,9 @@ const CoursePage = () => {
   const [course, setCourse] = useState({});
   const [videos, setVideos] = useState([]);
   const [subscribed, setSubscribe] = useState(false);
+  const [subscribeID, setSubscribeID] = useState(-1);
+  const [liked, setLike] = useState(-1);
+  const [likeID, setLikeID] = useState(-1);
 
   // get course
   useEffect(() => {
@@ -39,33 +42,90 @@ const CoursePage = () => {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        `http://127.0.0.1:8000/courseVideo/?courseID=${params.id}`
+        `http://127.0.0.1:8000/courses/${params.id}/videos`
       );
       const videos = await response.json();
       setVideos(videos);
     })();
   }, [params]);
 
+  // get subscribe
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await api.get(
+          `courses/${params.id}/subscriptions/${user.user_id}`
+        );
+        setSubscribe(response.data.subID ? true : false);
+        setSubscribeID(response.data.subID);
+      } catch {
+        // alert("Could not get subscription");
+      }
+    })();
+  }, [params]);
+
   // post subscribe
-  const postSubsribe = async (e) => {
+  const postSubscribe = async (e) => {
     try {
-      await api.post(`/subscription/`, {
+      const response = await api.post(`courses/${params.id}/subscriptions/`, {
         userID: user.user_id,
         courseID: course.courseID,
       });
+      setSubscribe(response.data.subID ? true : false);
+      setSubscribeID(response.data.subID);
     } catch {
-      alert("Could not subscribe");
+      alert("Could not post subscribe");
     }
   };
 
-  // like / unlike
-  const putLike = async (e) => {
+  // delete subscribe
+  const deleteSubscribe = async (e) => {
     try {
-      await api.put(`/subscription/${course.courseID}/`, {
-        userID: user.user_id,
-        courseID: course.courseID,
-        like: e.target.value,
-      });
+      const response = await api.delete(
+        `courses/${params.id}/subscriptions/${subscribeID}`
+      );
+
+      setSubscribe(response.data.subID ? true : false);
+      setSubscribeID(response.data.subID);
+    } catch {
+      alert("Could not unsubscribe");
+    }
+  };
+
+  // get like / unlike
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await api.get(
+          `courses/${params.id}/likes/${user.user_id}`
+        );
+        setLike(response.data.like ? response.data.like : -1);
+        setLikeID(response.data.likeID ? response.data.likeID : -1);
+      } catch {
+        // alert("Could not get like");
+      }
+    })();
+  }, [liked, params]);
+
+  // post/put like / unlike
+  const postPutLike = async (e) => {
+    try {
+      let response;
+      if (likeID === -1) {
+        response = await api.post(`courses/${params.id}/likes/`, {
+          userID: user.user_id,
+          courseID: course.courseID,
+          like: e.currentTarget.value,
+        });
+      } else {
+        response = await api.put(`courses/${params.id}/likes/${likeID}/`, {
+          userID: user.user_id,
+          courseID: course.courseID,
+          like: e.currentTarget.value,
+        });
+      }
+      setLike(response.data.like);
+      setLikeID(response.data.likeID ? response.data.likeID : -1);
     } catch {
       alert("Could not like");
     }
@@ -95,18 +155,18 @@ const CoursePage = () => {
               {user && (
                 <div className="courseButtons">
                   {!subscribed ? (
-                    <button onClick={postSubsribe}>
+                    <button onClick={postSubscribe}>
                       <p>Subscribe</p>
                     </button>
                   ) : (
-                    <button onClick={postSubsribe}>
+                    <button onClick={deleteSubscribe}>
                       <p>Unsubscribe</p>
                     </button>
                   )}
-                  <button onClick={putLike} value={1}>
+                  <button onClick={postPutLike} value={1}>
                     <p>👍 </p>
                   </button>
-                  <button onClick={putLike} value={0}>
+                  <button onClick={postPutLike} value={0}>
                     <p> 👎</p>
                   </button>
                 </div>

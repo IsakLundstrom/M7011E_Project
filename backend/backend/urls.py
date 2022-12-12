@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework import routers
+from rest_framework_extensions.routers import ExtendedSimpleRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 
 # from auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
@@ -24,21 +25,25 @@ from .auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
 from courses import views as cViews
 from user import views as uViews
 
-router = routers.DefaultRouter()
+router = ExtendedSimpleRouter()
 # AUTHENTICATION
 router.register(r'auth/login', LoginViewSet, basename='auth-login')
 router.register(r'auth/register', RegistrationViewSet, basename='auth-register')
 router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 
-router.register(r'courses', cViews.CoursesViewSet, basename="course")
-router.register(r'courseVideo', cViews.CoursesVideoViewSet, basename="video")
-router.register(r'subscription', cViews.SubscriptionViewSet, basename="subscription")
+courseRouter = router.register(r'courses', cViews.CoursesViewSet, basename="course")
+courseRouter.register(r'videos', cViews.CoursesVideoViewSet, basename="courses-video", parents_query_lookups=['courseID'])
+courseRouter.register(r'likes', cViews.LikeViewSet, basename="courses-like", parents_query_lookups=['courseID'])
+courseRouter.register(r'subscriptions', cViews.SubscriptionViewSet, basename="courses-subscription", parents_query_lookups=['courseID'])
+
 router.register(r'user', uViews.UserViewSet, basename="user")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
     path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
+    path('user/subscriptions/', cViews.UserSubscriptions.as_view(), name="userSubscriptions"),
+
     # re_path('^courseVideo/(?P<id>.+)/$', cViews.CourseVideoView.as_view(), name="courseVideos"),
     # re_path('^subscription/(?P<id>.+)/$', cViews.SubscriptionView.as_view(), name="courseVideos"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
