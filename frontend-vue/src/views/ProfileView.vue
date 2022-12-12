@@ -139,9 +139,12 @@
         alert(`not implemented`)
       },
     },
+    computed: {
+      
+    },
     data() {
       return {
-        fName: 'first name',
+        fName: '',
         lName: 'last name',
         email: 'example@example.com',
         password: '',
@@ -155,7 +158,17 @@
           }
         ]
       }
-    }
+    },
+    computed: {
+      currentUser() {
+        return this.$store.state.auth.user;
+      }
+    },
+    mounted() {
+      if (!this.currentUser) {
+        this.$router.push('/login');
+      }
+    },
   }
   </script>
   
