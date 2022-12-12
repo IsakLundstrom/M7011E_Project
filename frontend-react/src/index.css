@@ -49,6 +49,10 @@ button:hover,
   background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
 }
 
+.coursesSortButtonActive {
+  background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
+}
+
 .inputField {
   width: 100%;
   padding: 10px;

@@ -36,7 +36,7 @@ const CoursePage = () => {
         setError(true);
       }
     })();
-  }, [params]);
+  }, [params, liked]);
 
   // get videos
   useEffect(() => {
@@ -105,27 +105,31 @@ const CoursePage = () => {
         // alert("Could not get like");
       }
     })();
-  }, [liked, params]);
+  }, [params]);
 
   // post/put like / unlike
   const postPutLike = async (e) => {
     try {
       let response;
+      let newLike = parseInt(e.currentTarget.value);
       if (likeID === -1) {
         response = await api.post(`courses/${params.id}/likes/`, {
           userID: user.user_id,
           courseID: course.courseID,
-          like: e.currentTarget.value,
+          like: newLike,
         });
+        setLikeID(response.data.likeID ? response.data.likeID : -1);
       } else {
+        if (newLike === liked) {
+          newLike = -1;
+        }
         response = await api.put(`courses/${params.id}/likes/${likeID}/`, {
           userID: user.user_id,
           courseID: course.courseID,
-          like: e.currentTarget.value,
+          like: newLike,
         });
       }
-      setLike(response.data.like);
-      setLikeID(response.data.likeID ? response.data.likeID : -1);
+      setLike(newLike);
     } catch {
       alert("Could not like");
     }
@@ -163,10 +167,18 @@ const CoursePage = () => {
                       <p>Unsubscribe</p>
                     </button>
                   )}
-                  <button onClick={postPutLike} value={1}>
+                  <button
+                    className={liked === 1 ? "coursesSortButtonActive" : ""}
+                    onClick={postPutLike}
+                    value={1}
+                  >
                     <p>👍 </p>
                   </button>
-                  <button onClick={postPutLike} value={0}>
+                  <button
+                    className={liked === 0 ? "coursesSortButtonActive" : ""}
+                    onClick={postPutLike}
+                    value={0}
+                  >
                     <p> 👎</p>
                   </button>
                 </div>
