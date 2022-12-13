@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'backend/mediafiles')
+MEDIA_URL = '/media/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     "courses",
     "user",
     "corsheaders",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -118,7 +122,7 @@ CORS_ALLOWED_ORIGINS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Stockholm"
 
 USE_I18N = True
 

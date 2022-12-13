@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.conf.urls.static import static
+from django.conf import settings
 from rest_framework import routers
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 
-# from auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
 from .auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
-
 from courses import views as cViews
 from user import views as uViews
 
@@ -47,4 +47,4 @@ urlpatterns = [
     # re_path('^courseVideo/(?P<id>.+)/$', cViews.CourseVideoView.as_view(), name="courseVideos"),
     # re_path('^subscription/(?P<id>.+)/$', cViews.SubscriptionView.as_view(), name="courseVideos"),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

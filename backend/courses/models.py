@@ -9,8 +9,7 @@ class Courses(models.Model):
     courseName = models.TextField(max_length=32, blank=False)
     shortDescription = models.TextField(max_length=80, default=courseName)
     longDescription = models.TextField(max_length=2000, default=shortDescription)
-    courseIMG = models.URLField(default="https://cdn.discordapp.com/attachments/230245539520708608"
-                                        "/1049264539629277194/image.png")
+    courseIMG = models.ImageField(upload_to='courses')
     owner = models.ForeignKey('user.User', on_delete=models.CASCADE)
     likeRatio = models.IntegerField(default=-1)
     createDate = models.DateTimeField(auto_now_add=True)
