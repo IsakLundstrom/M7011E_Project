@@ -412,7 +412,11 @@ p {
 
 /* Profile page */
 
-.profileContent {
+.confirmBox button:nth-child(3) {
+  margin-left: var(--gap);
+}
+
+.profileContent form {
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: var(--gap);

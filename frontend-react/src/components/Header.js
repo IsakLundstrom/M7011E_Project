@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
+import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
 import profileImage from "../images/default_profile.png";
 
 const Header = () => {
+  const api = useAxios();
+
   const { user, logoutUser } = useContext(AuthContext);
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
+
+  const [uImageURL, setUImageURL] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -18,6 +24,20 @@ const Header = () => {
       setCourses(parsed);
     })();
   }, [search]);
+
+  // handle get user data
+  useEffect(() => {
+    if (user) {
+      (async () => {
+        try {
+          const response = await api.get(`/user/${user.user_id}/`);
+          setUImageURL(response.data.userIMG);
+        } catch {
+          // navigate("/login");
+        }
+      })();
+    }
+  }, []);
 
   return (
     <nav className="mainNav">
@@ -103,7 +123,7 @@ const Header = () => {
                 to="/profile"
               >
                 <div className="headerProfileImageContainer">
-                  <img src={profileImage} alt="Profile" />
+                  <img src={uImageURL} alt="Profile" />
                 </div>
               </Link>
             </li>

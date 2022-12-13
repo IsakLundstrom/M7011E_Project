@@ -21,6 +21,8 @@ const CourseEditPage = () => {
   const [newVidName, setNewVidName] = useState("");
   const [newVidUrl, setNewVidUrl] = useState("");
 
+  const [deletePressed, setDelete] = useState(false);
+
   // get course
   useEffect(() => {
     (async () => {
@@ -35,7 +37,7 @@ const CourseEditPage = () => {
       setCName(course.courseName);
       setShortDescription(course.shortDescription);
       setLongDescription(course.longDescription);
-      setCImage(course.courseIMG);
+      // setCImage(course.courseIMG);
     })();
   }, []);
 
@@ -43,12 +45,20 @@ const CourseEditPage = () => {
   const putCourse = async (e) => {
     e.preventDefault();
 
-    let res = await api.put(`/courses/${params.id}/`, {
-      courseName: cName,
-      shortDescription: shortDescription,
-      longDescription: longDescription,
-      courseIMG: cImage,
-    });
+    let res = await api.put(
+      `/courses/${params.id}/`,
+      {
+        courseName: cName,
+        shortDescription: shortDescription,
+        longDescription: longDescription,
+        courseIMG: cImage,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log(res);
   };
@@ -101,6 +111,10 @@ const CourseEditPage = () => {
     } catch {
       alert("Could not delete video");
     }
+  };
+
+  const handleImageChange = (e) => {
+    setCImage(e.target.files[0]);
   };
 
   return (
@@ -164,10 +178,10 @@ const CourseEditPage = () => {
         <br />
         <input
           className=""
-          // required
           type="file"
           name="image"
-          onChange={(e) => setCImage(e.target.files[0])}
+          accept="image/jpeg,image/png,image/gif"
+          onChange={(e) => handleImageChange(e)}
         />
 
         <br />
@@ -257,9 +271,26 @@ const CourseEditPage = () => {
         <br />
       </form>
 
-      <button className="profileButton deleteButton" onClick={deleteCourse}>
+      <button
+        className="profileButton deleteButton"
+        onClick={() => setDelete(true)}
+      >
         Delete course
       </button>
+      {deletePressed && (
+        <div className="confirmBox">
+          <p>Do you really want to delete this course?</p>
+          <button className="profileButton deleteButton" onClick={deleteCourse}>
+            Yes
+          </button>
+          <button
+            className="profileButton profileUpdateButton"
+            onClick={() => setDelete(false)}
+          >
+            No
+          </button>
+        </div>
+      )}
     </main>
   );
 };

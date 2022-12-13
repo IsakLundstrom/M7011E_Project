@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
 
 const UserEditPage = () => {
-  const params = useParams();
   const api = useAxios();
+  const params = useParams();
+  const navigate = useNavigate();
 
   const [uID, setUID] = useState(-1);
   const [fName, setFName] = useState("");
@@ -13,6 +14,10 @@ const UserEditPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
+  const [isStaff, setStaff] = useState(false);
+  const [isSuperuser, setSuperuser] = useState(false);
+
+  const [deletePressed, setDelete] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -21,6 +26,8 @@ const UserEditPage = () => {
       setFName(response.data.fName);
       setLName(response.data.lName);
       setEmail(response.data.email);
+      setStaff(response.data.is_staff);
+      setSuperuser(response.data.is_superuser);
     })();
   }, []);
 
@@ -37,19 +44,32 @@ const UserEditPage = () => {
     }
 
     try {
-      await api.patch(`/user/${params.id}/`, {
+      const res = await api.patch(`/user/${params.id}/`, {
         fName: fName,
         lName: lName,
         email: email,
+        is_staff: isStaff,
+        is_superuser: isSuperuser,
       });
+      console.log(res);
     } catch {
       alert("Could not patch user");
     }
 
-    //TODO add patch permision
-
     setPassword("");
     setRPassword("");
+  };
+
+  // delete user
+  const deleteUser = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.delete(`/user/${uID}/`);
+      navigate("/admin/users");
+    } catch {
+      alert("Could not delete user");
+    }
   };
 
   return (
@@ -133,12 +153,24 @@ const UserEditPage = () => {
 
         <br />
 
-        <input className="checkboxField" type="checkbox" name="staff" checked />
+        <input
+          className="checkboxField"
+          type="checkbox"
+          name="staff"
+          checked={isStaff}
+          onChange={async (e) => setStaff(e.target.checked)}
+        />
         <label htmlFor="staff">is Staff?</label>
 
         <br />
 
-        <input className="checkboxField" type="checkbox" name="admin" />
+        <input
+          className="checkboxField"
+          type="checkbox"
+          name="admin"
+          checked={isSuperuser}
+          onChange={async (e) => setSuperuser(e.target.checked)}
+        />
         <label htmlFor="admin">is Admin?</label>
 
         <br />
@@ -153,7 +185,26 @@ const UserEditPage = () => {
         <br />
         <br />
       </form>
-      <button className="profileButton deleteButton">Delete user</button>
+      <button
+        className="profileButton profileDeleteButton deleteButton"
+        onClick={() => setDelete(true)}
+      >
+        Delete user
+      </button>
+      {deletePressed && (
+        <div className="confirmBox">
+          <p>Do you really want to delete this user?</p>
+          <button className="profileButton deleteButton" onClick={deleteUser}>
+            Yes
+          </button>
+          <button
+            className="profileButton profileUpdateButton"
+            onClick={() => setDelete(false)}
+          >
+            No
+          </button>
+        </div>
+      )}
     </main>
   );
 };

@@ -17,12 +17,20 @@ const CourseCreatePage = () => {
   const postCourse = async (e) => {
     e.preventDefault();
 
-    let res = await api.post("http://localhost:8000/courses/", {
-      courseName: cName,
-      shortDescription: shortDescription,
-      longDescription: longDescription,
-      courseIMG: cImage,
-    });
+    let res = await api.post(
+      "/courses/",
+      {
+        courseName: cName,
+        shortDescription: shortDescription,
+        longDescription: longDescription,
+        courseIMG: cImage,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log(res);
     if (user.is_superuser) {
@@ -30,6 +38,10 @@ const CourseCreatePage = () => {
     } else if (user.is_staff) {
       navigate("/profile");
     }
+  };
+
+  const handleImageChange = (e) => {
+    setCImage(e.target.files[0]);
   };
 
   return (
@@ -82,7 +94,10 @@ const CourseCreatePage = () => {
           required
           type="file"
           name="image"
-          onChange={(e) => setCImage(e.target.files[0])}
+          accept="image/jpeg,image/png,image/gif"
+          onChange={(e) => {
+            handleImageChange(e);
+          }}
         />
 
         <br />

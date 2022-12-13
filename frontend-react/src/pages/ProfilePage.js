@@ -9,7 +9,7 @@ import profileImage from "../images/default_profile.png";
 
 const ProfilePage = () => {
   const api = useAxios();
-  const { user } = useContext(AuthContext);
+  const { user, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [fName, setFName] = useState("");
@@ -17,9 +17,13 @@ const ProfilePage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
+  const [uImageURL, setUImageURL] = useState("");
+  const [uImage, setUImage] = useState();
 
   const [subscriptions, setSubsciptions] = useState([]);
   const [ownCourses, setOwnCourses] = useState([]);
+
+  const [deletePressed, setDelete] = useState(false);
 
   // handle get user data
   useEffect(() => {
@@ -30,11 +34,12 @@ const ProfilePage = () => {
         setFName(response.data.fName);
         setLName(response.data.lName);
         setEmail(response.data.email);
+        setUImageURL(response.data.userIMG);
       } catch {
         navigate("/login");
       }
     })();
-  }, []);
+  }, [uImage]);
 
   // patch user data
   const patchUser = async (e) => {
@@ -49,11 +54,21 @@ const ProfilePage = () => {
     }
 
     try {
-      await api.patch(`/user/${user.user_id}/`, {
-        fName: fName,
-        lName: lName,
-        email: email,
-      });
+      console.log(uImage);
+      await api.patch(
+        `/user/${user.user_id}/`,
+        {
+          fName: fName,
+          lName: lName,
+          email: email,
+          userIMG: uImage,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
     } catch {
       alert("Could not patch user");
     }
@@ -62,13 +77,27 @@ const ProfilePage = () => {
     setRPassword("");
   };
 
+  // delete user
+  const deleteUser = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.delete(`/user/${user.user_id}/`);
+      logoutUser();
+      navigate("/");
+    } catch {
+      alert("Could not delete user");
+    }
+  };
+
   // fetch subscriptions
-  // TODO fix
   useEffect(() => {
     (async () => {
-      const response = await api.get(`/user/subscriptions`);
-      const parsed = await response.json();
-      setSubsciptions(parsed);
+      try {
+        const response = await api.get(`/subscriptions`);
+        // setSubsciptions(response.data);
+        console.log(response);
+      } catch {}
     })();
   }, []);
 
@@ -83,26 +112,37 @@ const ProfilePage = () => {
     })();
   }, []);
 
+  const handleImageChange = (e) => {
+    setUImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
+
   return (
     <main>
       <h1>Profile</h1>
       <div className="profileContent">
-        <div className="profileUploadContaienr">
-          <div className="profileImageContainer">
-            <img src={profileImage} alt="Profile" />
+        <form onSubmit={patchUser}>
+          <div className="profileUploadContaienr">
+            <div className="profileImageContainer">
+              <img src={uImageURL} alt="Profile" />
+            </div>
+
+            <input
+              type="file"
+              id="image"
+              style={{ visibility: "hidden" }}
+              accept="image/jpeg,image/png,image/gif"
+              onChange={(e) => handleImageChange(e)}
+            />
+            <label
+              htmlFor="image"
+              className="profileButton profileUploadButton"
+            >
+              Upload ⬆
+            </label>
           </div>
 
-          <form>
-            <input
-              className="profileButton profileUploadButton"
-              type="submit"
-              value="Upload ⬆"
-            />
-          </form>
-        </div>
-
-        <div className="profileFormContainer">
-          <form onSubmit={patchUser}>
+          <div className="profileFormContainer">
             <div className="twoForm">
               <div>
                 <label htmlFor="fname">Name</label>
@@ -181,8 +221,8 @@ const ProfilePage = () => {
               type="submit"
               value="Update profile"
             />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
 
       <br />
@@ -222,7 +262,7 @@ const ProfilePage = () => {
         <>
           <h2>Your Courses</h2>
           <br />
-          <Link className="coursesSortButton" to={`/course/create`}>
+          <Link className="coursesSortButton" to={`/courses/create`}>
             Create new course
           </Link>
           <br />
@@ -260,9 +300,26 @@ const ProfilePage = () => {
         </>
       )}
 
-      <button className="profileButton profileDeleteButton deleteButton">
+      <button
+        className="profileButton profileDeleteButton deleteButton"
+        onClick={() => setDelete(true)}
+      >
         Delete profile
       </button>
+      {deletePressed && (
+        <div className="confirmBox">
+          <p>Do you really want to delete your profile?</p>
+          <button className="profileButton deleteButton" onClick={deleteUser}>
+            Yes
+          </button>
+          <button
+            className="profileButton profileUpdateButton"
+            onClick={() => setDelete(false)}
+          >
+            No
+          </button>
+        </div>
+      )}
     </main>
   );
 };

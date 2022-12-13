@@ -149,7 +149,7 @@ const CoursePage = () => {
         <>
           <div className="courseImageContainer">
             <div className="imageGradient"></div>
-            <img src={homeImage} alt="Home" />
+            <img src={course.courseIMG} alt="Course imgae" />
             <h1 className="textBottomLeft">{course.courseName}</h1>
             <p className="textBottomRight">{`Like ratio: ${course.likeRatio}%`}</p>
           </div>
