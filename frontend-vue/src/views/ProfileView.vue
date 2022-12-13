@@ -3,6 +3,7 @@
   import profileImage from "../images/default_profile.png";
 
   import UserService from "../services/user.service";
+  import tokenService from "../services/token.service";
 </script>
 
 <template>
@@ -147,18 +148,11 @@
     data() {
       return {
         fName: '',
-        lName: 'last name',
-        email: 'example@example.com',
+        lName: '',
+        email: '',
         password: '',
         rpassword: '',
-        subscriptions: [
-          {
-            courseID: -1,
-            courseName: "course name",
-            shortDescription: "short description",
-
-          }
-        ]
+        subscriptions: [ ]
       }
     },
     computed: {
@@ -167,7 +161,22 @@
       }
     },
     mounted() {
-
+      UserService.getProfile(tokenService.getUserData().user_id).then(
+      (response) => {
+        console.log("RÄSPÅNS", response.data)
+        this.fName = response.data.fName;
+        this.lName = response.data.lName;
+        this.email = response.data.email;
+      },
+      (error) => {
+        this.content =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
+    );
       if (!this.currentUser) {
         this.$router.push('/login');
       }

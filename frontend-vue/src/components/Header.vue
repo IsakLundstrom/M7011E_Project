@@ -54,7 +54,7 @@
       </li>
 
       <li class="floatRight">
-        <router-link v-if="loggedIn || true" @click="logOut" :to="{ name: 'Home' }" class='mainLink'>Log out</router-link> <!--should also log out a person and only visible to inlogged person-->
+        <router-link v-if="loggedIn" @click="logOut" :to="{ name: 'Home' }" class='mainLink'>Log out</router-link> <!--should also log out a person and only visible to inlogged person-->
         <router-link v-else :to="{ name: 'Login' }" class='mainLink'>Log in</router-link>
       </li>
 
@@ -77,24 +77,27 @@
       coursesForHeader
     }, 
     computed: {
-      loggedIn(){
-        console.log(tokenService.getUser())
-        return tokenService.getUser()
-        // if(tokenService.getUserData()) {
-        //   console.log(tokenService.getUserData())
-        // } else {
-        //   console.log(null)
-        // }
-        
-        // console.log(this.$store.state.auth.user)
-        // console.log(jwt_decode(this.$store.state.auth.user.access).is_staff)
-        // return this.$store.state.auth.user
+      loggedIn(){        
+        console.log(this.$store.state.auth.user)
+        return this.$store.state.auth.user
       },
     },
     methods: {
-      logOut() {
-        console.log(tokenService.getUser())
-        return tokenService.getUser()
+      logOut(user) {
+        this.$store.dispatch("auth/logout", user).then(
+        () => {
+
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
         // this.$store.dispatch("auth/logout").then(
         //   () => {
         //     this.$router.push({ name: 'Home'});

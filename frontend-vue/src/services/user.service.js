@@ -8,6 +8,10 @@ class UserService {
   getUserList() {
     return api.get('user/');
   }
+
+  getProfile(id) {
+    return api.get('user/' + id + '/');
+  }
 }
 
 export default new UserService();
