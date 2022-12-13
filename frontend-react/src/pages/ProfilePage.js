@@ -30,7 +30,7 @@ const ProfilePage = () => {
     (async () => {
       try {
         const response = await api.get(`/user/${user.user_id}/`);
-        // const response = await api.get(`/user/1/`);
+
         setFName(response.data.fName);
         setLName(response.data.lName);
         setEmail(response.data.email);
@@ -39,7 +39,7 @@ const ProfilePage = () => {
         navigate("/login");
       }
     })();
-  }, [uImage]);
+  }, [uImageURL, uImage]);
 
   // patch user data
   const patchUser = async (e) => {
@@ -54,7 +54,6 @@ const ProfilePage = () => {
     }
 
     try {
-      console.log(uImage);
       await api.patch(
         `/user/${user.user_id}/`,
         {
@@ -112,9 +111,19 @@ const ProfilePage = () => {
     })();
   }, []);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
+    await api.patch(
+      `/user/${user.user_id}/`,
+      {
+        userIMG: e.target.files[0],
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     setUImage(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
 
   return (
