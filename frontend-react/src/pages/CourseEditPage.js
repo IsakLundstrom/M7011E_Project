@@ -35,7 +35,7 @@ const CourseEditPage = () => {
       setCName(course.courseName);
       setShortDescription(course.shortDescription);
       setLongDescription(course.longDescription);
-      // setCImage(course.cImage)
+      setCImage(course.courseIMG);
     })();
   }, []);
 
@@ -47,7 +47,7 @@ const CourseEditPage = () => {
       courseName: cName,
       shortDescription: shortDescription,
       longDescription: longDescription,
-      // image: cImage,
+      courseIMG: cImage,
     });
 
     console.log(res);

@@ -21,7 +21,7 @@ const CourseCreatePage = () => {
       courseName: cName,
       shortDescription: shortDescription,
       longDescription: longDescription,
-      // image: cImage,
+      courseIMG: cImage,
     });
 
     console.log(res);
@@ -79,7 +79,7 @@ const CourseCreatePage = () => {
         <br />
         <input
           className=""
-          // required
+          required
           type="file"
           name="image"
           onChange={(e) => setCImage(e.target.files[0])}
