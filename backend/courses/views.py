@@ -16,7 +16,6 @@ from .models import Courses, CoursesVideos, Subscription, Like
 from .permissions import IsCoursePermission, IsVideoPermission
 
 
-
 # Create your views here.
 class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Courses.objects.all()
@@ -110,21 +109,26 @@ class SubscriptionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
 class UserSubscriptions(generics.ListAPIView):
     queryset = Courses.objects.all()
-    serializer_class = CoursesVideosSerializer
+    serializer_class = CoursesSerializer
 
     def get(self, request, *args, **kwargs):
         try:
-            subs = Subscription.objects.all().filter(userID=int(request.user.userID))
+            userID = int(request.user.id)
+        except:
+            return Response(status.HTTP_401_UNAUTHORIZED)
+        try:
+            subs = Subscription.objects.all().filter(userID=userID)
         except:
             return Response(status.HTTP_404_NOT_FOUND)
 
         courses = Courses.objects.all()
-        subCourses = []
+        subCoursesIDs = []
         for sub in subs:
-            subCourses.append(courses.get(courseID=sub.courseID))
+            subCoursesIDs.append(sub.courseID.courseID)
+        subCourses = courses.filter(courseID__in=subCoursesIDs)
 
         self.queryset = subCourses
-        super().get(self, request, args, kwargs)
+        return super().get(self, request)
 
 
 class LikeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
