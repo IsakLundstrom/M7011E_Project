@@ -33,7 +33,6 @@ class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         courseID = int(kwargs.get("pk"))
         likesObjects = Like.objects.all().filter(courseID=courseID)
-        print(request.data)
 
         likes = 0
         dislikes = 0
