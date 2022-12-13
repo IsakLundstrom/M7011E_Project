@@ -94,8 +94,8 @@ const ProfilePage = () => {
     (async () => {
       try {
         const response = await api.get(`/subscriptions`);
-        // setSubsciptions(response.data);
-        console.log(response);
+        setSubsciptions(response.data);
+        // console.log(response);
       } catch {}
     })();
   }, []);

@@ -59,13 +59,9 @@ export default {
 
       userService.getCourses(this.ordering, this.search).then(
         (response) => {
-          console.log(response.data)
           this.courses = response.data
         }
       )
-      // const response = await fetch(`http://127.0.0.1:8000/courses/?ordering=${this.ordering}&search=${this.search}`);
-      // const parsed = await response.json();
-      // this.courses = parsed;
     }
   },
   data() {
