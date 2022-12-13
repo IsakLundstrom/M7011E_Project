@@ -1,8 +1,8 @@
 import api from './api';
 
 class UserService {
-  getCourses() {
-    return api.get('courses/');
+  getCourses(ordering, search) {
+    return api.get(`courses/?ordering=${ordering}&search=${search}`);
   }
 
   getUserList() {
@@ -11,6 +11,10 @@ class UserService {
 
   getProfile(id) {
     return api.get('user/' + id + '/');
+  }
+
+  getSubscriptions() {
+    return api.get('subscriptions/');
   }
 }
 
