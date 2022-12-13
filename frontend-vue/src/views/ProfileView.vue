@@ -1,6 +1,8 @@
 <script setup>
   import homeImage from "../images/home_image.png";
   import profileImage from "../images/default_profile.png";
+
+  import UserService from "../services/user.service";
 </script>
 
 <template>
@@ -165,6 +167,7 @@
       }
     },
     mounted() {
+
       if (!this.currentUser) {
         this.$router.push('/login');
       }
