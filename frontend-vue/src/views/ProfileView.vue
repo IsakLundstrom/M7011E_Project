@@ -161,24 +161,31 @@
       }
     },
     mounted() {
-      UserService.getProfile(tokenService.getUserData().user_id).then(
-      (response) => {
-        this.fName = response.data.fName;
-        this.lName = response.data.lName;
-        this.email = response.data.email;
-      },
-      (error) => {
-        this.content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+      const userID = tokenService.getUserData().user_id
+      UserService.getProfile(userID).then(
+        (response) => {
+          this.fName = response.data.fName;
+          this.lName = response.data.lName;
+          this.email = response.data.email;
+        },
+        (error) => {
+          this.content =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
       }
     );
       if (!this.currentUser) {
         this.$router.push('/login');
       }
+
+      UserService.getSubscriptions(userID).then(
+        (response) => {
+          this.subscriptions = response.data.subscriptions;
+        }
+      )
     },
   }
   </script>
