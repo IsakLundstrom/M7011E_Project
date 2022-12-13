@@ -25,19 +25,17 @@ const Header = () => {
     })();
   }, [search]);
 
-  // handle get user data
+  // get user image
   useEffect(() => {
     if (user) {
       (async () => {
         try {
           const response = await api.get(`/user/${user.user_id}/`);
           setUImageURL(response.data.userIMG);
-        } catch {
-          // navigate("/login");
-        }
+        } catch {}
       })();
     }
-  }, []);
+  }, [user]);
 
   return (
     <nav className="mainNav">

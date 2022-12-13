@@ -82,7 +82,7 @@ function App() {
           />
 
           <Route
-            path="admin/userEdit/:id"
+            path="admin/user/:id/edit"
             element={
               <SuperuserRoute>
                 <UserEditPage />
