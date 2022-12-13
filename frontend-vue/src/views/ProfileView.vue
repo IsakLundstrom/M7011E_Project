@@ -163,7 +163,6 @@
     mounted() {
       UserService.getProfile(tokenService.getUserData().user_id).then(
       (response) => {
-        console.log("RÄSPÅNS", response.data)
         this.fName = response.data.fName;
         this.lName = response.data.lName;
         this.email = response.data.email;

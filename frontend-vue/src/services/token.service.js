@@ -22,7 +22,7 @@ class TokenService {
   }
 
   getUserData() {
-    const access = this.getLocalAccessToken()
+    const access = localStorage.getItem("user")
     return access ? jwt_decode(access) : null
   }
 
