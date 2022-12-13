@@ -2,14 +2,14 @@ import api from "./api";
 import TokenService from "./token.service";
 
 class AuthService {
-    login({email, password }) {
+    async login({email, password }) {
       return api
         .post('auth/login/', {
           email,
           password
         })
         .then(response => {
-          if (response.data.accessToken) {
+          if (response.data.access) {
             TokenService.setUser(response.data);
           }
           return response.data;
