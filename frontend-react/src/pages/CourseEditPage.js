@@ -41,26 +41,25 @@ const CourseEditPage = () => {
     })();
   }, []);
 
-  // put course
-  const putCourse = async (e) => {
+  // patch course
+  const patchCourse = async (e) => {
     e.preventDefault();
 
-    let res = await api.put(
-      `/courses/${params.id}/`,
-      {
-        courseName: cName,
-        shortDescription: shortDescription,
-        longDescription: longDescription,
-        courseIMG: cImage,
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    let putData = {
+      courseName: cName,
+      shortDescription: shortDescription,
+      longDescription: longDescription,
+    };
 
-    console.log(res);
+    if (cImage !== undefined) {
+      putData["courseIMG"] = cImage;
+    }
+
+    let res = await api.patch(`/courses/${params.id}/`, putData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
 
   // delete course
@@ -120,7 +119,7 @@ const CourseEditPage = () => {
   return (
     <main>
       <h1>Edit Course</h1>
-      <form onSubmit={putCourse}>
+      <form onSubmit={patchCourse}>
         <label htmlFor="id">ID</label>
         <br />
         <input
