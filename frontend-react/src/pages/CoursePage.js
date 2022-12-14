@@ -135,6 +135,16 @@ const CoursePage = () => {
     }
   };
 
+  const ws = new WebSocket("ws://localhost:8000/ws/courses/2/");
+
+  ws.onopen = (event) => {
+    console.log("WebSocket Client Connected");
+  };
+
+  ws.onmessage = (message) => {
+    console.log(message);
+  };
+
   return (
     <main>
       {error ? (

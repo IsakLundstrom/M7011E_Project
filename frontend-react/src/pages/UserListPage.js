@@ -40,7 +40,7 @@ const UserListPage = () => {
                   <td>{user.is_staff ? <p>Yes</p> : <p>No</p>}</td>
                   <td>{user.is_superuser ? <p>Yes</p> : <p>No</p>}</td>
                   <td>
-                    <Link to={`/admin/userEdit/${user.id}`}>&#x270D;</Link>
+                    <Link to={`/admin/user/${user.id}/edit`}>&#x270D;</Link>
                   </td>
                 </tr>
               );
