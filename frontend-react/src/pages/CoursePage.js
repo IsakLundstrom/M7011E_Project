@@ -135,15 +135,25 @@ const CoursePage = () => {
     }
   };
 
-  const ws = new WebSocket("ws://localhost:8000/ws/courses/2/");
+  //Setup websocket
+  useEffect(() => {
+    const ws = new WebSocket(`ws://localhost:8000/ws/courses/${params.id}/`);
 
-  ws.onopen = (event) => {
-    console.log("WebSocket Client Connected");
-  };
+    ws.onopen = (event) => {
+      console.log("WebSocket Client Connected");
+      console.log(event);
+    };
 
-  ws.onmessage = (message) => {
-    console.log(message);
-  };
+    ws.onmessage = function (message) {
+      console.log(message);
+    };
+
+    ws.onclose = (message) => {
+      console.log(message);
+    };
+
+    return () => ws.close();
+  }, []);
 
   return (
     <main>
