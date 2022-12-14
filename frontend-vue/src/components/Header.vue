@@ -1,7 +1,6 @@
 <script setup>
   import profileImage from "../images/default_profile.png"
   import coursesForHeader from "../views/courses/CourseHeaderView.vue"
-  import tokenService from "../services/token.service.js"
 </script>
 <template>
   <nav class="mainNav">
@@ -17,7 +16,7 @@
           <div className="subnavContent">
 
             <coursesForHeader></coursesForHeader>
-            
+
           </div>
         </div>
       </li>
