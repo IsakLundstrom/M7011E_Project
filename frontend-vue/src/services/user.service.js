@@ -30,6 +30,27 @@ class UserService {
   deleteSubscribe(courseID, subID) {
     return api.delete(`courses/${courseID}/subscriptions/${subID}/`);
   }
+  getLikeValue(courseID, userID) {
+    return api.get(
+      `courses/${courseID}/likes/${userID}`
+    );
+  }
+  //1 = like, 0 = dislike
+  postLikeValue(courseID, userID, value) {
+    return api.post(`courses/${courseID}/likes/`, {
+      userID: userID,
+      courseID: courseID,
+      like: value,
+    });
+  }
+  //1 = like, 0 = dislike
+  putLikeValue(courseID, userID, likeID, value){
+    return api.put(`courses/${courseID}/likes/${likeID}/`, {
+      userID: userID,
+      courseID: courseID,
+      like: value,
+    });
+  }
 }
 
 export default new UserService();

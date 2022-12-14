@@ -1,6 +1,7 @@
 <script setup>
   import profileImage from "../images/default_profile.png"
   import coursesForHeader from "../views/courses/CourseHeaderView.vue"
+  import tokenService from "@/services/token.service";
 </script>
 <template>
   <nav class="mainNav">
@@ -26,7 +27,7 @@
       </li>
 
       <li class="floatLeft">
-        <router-link :to="{ name: 'AdminView' }" class='mainLink'>Admin Pages</router-link>
+        <router-link v-if="loggedIn && isSuperUser" :to="{ name: 'AdminView' }" class='mainLink'>Admin Pages</router-link>
       </li>
 
       <li class="floatRight">
@@ -60,6 +61,10 @@
       loggedIn(){        
         console.log(this.$store.state.auth.user)
         return this.$store.state.auth.user
+      },
+      isSuperUser(){
+        const response = tokenService.getUserData()
+        return response.is_superuser
       },
     },
     methods: {
