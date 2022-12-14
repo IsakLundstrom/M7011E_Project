@@ -10,10 +10,13 @@ from rest_framework import filters, status
 from rest_framework.response import Response
 from django.http import HttpResponseNotFound
 from django_filters.rest_framework import DjangoFilterBackend
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from .serializers import CoursesSerializer, CoursesVideosSerializer, SubscriptionSerializer, LikeSerializer
 from .models import Courses, CoursesVideos, Subscription, Like
 from .permissions import IsCoursePermission, IsVideoPermission
+
 
 
 # Create your views here.
@@ -56,6 +59,16 @@ class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+
+        # WebSockets
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            str(courseID),
+            {
+                'type': 'likeRatioMessage',
+                'message': likeRatio
+            }
+        )
 
         return Response(serializer.data)
 
