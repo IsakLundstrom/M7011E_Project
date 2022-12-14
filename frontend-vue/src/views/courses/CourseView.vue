@@ -84,10 +84,18 @@ export default {
   components: { VueperSlides, VueperSlide },
   methods: {
 
+    async checkAndUpdateCourseInfo() {
+      try {
+        const response = await userService.getCourse(this.courseID)
+        console.log("räspåns", response)
+      } catch (error) {
+        console.log("could not load course data", error)
+      }
+    },
+
     async checkAndUpdateIfSubscribed(){
       try {
         const response = await userService.getSubscribeData(this.courseID, this.user.user_id)
-        console.log("resp", response.data)
         this.userSubID = response.data.subID
         this.subscribed = true
 
@@ -131,7 +139,6 @@ export default {
 
     //1 = like, 0 = dislike
     async putLikeValue(value) {
-      console.log("HÄRRÅÅÅ!!", value)
       if(this.userLikeValue === NaN) {
         await userService.postLikeValue(this.courseID, this.user.user_id, value)
 
@@ -155,12 +162,30 @@ export default {
     
   },
   async mounted(){
+
+    this.checkAndUpdateCourseInfo()
+
     this.user = await tokenService.getUserData()
 
     this.checkAndUpdateIfSubscribed()
 
     this.checkAndupdateLikeValue()
 
+    
+
+  },
+
+  created: function() {
+    this.connection = new WebSocket(`ws://localhost:8000/ws/courses/${this.courseID}/`)
+
+    this.connection.onmessage = function(event) {
+      console.log(JSON.parse(event.data).message)
+      this.likeRatio = JSON.parse(event.data).message
+    }
+
+    this.connection.onopen = function(event) {
+      console.log("Websocket opened",event)
+    }
   },
 
   data() {
@@ -194,20 +219,6 @@ export default {
       ]
     }
   },
-  // created: function() {
-
-  //   console.log("connecting to websocket")
-  //   this.connection = new WebSocket(`ws://localhost:8000/ws/courses/2/`)
-
-  //   this.connection.onmessage = function(event) {
-  //     console.log(event);
-  //   }
-
-  //   this.connection.onopen = function(event) {
-  //     console.log(event)
-  //     console.log("Successfully connected to the echo websocket server...")
-  //   }
-  // }
 }
 
 </script>
