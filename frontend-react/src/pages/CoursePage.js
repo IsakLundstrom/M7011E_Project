@@ -135,42 +135,19 @@ const CoursePage = () => {
     }
   };
 
-  const [webSocket, setWebSocket] = useState();
-  //Setup websocket
+  // Setup websocket
   useEffect(() => {
     const ws = new WebSocket(`ws://localhost:8000/ws/courses/${params.id}/`);
 
-    setWebSocket(ws);
-
-    ws.onopen = (event) => {
-      console.log("WebSocket Client Connected");
-      console.log(event);
-    };
-
-    ws.onmessage = function (message) {
-      console.log(JSON.parse(message.data).message);
-    };
-
-    ws.onclose = (message) => {
-      console.log(message);
+    ws.onmessage = (message) => {
+      setLike(JSON.parse(message.data).message);
     };
 
     return () => ws.close();
   }, []);
 
-  const sendTest = async (e) => {
-    webSocket.send(
-      JSON.stringify({
-        message: "message test",
-      })
-    );
-  };
-
   return (
     <main>
-      <button onClick={sendTest}>
-        <p>testSend</p>
-      </button>
       {error ? (
         <div>
           <p>
