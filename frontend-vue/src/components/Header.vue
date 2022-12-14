@@ -1,7 +1,6 @@
 <script setup>
   import profileImage from "../images/default_profile.png"
   import coursesForHeader from "../views/courses/CourseHeaderView.vue"
-  import tokenService from "../services/token.service.js"
 </script>
 <template>
   <nav class="mainNav">
@@ -15,28 +14,9 @@
         <div class="subnav">
           <router-link :to="{ name: 'Courses' }" class='mainLink'>Courses</router-link>
           <div className="subnavContent">
-            <h2>Search for courses</h2>
-            <input
-              className="inputField"
-              type="text"
-              placeholder="Search.."
-            />
-            <table className="subnavTable">
-              <!-- Following must be translated from React to Vue -->
 
-              <thead>
-                <tr>
-                  <th>Course</th>
-                  <th>Short Description</th>
-                </tr>
-              </thead>
-              <tbody>
+            <coursesForHeader></coursesForHeader>
 
-                  <coursesForHeader></coursesForHeader>
-
-              </tbody>
-
-            </table>
           </div>
         </div>
       </li>
@@ -85,33 +65,19 @@
     methods: {
       logOut(user) {
         this.$store.dispatch("auth/logout", user).then(
-        () => {
+          () => {
 
-        },
-        (error) => {
-          this.loading = false;
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-        }
-      );
-        // this.$store.dispatch("auth/logout").then(
-        //   () => {
-        //     this.$router.push({ name: 'Home'});
-        //   },
-        //   (error) => {
-        //     this.loading = false;
-        //     this.message =
-        //       (error.response &&
-        //         error.response.data &&
-        //         error.response.data.message) ||
-        //       error.message ||
-        //       error.toString();
-        //   }
-        // )
+          },
+          (error) => {
+            this.loading = false;
+            this.message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+          }
+        );
       }
     },
     data() {

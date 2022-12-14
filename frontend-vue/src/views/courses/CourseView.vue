@@ -1,9 +1,11 @@
 <script setup>
   // https://antoniandre.github.io/vueper-slides/
-  import { VueperSlides, VueperSlide } from 'vueperslides';
+import { VueperSlides, VueperSlide } from 'vueperslides';
   import 'vueperslides/dist/vueperslides.css';
 
   import homeImage from "../../images/home_image.png";
+  import tokenService from '@/services/token.service';
+  import userService from '../../services/user.service';
 </script>
 
 <template>
@@ -29,23 +31,22 @@
 
           <div v-if="user" class="courseButtons">
 
-            <button v-if="subscribed" @click="postSubsribe(user)">
-              <p>Subscribe</p>
+            <button v-if="subscribed" @click="deleteSubscribe()">
+              <p >Unsubscribe</p>
+            </button>
+            <button v-else @click="postSubsribe()">
+              <p> Subscribe</p>
             </button>
 
-
-
-
-            <!-- HÄR ÄR JAG efter lunch: ta reda på hur argument skickas -->
-            <button @click="putLike(user)">
+            <button @click="putLike()">
               <p>👍 </p>
             </button>
-            <button @Click="putDislike(user)">
+            <button @Click="putDislike()">
               <p> 👎</p>
             </button>
           </div>
           <div class="courseDescription">
-            <button @click="toggleVisible(!visible)">
+            <button @click="toggleVisible()">
                
               <div v-if="visible"> Description ▲ </div> 
               <div v-else> Description ▼ </div> 
@@ -82,84 +83,103 @@ export default {
   name: 'CourseView',
   components: { VueperSlides, VueperSlide },
   methods: {
-    postSubsribe(user) {
+    async checkAndUpdateIfSubscribed(){
+      try {
+        const response = await userService.getSubscribeData(this.courseID, this.user.user_id)
+        console.log("resp", response.data)
+        this.userSubID = response.data.subID
+        this.subscribed = true
 
+      } catch (error) {
+
+        this.userSubID = -1
+        this.subscribed = false
+
+      }
     },
-    putLike(user) {
+    async postSubsribe() {
+      try {
+        const response = await userService.postSubscribe(this.courseID, this.user.user_id)
+        this.checkAndUpdateIfSubscribed()
+      } catch (error) {
+        console.log(error)
+      }
+      
+    },
+    async deleteSubscribe() {
+      try {
+        const response = await userService.deleteSubscribe(this.courseID, this.userSubID)
+        this.checkAndUpdateIfSubscribed()
+
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    putLike() {
       //skicka putLike värde 1
     },
-    putDislike(user) {
+    putDislike() {
       //skicka putlike värde 0
     },
     toggleVisible() {
       this.visible = !this.visible
-    }
+    }, 
+    
   },
+  computed: {
+    
+  },
+  async mounted(){
+    this.user = await tokenService.getUserData()
+
+    this.checkAndUpdateIfSubscribed()
+
+  },
+
   data() {
     return {
-      id: this.$route.params.id,
-      courseName: "to be changed",
+      connection: null,
+      courseID: this.$route.params.id,
+      courseName: "",
       error: false,
       likeRatio: -1,
-      user: false,
-      subscribed: false,
+      user: null,
       visible: false,
-      longDescription: "this must be fixed cause its not implemented",
+      longDescription: "",
+      subscribed: undefined,
+      userSubID: -1,
 
       slides: [
-    {
-      id: 1,
-      title: 'Slide #1',
-      content: 'Slide 1 content.',
-      image: 'https://i3.ytimg.com/vi/tgbNymZ7vqY/maxresdefault.jpg',
-      video: {
-        url: 'https://www.youtube.com/embed/tgbNymZ7vqY',
-        props: {
-          allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-        }
-      }
-    },
-    
-    {
-      id: 2,
-      title: 'Slide #1',
-      content: 'Slide 1 content.',
-      image: 'https://i3.ytimg.com/vi/tgbNymZ7vqY/maxresdefault.jpg',
-      video: {
-        url: 'https://www.youtube.com/embed/tgbNymZ7vqY',
-        props: {
-          allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-        }
-      }
-    },
-    {
-      id: 3,
-      title: 'Aurora Borealis',
-      content: 'This Youtube video has params in the URL and extra attributes on the iframe.',
-      image: 'https://i.ytimg.com/vi_webp/ehJg_OlcjpE/maxresdefault.webp',
-      video: {
-        url: 'https://www.youtube.com/embed/ehJg_OlcjpE?rel=0&showinfo=0&controls=0&fs=0&modestbranding=1&color=white&iv_load_policy=3&autohide=1&enablejsapi=1',
-        props: {
-          allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-        }
-      }
-    },
-    {
-      id: 4,
-      title: 'Fjords',
-      content: 'This video can\'t be interacted with.',
-      image: 'https://i.ytimg.com/vi/2sr9MGkkeks/maxresdefault.jpg',
-      video: {
-        url: 'https://www.youtube.com/embed/2sr9MGkkeks?controls=0&fs=0&modestbranding=1&color=white&iv_load_policy=3&autohide=1&enablejsapi=1',
-        props: {
-          allow: 'autoplay'
-        },
-        pointerEvents: false
-      }
+        // {
+        //   id: 1,
+        //   title: 'Slide #1',
+        //   content: 'Slide 1 content.',
+        //   image: 'https://i3.ytimg.com/vi/tgbNymZ7vqY/maxresdefault.jpg',
+        //   video: {
+        //     url: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+        //     props: {
+        //       allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+        //     }
+        //   }
+        // },
+      ]
     }
-  ]
-    }
-  }
+  },
+  // created: function() {
+
+  //   console.log("connecting to websocket")
+  //   this.connection = new WebSocket(`ws://localhost:8000/ws/courses/2/`)
+
+  //   this.connection.onmessage = function(event) {
+  //     console.log(event);
+  //   }
+
+  //   this.connection.onopen = function(event) {
+  //     console.log(event)
+  //     console.log("Successfully connected to the echo websocket server...")
+  //   }
+  // }
 }
 
 </script>

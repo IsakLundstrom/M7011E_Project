@@ -56,12 +56,8 @@ export default {
   },
   methods: {
     async fetchCourses() {
-
-      userService.getCourses(this.ordering, this.search).then(
-        (response) => {
-          this.courses = response.data
-        }
-      )
+      const response = await userService.getCourses(this.ordering, this.search)
+      this.courses = response.data
     }
   },
   data() {
