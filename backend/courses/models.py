@@ -11,7 +11,7 @@ class Courses(models.Model):
     longDescription = models.TextField(max_length=2000, default=shortDescription)
     courseIMG = models.ImageField(upload_to='courses')
     owner = models.ForeignKey('user.User', on_delete=models.CASCADE)
-    likeRatio = models.IntegerField(default=-1)
+    likeRatio = models.IntegerField(default=0)
     createDate = models.DateTimeField(auto_now_add=True)
 
     class Meta:

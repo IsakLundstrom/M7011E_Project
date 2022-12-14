@@ -33,44 +33,7 @@ class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    def retrieve(self, request, *args, **kwargs):
-        courseID = int(kwargs.get("pk"))
-        likesObjects = Like.objects.all().filter(courseID=courseID)
 
-        likes = 0
-        dislikes = 0
-        undefined = 0
-        likeRatio = 0
-        for like in likesObjects:
-            if like.like == 1:
-                likes += 1
-            elif like.like == 0:
-                dislikes += 1
-            else:
-                undefined += 1
-        if likes + dislikes == 0:
-            likeRatio = 0
-        else:
-            likeRatio = likes / (likes + dislikes) * 100
-
-        instance = self.get_object()
-        instance.likeRatio = likeRatio
-
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        # WebSockets
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)(
-            str(courseID),
-            {
-                'type': 'likeRatioMessage',
-                'message': likeRatio
-            }
-        )
-
-        return Response(serializer.data)
 
 
 class CoursesVideoViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -159,3 +122,51 @@ class LikeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
         likeSerializer = LikeSerializer(sub[0])
         return Response(likeSerializer.data)
+
+    def create(self, request, *args, **kwargs):
+        create = super().create(request, *args, **kwargs)
+        self.updateRatio(request, *args, **kwargs)
+        return create
+
+    def update(self, request, *args, **kwargs):
+        update = super().update(request, *args, **kwargs)
+        self.updateRatio(request, *args, **kwargs)
+        return update
+
+    def updateRatio(self, request, *args, **kwargs):
+        courseID = int(kwargs.get("parent_lookup_courseID"))
+        likesObjects = Like.objects.all().filter(courseID=courseID)
+
+        likes = 0
+        dislikes = 0
+        undefined = 0
+        likeRatio = 0
+        for like in likesObjects:
+            if like.like == 1:
+                likes += 1
+            elif like.like == 0:
+                dislikes += 1
+            else:
+                undefined += 1
+
+        if likes + dislikes == 0:
+            likeRatio = 0
+        else:
+            likeRatio = likes / (likes + dislikes) * 100
+
+        instance = Courses.objects.get(courseID=courseID)
+        instance.likeRatio = likeRatio
+
+        serializer = CoursesSerializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        # WebSockets
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            str(courseID),
+            {
+                'type': 'likeRatioMessage',
+                'message': likeRatio
+            }
+        )
