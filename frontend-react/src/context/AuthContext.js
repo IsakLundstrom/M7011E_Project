@@ -41,14 +41,14 @@ export const AuthProvider = ({ children }) => {
       // console.log("authTokens " + authTokens);
       // console.log("data " + data);
       // console.log("json(data) " + JSON.stringify(data));
-      console.log(data);
+      // console.log(data);
 
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
       console.log("Logged in!");
+
       return false;
     } else {
-      // alert("Something went wrong!");
       return true;
     }
   };

@@ -88,12 +88,12 @@ const LoginPage = () => {
           <br />
           <br />
         </form>
+
         <GoogleLogin
           clientId={clientId}
           buttonText="Sign in with Google"
           onSuccess={onGoogleSuccess}
           onFailure={onGoogleFailure}
-          onRequest={console.log("Trying to log in google user...")}
           cookiePolicy={"single_host_origin"}
         />
 

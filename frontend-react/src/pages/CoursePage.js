@@ -99,7 +99,7 @@ const CoursePage = () => {
         const response = await api.get(
           `courses/${params.id}/likes/${user.user_id}`
         );
-        setLike(response.data.like ? response.data.like : -1);
+        setLike(response.data.like);
         setLikeID(response.data.likeID ? response.data.likeID : -1);
       } catch {
         // alert("Could not get like");
