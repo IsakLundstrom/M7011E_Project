@@ -78,7 +78,7 @@ const HomePage = () => {
                 key={course.courseID}
               >
                 <div>
-                  <img src={homeImage} alt="course" />
+                  <img src={course.courseIMG} alt="course" />
                   <div className="cardTextContainer">
                     <h3>
                       <b>{course.courseName} </b>

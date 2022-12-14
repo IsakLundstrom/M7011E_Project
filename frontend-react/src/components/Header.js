@@ -95,7 +95,7 @@ const Header = () => {
         {user && user.is_superuser && (
           <li className="floatLeft">
             <Link className="mainLink" to="/admin">
-              Admin pages
+              Admin
             </Link>
           </li>
         )}

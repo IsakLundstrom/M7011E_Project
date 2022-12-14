@@ -21,7 +21,7 @@ const LoginPage = () => {
   return (
     <main>
       <div className="loginContent">
-        <h1>Login page</h1>
+        <h1>Login</h1>
         <form onSubmit={handleSubmit}>
           <br />
           {error && <div className="errorBox">Wrong email or password</div>}
