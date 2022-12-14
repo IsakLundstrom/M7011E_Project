@@ -38,11 +38,11 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
               <p> Subscribe</p>
             </button>
 
-            <button @click="putLike()">
-              <p>👍 </p>
+            <button @click="putLikeValue(1)" :class="[ userLikeValue===1 ? 'coursesSortButtonActive' : '']">
+              <p>👍</p>
             </button>
-            <button @Click="putDislike()">
-              <p> 👎</p>
+            <button @click="putLikeValue(0)" :class="[ userLikeValue===0 ? 'coursesSortButtonActive' : '']">
+              <p>👎</p>
             </button>
           </div>
           <div class="courseDescription">
@@ -83,6 +83,7 @@ export default {
   name: 'CourseView',
   components: { VueperSlides, VueperSlide },
   methods: {
+
     async checkAndUpdateIfSubscribed(){
       try {
         const response = await userService.getSubscribeData(this.courseID, this.user.user_id)
@@ -95,6 +96,18 @@ export default {
         this.userSubID = -1
         this.subscribed = false
 
+      }
+    },
+    async checkAndupdateLikeValue() {
+      try {
+        const response = await userService.getLikeValue(this.courseID, this.user.user_id) //courseID, userID
+        this.userLikeValue = response.data.like
+        this.userLikeID = response.data.likeID
+
+      } catch (error) {
+        console.log(error)
+        this.userLikeValue = -1
+        this.userLikeID = NaN
       }
     },
     async postSubsribe() {
@@ -116,12 +129,23 @@ export default {
       }
     },
 
-    putLike() {
-      //skicka putLike värde 1
+    //1 = like, 0 = dislike
+    async putLikeValue(value) {
+      console.log("HÄRRÅÅÅ!!", value)
+      if(this.userLikeValue === NaN) {
+        await userService.postLikeValue(this.courseID, this.user.user_id, value)
+
+      } else {
+        if(this.userLikeValue === value){
+          value = -1
+        }
+        await userService.putLikeValue(this.courseID, this.user.user_id, this.userLikeID, value)
+      }
+
+      this.checkAndupdateLikeValue()
+
     },
-    putDislike() {
-      //skicka putlike värde 0
-    },
+
     toggleVisible() {
       this.visible = !this.visible
     }, 
@@ -135,6 +159,8 @@ export default {
 
     this.checkAndUpdateIfSubscribed()
 
+    this.checkAndupdateLikeValue()
+
   },
 
   data() {
@@ -143,12 +169,14 @@ export default {
       courseID: this.$route.params.id,
       courseName: "",
       error: false,
-      likeRatio: -1,
+      likeRatio: NaN,
       user: null,
       visible: false,
       longDescription: "",
       subscribed: undefined,
-      userSubID: -1,
+      userSubID: NaN,
+      userLikeValue: NaN,
+      userLikeID: NaN,
 
       slides: [
         // {

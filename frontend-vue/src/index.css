@@ -49,6 +49,10 @@ button:hover,
   background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
 }
 
+.coursesSortButtonActive {
+  background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
+}
+
 .inputField {
   width: 100%;
   padding: 10px;
@@ -140,6 +144,7 @@ button:hover,
 .subnavTable th {
   text-align: left;
   padding: 8px 0;
+  width: 50%;
 }
 
 .subnavTable td a {
@@ -209,7 +214,10 @@ footer img {
 
 .homeImageContainer img {
   width: 100%;
-  margin-top: -250px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .imageGradient {
@@ -287,13 +295,14 @@ p {
 
 .courseCard img {
   width: 100%;
+  aspect-ratio: 4/3;
 }
 
 /* Courses page */
 
 .coursesSearchForm {
   display: grid;
-  grid-template-columns: 5fr 1fr 1fr 1fr;
+  grid-template-columns: 5fr 1fr 1fr;
   align-items: center;
   justify-items: center;
 }
@@ -313,7 +322,7 @@ p {
 .fiveCards {
   margin: var(--gap) 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: var(--gap);
 }
 
@@ -330,7 +339,10 @@ p {
 
 .courseImageContainer img {
   width: 100%;
-  margin-top: -250px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .courseImageContainer h1 {
@@ -340,7 +352,8 @@ p {
 .textBottomRight {
   position: absolute;
 
-  bottom: 10px;
+  color: black;
+  top: 10px;
   right: 16px;
 }
 
@@ -407,7 +420,11 @@ p {
 
 /* Profile page */
 
-.profileContent {
+.confirmBox button:nth-child(3) {
+  margin-left: var(--gap);
+}
+
+.profileContent form {
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: var(--gap);
@@ -485,6 +502,15 @@ p {
   margin: auto;
 }
 
+.errorBox {
+  border: 1px solid;
+  margin: 10px 0px;
+  text-align: center;
+  padding: calc(var(--gap) / 2);
+  color: #d8000c;
+  background-color: #ffbaba;
+}
+
 /* UserList and CourseList page */
 
 .adminTable {
@@ -522,4 +548,119 @@ p {
 
 textarea {
   resize: none;
+}
+
+/* ##### PHONE BREAK POINT ##### */
+
+@media only screen and (max-width: 1000px) {
+  :root {
+    --mainWidth: 85%;
+  }
+
+  .mainLink {
+    padding: var(--gap) calc(var(--gap) / 2);
+  }
+
+  .profileImageLink {
+    padding: calc(var(--gap) / 3) calc(var(--gap) / 2);
+  }
+
+  .subnav:hover .subnavContent {
+    display: none;
+  }
+
+  .homeH1 {
+    font-size: 3rem;
+  }
+
+  h1,
+  .courseImageContainer h1 {
+    font-size: 2.5rem;
+  }
+
+  .fiveCards {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .courseContent {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    --mainWidth: 95%;
+  }
+
+  /* HEADER */
+
+  .mainLink {
+    padding: calc(var(--gap) / 2) calc(var(--gap) / 5);
+  }
+
+  .profileImageLink {
+    padding: calc(var(--gap) / 5);
+  }
+
+  .headerProfileImageContainer {
+    width: calc(var(--gap) * 1.25);
+    height: calc(var(--gap) * 1.25);
+  }
+
+  /* FOOTER */
+
+  .socialContainer {
+    gap: var(--gap);
+  }
+
+  /* HOME */
+
+  .homeH1 {
+    font-size: 2.5rem;
+  }
+
+  h1,
+  .courseImageContainer h1 {
+    font-size: 2rem;
+  }
+
+  .homeImageContainer {
+    height: 200px;
+  }
+
+  .threeCards {
+    padding: 0 var(--gap);
+    grid-template-columns: 1fr;
+  }
+
+  .motivationCard img {
+    width: 30%;
+    margin: 1rem auto;
+  }
+
+  /* COURSES */
+
+  .coursesSearchForm {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .fiveCards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .courseImageContainer {
+    height: 200px;
+  }
+
+  /* PROFILE */
+
+  .profileContent form {
+    grid-template-columns: 1fr;
+    gap: var(--gap);
+  }
+
+  .profileImageContainer {
+    width: 50%;
+    aspect-ratio: 1/1;
+  }
 }
