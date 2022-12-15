@@ -28,7 +28,20 @@ const LoginPage = () => {
     console.log("try send reset email ");
 
     try {
-      await api.post(`/resetPassword/`, { email: email });
+      console.log(email)
+      // const res = await api.post(`/resetPassword/`, { email: email });
+      // console.log(res)
+
+      const response = await fetch('http://127.0.0.1:8000/resetPassword/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email: email, port: 3000})
+      });
+      const content = await response.json();
+
+      console.log(content);
     } catch {
       alert("Could not send reset email");
     }

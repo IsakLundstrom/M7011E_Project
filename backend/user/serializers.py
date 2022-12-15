@@ -14,3 +14,15 @@ class ChangePasswordSerializer(serializers.Serializer):
     newPassword = serializers.CharField(required=True)
 
 
+class ResetPasswordSerializer(serializers.Serializer):
+    model = User
+    email = serializers.CharField(required=True)
+    port = serializers.CharField(required=True)
+
+class ResetPasswordConfirmSerializer(serializers.Serializer):
+    model = User
+    uID = serializers.CharField(required=True)
+    token = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    rpassword = serializers.CharField(required=True)
+

@@ -47,7 +47,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           <Route
-            path="/resetPassowordConfirm/:id/:token"
+            path="/resetPasswordConfirm/:id/:token"
             element={<ResetPasswordPage />}
           />
 
