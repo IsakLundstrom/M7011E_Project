@@ -87,7 +87,6 @@ export default {
     async checkAndUpdateCourseInfo() {
       try {
         const response = await userService.getCourse(this.courseID)
-        console.log("räspåns", response.data)
         this.likeRatio = response.data.likeRatio
         this.courseName = response.data.courseName
         this.courseIMG_URL = response.data.courseIMG
@@ -180,21 +179,10 @@ export default {
 
   },
 
-  watch: {
-    connection() {
-      console.log("BAJSA PÅ MIG")
-      if(this.connection.likeRatio){
-        this.likeRatio = this.connection.likeRatio
-      }
-    }
-  },
-
   created: function() {
     this.connection = new WebSocket(`ws://localhost:8000/ws/courses/${this.courseID}/`)
 
-    this.connection.onmessage = (event) => {
-      console.log("FROM WEBSOCKET: ",JSON.parse(event.data).message)
-      
+    this.connection.onmessage = (event) => {      
       this.likeRatio = JSON.parse(event.data).message
     }
 
