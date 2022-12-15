@@ -9,7 +9,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
 </script>
 
 <template>
-  <main class="about">
+  <main class="about" :key="componentKey">
 
     <div v-if="error">
       <p>
@@ -22,7 +22,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
       <div class="courseImageContainer">
         <div class="imageGradient"></div>
         <img :src=courseIMG_URL alt="Home" />
-        <h1 class="textBottomLeft">{{ courseName }}</h1>
+        <h1 class="textBottomLeft" >{{ courseName }}</h1>
         <p class="textBottomRight">Like ratio: {{ likeRatio }}% </p>
       </div>
 
@@ -87,6 +87,10 @@ export default {
   components: { VueperSlides, VueperSlide },
   methods: {
 
+    forceRerender() {
+      this.componentKey += 1;
+    },
+
     async checkAndUpdateCourseInfo() {
       try {
         const response = await userService.getCourse(this.courseID)
@@ -103,7 +107,6 @@ export default {
     async checkAndUpdateCourseVideos() {
       try {
         const response = await userService.getCourseVideos(this.courseID)
-        console.log("kårsVIDES",response.data)
         this.slides = response.data
       } catch (error) {
         console.log("could not load videos", error)
@@ -148,7 +151,7 @@ export default {
       try {
         const response = await userService.deleteSubscribe(this.courseID, this.userSubID)
         this.checkAndUpdateIfSubscribed()
-
+        
       } catch (error) {
         console.log(error)
       }
@@ -170,6 +173,18 @@ export default {
 
     },
 
+    async updateAllInfo() {
+      await this.checkAndUpdateCourseInfo()
+
+      this.user = await tokenService.getUserData()
+
+      this.checkAndUpdateIfSubscribed()
+
+      this.checkAndupdateLikeValue()
+
+      this.checkAndUpdateCourseVideos()
+    },
+
     toggleVisible() {
       this.visible = !this.visible
     }, 
@@ -178,19 +193,24 @@ export default {
   computed: {
     
   },
-  async mounted(){
 
-    this.checkAndUpdateCourseInfo()
+  watch: {
+    '$route.params.id' (to, from){
+      this.courseID = to
+      console.log("BAJSA PÅ MIG", this.componentKey)
+      this.updateAllInfo().then(
+        this.forceRerender()
+      )
+      
+    }
+  },
 
-    this.user = await tokenService.getUserData()
+  mounted(){
 
-    this.checkAndUpdateIfSubscribed()
-
-    this.checkAndupdateLikeValue()
-
-    this.checkAndUpdateCourseVideos()
+    this.updateAllInfo()
 
   },
+
 
   created: function() {
     this.connection = new WebSocket(`ws://localhost:8000/ws/courses/${this.courseID}/`)
@@ -214,6 +234,7 @@ export default {
 
   data() {
     return {
+      componentKey: 0,
       connection: null,
       courseID: this.$route.params.id,
       courseName: "",
