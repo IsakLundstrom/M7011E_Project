@@ -10,25 +10,34 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
 
+  const [errorText, setErrorText] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== rpassword) {
+      setErrorText("Password and repeated password must match");
+      return;
+    }
+
     console.log("try reset password");
 
     try {
-      await fetch('http://127.0.0.1:8000/resetPasswordConfirm/', {
-        method: 'POST',
+      await fetch("http://127.0.0.1:8000/resetPasswordConfirm/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        password: password,
-        rpassword: rpassword,
-        uID: params.id,
-        token: params.token,})
+          password: password,
+          uID: params.id,
+          token: params.token,
+        }),
       });
     } catch {
       alert("Could not reset password");
     }
+    setErrorText("");
   };
 
   return (
@@ -37,6 +46,8 @@ const ResetPasswordPage = () => {
         <h1>Reset Password</h1>
         <form onSubmit={handleSubmit}>
           <br />
+
+          {errorText !== "" && <div className="errorBox">{errorText}</div>}
 
           <label htmlFor="password">New Password</label>
           <br />

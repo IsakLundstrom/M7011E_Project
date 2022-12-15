@@ -28,16 +28,14 @@ const LoginPage = () => {
     console.log("try send reset email ");
 
     try {
-      console.log(email)
-      // const res = await api.post(`/resetPassword/`, { email: email });
-      // console.log(res)
+      console.log(email);
 
-      const response = await fetch('http://127.0.0.1:8000/resetPassword/', {
-        method: 'POST',
+      const response = await fetch("http://127.0.0.1:8000/resetPassword/", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({email: email, port: 3000})
+        body: JSON.stringify({ email: email, port: 3000 }),
       });
       const content = await response.json();
 
@@ -49,7 +47,9 @@ const LoginPage = () => {
 
   const onGoogleSuccess = async (res) => {
     const profile = res.profileObj;
+
     let err = await loginUser(profile.email, profile.googleId);
+
     if (err) {
       console.log("Registering google user...");
       await registerUser(
@@ -58,6 +58,7 @@ const LoginPage = () => {
         profile.email,
         profile.googleId
       );
+
       console.log("Logging in google user now...");
       await loginUser(profile.email, profile.googleId);
     }
@@ -119,6 +120,7 @@ const LoginPage = () => {
             onSuccess={onGoogleSuccess}
             onFailure={onGoogleFailure}
             cookiePolicy={"single_host_origin"}
+            prompt={"select_account"}
           />
 
           <p>

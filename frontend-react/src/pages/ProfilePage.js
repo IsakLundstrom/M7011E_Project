@@ -17,6 +17,8 @@ const ProfilePage = () => {
   const [uImageURL, setUImageURL] = useState("");
   const [uImage, setUImage] = useState();
 
+  const [errorText, setErrorText] = useState("");
+
   const [subscriptions, setSubsciptions] = useState([]);
   const [ownCourses, setOwnCourses] = useState([]);
 
@@ -42,11 +44,16 @@ const ProfilePage = () => {
   const patchUser = async (e) => {
     e.preventDefault();
 
-    if (password !== "") {
-      try {
-        await api.patch(`/changePassword/`, { newPassword: password });
-      } catch {
-        alert("Could not patch password");
+    if (password !== "" || rpassword !== "") {
+      if (password !== rpassword) {
+        setErrorText("New password and repeated password must match");
+      } else {
+        try {
+          await api.patch(`/changePassword/`, { newPassword: password });
+          setErrorText("");
+        } catch {
+          alert("Could not patch password");
+        }
       }
     }
 
@@ -231,10 +238,12 @@ const ProfilePage = () => {
         </form>
       </div>
 
+      {errorText !== "" && <div className="errorBox">{errorText}</div>}
+
       <br />
 
       <h2>Your Subscriptions</h2>
-      {subscriptions.length != 0 ? (
+      {subscriptions.length !== 0 ? (
         <div className="threeCards">
           {subscriptions.map((subscription) => {
             return (

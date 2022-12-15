@@ -9,11 +9,19 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
 
+  const [errorText, setErrorText] = useState("");
+
   const { registerUser } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== rpassword) {
+      setErrorText("Password and repeated password must match");
+      return;
+    }
     registerUser(fName, lName, email, password);
+    setErrorText("");
   };
 
   return (
@@ -22,6 +30,8 @@ const RegisterPage = () => {
         <h1>Register</h1>
         <form onSubmit={handleSubmit}>
           <br />
+
+          {errorText !== "" && <div className="errorBox">{errorText}</div>}
 
           <label htmlFor="fname">Name</label>
           <br />
