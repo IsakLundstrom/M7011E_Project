@@ -159,7 +159,7 @@ export default {
 
     //1 = like, 0 = dislike
     async putLikeValue(value) {
-      if(this.userLikeValue === NaN) {
+      if(!this.userLikeID && this.userLikeID !== 0) {
         await userService.postLikeValue(this.courseID, this.user.user_id, value)
 
       } else {
