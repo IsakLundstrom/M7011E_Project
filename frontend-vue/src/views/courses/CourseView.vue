@@ -190,14 +190,10 @@ export default {
     }, 
     
   },
-  computed: {
-    
-  },
 
   watch: {
     '$route.params.id' (to, from){
       this.courseID = to
-      console.log("BAJSA PÅ MIG", this.componentKey)
       this.updateAllInfo().then(
         this.forceRerender()
       )
@@ -210,7 +206,6 @@ export default {
     this.updateAllInfo()
 
   },
-
 
   created: function() {
     this.connection = new WebSocket(`ws://localhost:8000/ws/courses/${this.courseID}/`)
@@ -249,20 +244,7 @@ export default {
       userLikeValue: NaN,
       userLikeID: NaN,
 
-      slides: [
-        // {
-        //   id: 1,
-        //   title: 'Slide #1',
-        //   content: 'Slide 1 content.',
-        //   image: 'https://i3.ytimg.com/vi/tgbNymZ7vqY/maxresdefault.jpg',
-        //   video: {
-        //     url: 'https://www.youtube.com/embed/tgbNymZ7vqY',
-        //     props: {
-        //       allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-        //     }
-        //   }
-        // },
-      ]
+      slides: [ ]
     }
   },
 }
