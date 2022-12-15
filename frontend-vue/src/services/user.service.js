@@ -6,7 +6,11 @@ class UserService {
   }
 
   getCourse(courseID){
-    return api.get(`http://127.0.0.1:8000/courses/${courseID}`);
+    return api.get(`http://127.0.0.1:8000/courses/${courseID}/`);
+  }
+
+  getCourseVideos(courseID) {
+    return api.get(`http://127.0.0.1:8000/courses/${courseID}/videos/`);
   }
 
   getUserList() {

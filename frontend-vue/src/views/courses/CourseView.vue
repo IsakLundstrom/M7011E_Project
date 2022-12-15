@@ -9,7 +9,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
 </script>
 
 <template>
-  <main class="about">
+  <main class="about" :key="componentKey">
 
     <div v-if="error">
       <p>
@@ -22,7 +22,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
       <div class="courseImageContainer">
         <div class="imageGradient"></div>
         <img :src=courseIMG_URL alt="Home" />
-        <h1 class="textBottomLeft">{{ courseName }}</h1>
+        <h1 class="textBottomLeft" >{{ courseName }}</h1>
         <p class="textBottomRight">Like ratio: {{ likeRatio }}% </p>
       </div>
 
@@ -58,6 +58,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
         </div>
         <div class="courseVideos">
           <vueper-slides 
+            fixed-height="true"
+            fixed-width="true"
             arrows-outside 
             bullets-outside 
             :dragging-distance="50" 
@@ -65,7 +67,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
 
             <vueper-slide v-for="(slide, i) in slides "
               :key="i" 
-              :video="slide.video"
+              :name="slide.videoName"
+              :video="slide.videoURL"
               :image="slide.image"/>
 
             </vueper-slides>
@@ -84,10 +87,13 @@ export default {
   components: { VueperSlides, VueperSlide },
   methods: {
 
+    forceRerender() {
+      this.componentKey += 1;
+    },
+
     async checkAndUpdateCourseInfo() {
       try {
         const response = await userService.getCourse(this.courseID)
-        console.log("räspåns", response.data)
         this.likeRatio = response.data.likeRatio
         this.courseName = response.data.courseName
         this.courseIMG_URL = response.data.courseIMG
@@ -95,6 +101,15 @@ export default {
 
       } catch (error) {
         console.log("could not load course data", error)
+      }
+    },
+
+    async checkAndUpdateCourseVideos() {
+      try {
+        const response = await userService.getCourseVideos(this.courseID)
+        this.slides = response.data
+      } catch (error) {
+        console.log("could not load videos", error)
       }
     },
 
@@ -136,7 +151,7 @@ export default {
       try {
         const response = await userService.deleteSubscribe(this.courseID, this.userSubID)
         this.checkAndUpdateIfSubscribed()
-
+        
       } catch (error) {
         console.log(error)
       }
@@ -158,6 +173,18 @@ export default {
 
     },
 
+    async updateAllInfo() {
+      await this.checkAndUpdateCourseInfo()
+
+      this.user = await tokenService.getUserData()
+
+      this.checkAndUpdateIfSubscribed()
+
+      this.checkAndupdateLikeValue()
+
+      this.checkAndUpdateCourseVideos()
+    },
+
     toggleVisible() {
       this.visible = !this.visible
     }, 
@@ -166,35 +193,29 @@ export default {
   computed: {
     
   },
-  async mounted(){
-
-    this.checkAndUpdateCourseInfo()
-
-    this.user = await tokenService.getUserData()
-
-    this.checkAndUpdateIfSubscribed()
-
-    this.checkAndupdateLikeValue()
-
-    
-
-  },
 
   watch: {
-    connection() {
-      console.log("BAJSA PÅ MIG")
-      if(this.connection.likeRatio){
-        this.likeRatio = this.connection.likeRatio
-      }
+    '$route.params.id' (to, from){
+      this.courseID = to
+      console.log("BAJSA PÅ MIG", this.componentKey)
+      this.updateAllInfo().then(
+        this.forceRerender()
+      )
+      
     }
   },
+
+  mounted(){
+
+    this.updateAllInfo()
+
+  },
+
 
   created: function() {
     this.connection = new WebSocket(`ws://localhost:8000/ws/courses/${this.courseID}/`)
 
-    this.connection.onmessage = (event) => {
-      console.log("FROM WEBSOCKET: ",JSON.parse(event.data).message)
-      
+    this.connection.onmessage = (event) => {      
       this.likeRatio = JSON.parse(event.data).message
     }
 
@@ -213,6 +234,7 @@ export default {
 
   data() {
     return {
+      componentKey: 0,
       connection: null,
       courseID: this.$route.params.id,
       courseName: "",
@@ -258,4 +280,5 @@ export default {
   width: 100%;
   aspect-ratio: 16/9;
 }
+.vueperslides--fixed-height { height:100%; }
 </style>
