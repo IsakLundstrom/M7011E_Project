@@ -58,6 +58,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
         </div>
         <div class="courseVideos">
           <vueper-slides 
+            fixed-height="true"
+            fixed-width="true"
             arrows-outside 
             bullets-outside 
             :dragging-distance="50" 
@@ -65,7 +67,8 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
 
             <vueper-slide v-for="(slide, i) in slides "
               :key="i" 
-              :video="slide.video"
+              :name="slide.videoName"
+              :video="slide.videoURL"
               :image="slide.image"/>
 
             </vueper-slides>
@@ -94,6 +97,16 @@ export default {
 
       } catch (error) {
         console.log("could not load course data", error)
+      }
+    },
+
+    async checkAndUpdateCourseVideos() {
+      try {
+        const response = await userService.getCourseVideos(this.courseID)
+        console.log("kårsVIDES",response.data)
+        this.slides = response.data
+      } catch (error) {
+        console.log("could not load videos", error)
       }
     },
 
@@ -175,7 +188,7 @@ export default {
 
     this.checkAndupdateLikeValue()
 
-    
+    this.checkAndUpdateCourseVideos()
 
   },
 
@@ -246,4 +259,5 @@ export default {
   width: 100%;
   aspect-ratio: 16/9;
 }
+.vueperslides--fixed-height { height:100%; }
 </style>
