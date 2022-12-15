@@ -1,3 +1,4 @@
+import tokenService from '@/services/token.service';
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -48,22 +49,22 @@ const routes = [
     component: () => import('../views/admin/UserListView.vue')
   },  
   {
-    path: '/admin/courses',
-    name: 'CourseList',
-    component: () => import('../views/admin/CourseListView.vue')
-  },
-  {
     path: '/admin/users/:id/edit',
     name: 'UserEdit',
     component: () => import('../views/admin/UserEditView.vue')
   },
   {
-    path: '/admin/courses/create',
+    path: '/staff/courses',
+    name: 'CourseList',
+    component: () => import('../views/admin/CourseListView.vue')
+  },
+  {
+    path: '/staff/courses/create',
     name: 'CourseCreate',
     component: () => import('../views/admin/CourseCreateView.vue')
   },
   {
-    path: '/admin/courses/:id/edit',
+    path: '/staff/courses/:id/edit',
     name: 'CourseEdit',
     component: () => import('../views/admin/CourseEditView.vue')
   },
@@ -84,5 +85,45 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+router.beforeEach((to, from, next) => {
+  const restrictedPages = ['/profile'];
+  const staffPage = '/staff';
+  const superUserPage = '/admin';
 
+  let authRequired = false
+  let staffRequired = false
+  let superUserRequired = false
+
+  restrictedPages.forEach(restrictedPage => {
+    if(to.path.startsWith(restrictedPage))
+    authRequired = true
+  });
+
+  if(to.path.startsWith(staffPage)){
+    staffRequired = true
+  }
+
+  if(to.path.startsWith(superUserPage)){
+    superUserRequired = true
+  }
+
+  // const authRequired = restrictedPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  const userData = tokenService.getUserData()
+  console.log(userData, "användardata")
+
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else if(staffRequired && !userData.is_staff){
+    next('/');
+  } else if (superUserRequired && !userData.is_superuser){
+    next('/');
+  } else {
+    next();
+  }
+
+});
 export default router

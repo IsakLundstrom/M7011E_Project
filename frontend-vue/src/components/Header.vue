@@ -27,7 +27,7 @@
       </li>
 
       <li class="floatLeft">
-        <router-link v-if="loggedIn && isSuperUser" :to="{ name: 'AdminView' }" class='mainLink'>Admin Pages</router-link>
+        <router-link v-if="loggedIn && superUser" :to="{ name: 'AdminView' }" class='mainLink'>Admin Pages</router-link>
       </li>
 
       <li class="floatRight">
@@ -58,37 +58,40 @@
       coursesForHeader
     }, 
     computed: {
-      loggedIn(){        
-        console.log(this.$store.state.auth.user)
-        return this.$store.state.auth.user
+
+    },
+    methods: {
+      isloggedIn(){        
+        this.loggedIn = this.$store.state.auth.user
       },
       isSuperUser(){
         const response = tokenService.getUserData()
-        return response.is_superuser
+        if(response){
+          this.superUser = response.is_superuser
+        }
       },
-    },
-    methods: {
-      logOut(user) {
-        this.$store.dispatch("auth/logout", user).then(
-          () => {
+      async logOut(user) {
 
-          },
-          (error) => {
-            this.loading = false;
-            this.message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-          }
-        );
+        await this.$store.dispatch("auth/logout", user)
+        this.$router.push({name: 'Home'})
       }
     },
     data() {
       return {
+        loggedIn: false,
+        superUser: false,
         
       }
     },
+
+    watch: {
+      '$store.state.auth.user': {
+        handler(nq) {
+          this.isloggedIn()
+          this.isSuperUser()
+        },
+        immediate: true
+      }
+    }
   }
 </script>

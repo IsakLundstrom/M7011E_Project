@@ -178,7 +178,7 @@
       }
     );
       if (!this.currentUser) {
-        this.$router.push('/login');
+        this.$router.push({name: 'Login'});
       }
 
       UserService.getSubscriptions(userID).then(

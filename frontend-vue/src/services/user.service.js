@@ -55,6 +55,15 @@ class UserService {
     });
   }
 
+  postRegisterProfile(fName, lName, email, password) {
+    return api.post("http://localhost:8000/auth/register/", {
+      fName: fName,
+      lName: lName,
+      email: email,
+      password: password,
+    });
+  }
+
   //1 = like, 0 = dislike
   putLikeValue(courseID, userID, likeID, value){
     return api.put(`courses/${courseID}/likes/${likeID}/`, {

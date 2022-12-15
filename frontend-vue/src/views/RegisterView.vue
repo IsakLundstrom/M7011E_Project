@@ -1,11 +1,17 @@
+<script setup>
+  import userService from "../services/user.service"
+</script>
+
 <template>
     <main class="register">
       <div class="loginContent">
 
-        <h1>Register page</h1>
+        <h1>Register</h1>
 
         <form @submit.prevent="handleSubmit">
           <br />
+
+          <div v-if="errorText" class="errorBox"> {{ errorText }} </div>
 
           <label htmlFor="fname">Name</label>
           <br />
@@ -50,6 +56,7 @@
           <br />
           <input
             class="inputField"
+            required
             type="password"
             name="password"
             v-model="password"
@@ -62,6 +69,7 @@
           <br />
           <input
             class="inputField"
+            required
             type="password"
             name="rpassword"
             v-model="rpassword"
@@ -93,16 +101,28 @@
     components: {  },
     methods: {
       handleSubmit() {
-        alert(`${this.fName}, ${this.lName}, ${this.email}, ${this.password}, ${this.rpassword}`)
+        if(this.password != this.rpassword){
+          this.errorText = "Password and repeated password must match"
+          this.password = ''
+          this.rpassword = ''
+          return
+        }
+        try {
+          userService.postRegisterProfile(this.fName, this.lName, this.email, this.password)
+          this.$router.push({ name: 'Login'});
+        } catch (error) {
+          
+        }
       }
     },
     data() {
       return {
-        fName: 'first name',
-        lName: 'last name',
-        email: 'example@example.com',
+        fName: '',
+        lName: '',
+        email: '',
         password: '',
         rpassword: '',
+        errorText: '',
       }
     }
   }

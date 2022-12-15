@@ -4,6 +4,7 @@
         <h1>Login page</h1>
         <form @submit.prevent="handleSubmit">
           <br />
+          <div v-if="error" class="errorBox">Wrong email or password</div>
 
           <label htmlFor="email">Email</label>
           <br />
@@ -63,34 +64,16 @@ export default {
           this.$router.push({ name: 'Profile'});
         },
         (error) => {
-          this.loading = false;
-          this.message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+          this.error = true;
+          this.password = '';
+          console.log(error)
         }
       );
-
-// OLD CODE REMOVE WHEN FETCHING WORKS AS IT SHOULD
-      // const response = await fetch("http://127.0.0.1:8000/auth/login/", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: this.email,
-      //     password: this.password,
-      //   }),
-      // });
-      // const data = await response.json();
-      // console.log(data)
-      // // alert(`${this.email}, ${this.password}`)
     },
   },
   data() {
     return {
+      error: false,
       email: "test@test.com",
       password: 'test',
 
@@ -98,7 +81,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/profile");
+      this.$router.push({ name: 'Profile'});
     }
   },
 }
