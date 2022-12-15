@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
 
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
