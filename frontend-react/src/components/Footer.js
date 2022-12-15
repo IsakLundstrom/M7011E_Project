@@ -9,21 +9,21 @@ const Footer = () => {
   return (
     <footer>
       <div className="socialContainer">
-        <Link className="socialLink" to="/">
+        <a className="socialLink" href="https://www.facebook.com/">
           <div className="socialSvg">
             <img src={facebookSvg} alt="Facebook" />
           </div>
-        </Link>
-        <Link className="socialLink" to="/">
+        </a>
+        <a className="socialLink" href="https://www.twitter.com/">
           <div className="socialSvg">
             <img src={twitterSvg} alt="Twitter" />
           </div>
-        </Link>
-        <Link className="socialLink" to="/">
+        </a>
+        <a className="socialLink" href="https://www.instagram.com/">
           <div className="socialSvg">
             <img src={instagramSvg} alt="Instagram" />
           </div>
-        </Link>
+        </a>
       </div>
 
       <p>© 2022 The Sweat Zone</p>

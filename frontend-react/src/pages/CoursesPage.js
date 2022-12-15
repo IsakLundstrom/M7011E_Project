@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import homeImage from "../images/home_image.png";
-
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");

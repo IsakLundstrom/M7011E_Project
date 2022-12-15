@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
-import profileImage from "../images/default_profile.png";
-
 const Header = () => {
   const api = useAxios();
 

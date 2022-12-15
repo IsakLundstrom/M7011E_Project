@@ -4,9 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
-import homeImage from "../images/home_image.png";
-import profileImage from "../images/default_profile.png";
-
 const ProfilePage = () => {
   const api = useAxios();
   const { user, logoutUser } = useContext(AuthContext);
@@ -247,7 +244,7 @@ const ProfilePage = () => {
                 key={subscription.courseID}
               >
                 <div>
-                  <img src={homeImage} alt="course" />
+                  <img src={subscription.courseIMG} alt="course" />
                   <div className="cardTextContainer">
                     <h3>
                       <b>{subscription.courseName} </b>

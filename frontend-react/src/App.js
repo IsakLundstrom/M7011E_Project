@@ -14,6 +14,7 @@ import AdminPage from "./pages/AdminPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import UserListPage from "./pages/UserListPage";
 import UserEditPage from "./pages/UserEditPage";
 import CourseListPage from "./pages/CourseListPage";
@@ -44,6 +45,11 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
 
           <Route path="/register" element={<RegisterPage />} />
+
+          <Route
+            path="/resetPassowordConfirm/:id/:token"
+            element={<ResetPasswordPage />}
+          />
 
           <Route
             path="/courses/:id/edit"

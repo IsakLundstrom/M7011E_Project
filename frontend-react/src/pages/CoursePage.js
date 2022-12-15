@@ -6,8 +6,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
-import homeImage from "../images/home_image.png";
-
 const CoursePage = () => {
   const params = useParams();
   const api = useAxios();
@@ -17,6 +15,7 @@ const CoursePage = () => {
   const [error, setError] = useState(false);
 
   const [course, setCourse] = useState({});
+  const [likeRatio, setLikeRatio] = useState("");
   const [videos, setVideos] = useState([]);
   const [subscribed, setSubscribe] = useState(false);
   const [subscribeID, setSubscribeID] = useState(-1);
@@ -31,12 +30,13 @@ const CoursePage = () => {
       );
       const course = await response.json();
       setCourse(course);
+      setLikeRatio(course.likeRatio);
 
       if (response.status !== 200) {
         setError(true);
       }
     })();
-  }, [params, liked]);
+  }, [params]);
 
   // get videos
   useEffect(() => {
@@ -140,10 +140,14 @@ const CoursePage = () => {
     const ws = new WebSocket(`ws://localhost:8000/ws/courses/${params.id}/`);
 
     ws.onmessage = (message) => {
-      setLike(JSON.parse(message.data).message);
+      setLikeRatio(JSON.parse(message.data).message);
     };
 
-    return () => ws.close();
+    return () => {
+      if (ws.readyState === 1) {
+        ws.close();
+      }
+    };
   }, []);
 
   return (
@@ -162,7 +166,7 @@ const CoursePage = () => {
             <div className="imageGradient"></div>
             <img src={course.courseIMG} alt="Course imgae" />
             <h1 className="textBottomLeft">{course.courseName}</h1>
-            <p className="textBottomRight">{`Like ratio: ${course.likeRatio}%`}</p>
+            <p className="textBottomRight">{`Like ratio: ${likeRatio}%`}</p>
           </div>
 
           <div className="courseContent">
