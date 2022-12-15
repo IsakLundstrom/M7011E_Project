@@ -155,3 +155,4 @@ CHANNEL_LAYERS = {
 
 # Daphne
 ASGI_APPLICATION = "backend.asgi.application"
+

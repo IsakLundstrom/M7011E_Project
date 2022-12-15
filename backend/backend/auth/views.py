@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 
 from .serializers import LoginSerializer, RegistrationSerializer
+from ..send_mail import send_mail
 
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
