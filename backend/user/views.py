@@ -77,7 +77,6 @@ class ResetPasswordConfirmView(generics.CreateAPIView):
             userID = serializer.data.get("uID")
             token = serializer.data.get("token")
             password = serializer.data.get("password")
-            rpassword = serializer.data.get("rpassword")
 
             try:
                 user = User.objects.get(id=userID)
@@ -86,9 +85,6 @@ class ResetPasswordConfirmView(generics.CreateAPIView):
 
             if not default_token_generator.check_token(user, token):
                 return Response(status=status.HTTP_403_FORBIDDEN)
-
-            if password != rpassword:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
 
             user.set_password(password)
             user.save()
