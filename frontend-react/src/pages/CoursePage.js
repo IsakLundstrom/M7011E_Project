@@ -148,7 +148,7 @@ const CoursePage = () => {
         ws.close();
       }
     };
-  }, []);
+  }, [params]);
 
   return (
     <main>
