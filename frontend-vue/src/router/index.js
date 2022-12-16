@@ -111,11 +111,10 @@ router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('user');
 
   const userData = tokenService.getUserData()
-  console.log(userData, "användardata")
 
   // trying to access a restricted page + not logged in
   // redirect to login page
-  if (authRequired && !loggedIn) {
+  if ((authRequired || staffRequired || superUserRequired) && !userData) {
     next('/login');
   } else if(staffRequired && !userData.is_staff){
     next('/');
