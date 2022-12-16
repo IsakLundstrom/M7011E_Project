@@ -14,14 +14,28 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [token2FA, setToken2FA] = useState("");
+
+  const [need2FA, setNeed2FA] = useState(false);
   const [error, setError] = useState(false);
 
-  const { loginUser, registerUser } = useContext(AuthContext);
+  const { loginUser, loginUser2FA, registerUser } = useContext(AuthContext);
 
-  const login = async (e) => {
+  const sendLogin = async (e) => {
     e.preventDefault();
-    let err = await loginUser(email, password);
-    setError(err);
+    let res = await loginUser(email, password);
+    if (res.err) {
+      setError(res.err);
+    } else if (res.need2FA) {
+      setNeed2FA(true);
+    }
+  };
+
+  const send2FA = async (e) => {
+    e.preventDefault();
+    console.log("send 2FA");
+    let res = await loginUser2FA(email, password, token2FA);
+    setError(res.err);
   };
 
   const sendResetEmail = async (e) => {
@@ -74,7 +88,7 @@ const LoginPage = () => {
       <main>
         <div className="loginContent">
           <h1>Login</h1>
-          <form onSubmit={login}>
+          <form onSubmit={sendLogin}>
             <br />
             {error && <div className="errorBox">Wrong email or password</div>}
 
@@ -131,12 +145,12 @@ const LoginPage = () => {
 
           <p>
             Forgot your password? Click&nbsp;
-            <a href="#popupContainer">here</a>.
+            <a href="#resetPasswordPopup">here</a>.
           </p>
         </div>
       </main>
 
-      <div id="popupContainer">
+      <div id="resetPasswordPopup" className="popupContainer">
         <div id="popup" className="popup">
           <div className="resetPasswordContent">
             <h2>Reset password</h2>
@@ -173,6 +187,50 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      {need2FA && (
+        <div className="popupContainer resetPopupContainer">
+          <div id="popup" className="popup">
+            <div className="resetPasswordContent">
+              <h2>2FA</h2>
+              <p>
+                Two factor authentication nedded, an mail to {email} with the
+                code has been sent.
+              </p>
+              <form onSubmit={send2FA}>
+                <br />
+
+                <label htmlFor="2fa">Code</label>
+                <br />
+                <input
+                  className="inputField"
+                  required
+                  type="text"
+                  name="2fa"
+                  value={token2FA}
+                  onChange={(e) => setToken2FA(e.target.value)}
+                />
+
+                <br />
+                <br />
+
+                <input
+                  className="profileButton profileUpdateButton"
+                  type="submit"
+                  value="Login"
+                />
+
+                <br />
+                <br />
+              </form>
+
+              <p>
+                <a href="#">Close</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

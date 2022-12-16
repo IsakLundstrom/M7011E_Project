@@ -22,6 +22,12 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const loginUser = async (email, password) => {
+    //return object
+    const res = {
+      err: false,
+      need2FA: false,
+    };
+
     const response = await fetch("http://127.0.0.1:8000/auth/login/", {
       method: "POST",
       headers: {
@@ -35,6 +41,13 @@ export const AuthProvider = ({ children }) => {
     const data = await response.json();
 
     if (response.status === 200) {
+      console.log("login user", data);
+
+      if (data.details) {
+        res.need2FA = true;
+        return res;
+      }
+
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
 
@@ -47,9 +60,46 @@ export const AuthProvider = ({ children }) => {
       navigate("/");
       console.log("Logged in!");
 
-      return false;
+      return res;
     } else {
-      return true;
+      res.err = true;
+      return res;
+    }
+  };
+
+  const loginUser2FA = async (email, password, token) => {
+    //return object
+    const res = {
+      err: false,
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/auth/login/2fa", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        token: token,
+      }),
+    });
+    const data = await response.json();
+
+    if (response.status === 200) {
+      setAuthTokens(data);
+      setUser(jwt_decode(data.access));
+
+      console.log(data);
+
+      localStorage.setItem("authTokens", JSON.stringify(data));
+      navigate("/");
+      console.log("Logged in with 2FA!");
+
+      return res;
+    } else {
+      res.err = true;
+      return res;
     }
   };
 
@@ -88,6 +138,7 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens,
     registerUser,
     loginUser,
+    loginUser2FA,
     logoutUser,
   };
 

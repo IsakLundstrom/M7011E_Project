@@ -524,7 +524,7 @@ p {
   background-color: #dff2bf;
 }
 
-#popupContainer {
+.popupContainer {
   width: 100%;
   height: 100%;
   top: 0;
@@ -534,7 +534,7 @@ p {
   background-color: rgba(22, 22, 22, 0.2); /* complimenting your modal colors */
 }
 
-#popupContainer:target {
+.popupContainer:target {
   visibility: visible;
   display: block;
 }
@@ -546,6 +546,11 @@ p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.resetPopupContainer {
+  visibility: visible;
+  display: block;
 }
 
 .resetPasswordContent {
