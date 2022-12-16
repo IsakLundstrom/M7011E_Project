@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     //return object
     const res = {
       err: false,
-      need2FA: false,
+      has2FA: false,
     };
 
     const response = await fetch("http://127.0.0.1:8000/auth/login/", {
@@ -41,10 +41,10 @@ export const AuthProvider = ({ children }) => {
     const data = await response.json();
 
     if (response.status === 200) {
-      console.log("login user", data);
+      // console.log("login user", data);
 
       if (data.details) {
-        res.need2FA = true;
+        res.has2FA = true;
         return res;
       }
 
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
 
-      console.log(data);
+      // console.log(data);
 
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");

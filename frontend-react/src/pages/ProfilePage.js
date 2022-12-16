@@ -16,6 +16,7 @@ const ProfilePage = () => {
   const [rpassword, setRPassword] = useState("");
   const [uImageURL, setUImageURL] = useState("");
   const [uImage, setUImage] = useState();
+  const [has2FA, setHas2FA] = useState(false);
 
   const [errorText, setErrorText] = useState("");
 
@@ -34,6 +35,7 @@ const ProfilePage = () => {
         setLName(response.data.lName);
         setEmail(response.data.email);
         setUImageURL(response.data.userIMG);
+        setHas2FA(response.data.has2FA);
       } catch {
         navigate("/login");
       }
@@ -65,6 +67,7 @@ const ProfilePage = () => {
           lName: lName,
           email: email,
           userIMG: uImage,
+          has2FA: has2FA,
         },
         {
           headers: {
@@ -226,9 +229,21 @@ const ProfilePage = () => {
                   onChange={(e) => setRPassword(e.target.value)}
                 />
               </div>
-
               <br />
             </div>
+
+            <label htmlFor="2fa">2 Factor Authentication </label>
+            <input
+              className="checkboxField"
+              type="checkbox"
+              name="2fa"
+              checked={has2FA}
+              onChange={async (e) => setHas2FA(e.target.checked)}
+            />
+
+            <br />
+            <br />
+
             <input
               className="profileButton profileUpdateButton"
               type="submit"

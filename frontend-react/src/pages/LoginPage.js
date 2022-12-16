@@ -16,7 +16,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [token2FA, setToken2FA] = useState("");
 
-  const [need2FA, setNeed2FA] = useState(false);
+  const [has2FA, setHas2FA] = useState(false);
   const [error, setError] = useState(false);
 
   const { loginUser, loginUser2FA, registerUser } = useContext(AuthContext);
@@ -26,8 +26,8 @@ const LoginPage = () => {
     let res = await loginUser(email, password);
     if (res.err) {
       setError(res.err);
-    } else if (res.need2FA) {
-      setNeed2FA(true);
+    } else if (res.has2FA) {
+      setHas2FA(true);
     }
   };
 
@@ -188,7 +188,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {need2FA && (
+      {has2FA && (
         <div className="popupContainer resetPopupContainer">
           <div id="popup" className="popup">
             <div className="resetPasswordContent">

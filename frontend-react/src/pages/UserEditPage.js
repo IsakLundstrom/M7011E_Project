@@ -14,6 +14,7 @@ const UserEditPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
+  const [has2FA, setHas2FA] = useState(false);
   const [isStaff, setStaff] = useState(false);
   const [isSuperuser, setSuperuser] = useState(false);
 
@@ -30,6 +31,7 @@ const UserEditPage = () => {
       setEmail(response.data.email);
       setStaff(response.data.is_staff);
       setSuperuser(response.data.is_superuser);
+      setHas2FA(response.data.has2FA);
     })();
   }, []);
 
@@ -50,6 +52,7 @@ const UserEditPage = () => {
         fName: fName,
         lName: lName,
         email: email,
+        has2FA: has2FA,
         is_staff: isStaff,
         is_superuser: isSuperuser,
       });
@@ -154,6 +157,17 @@ const UserEditPage = () => {
           value={rpassword}
           onChange={(e) => setRPassword(e.target.value)}
         />
+
+        <br />
+
+        <input
+          className="checkboxField"
+          type="checkbox"
+          name="2fa"
+          checked={has2FA}
+          onChange={async (e) => setHas2FA(e.target.checked)}
+        />
+        <label htmlFor="2fa">2 Factor Authentication </label>
 
         <br />
 
