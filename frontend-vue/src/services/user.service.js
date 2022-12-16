@@ -72,6 +72,10 @@ class UserService {
       like: value,
     });
   }
+
+  getUserList(){
+    return api.get("/user/");
+  }
 }
 
 export default new UserService();
