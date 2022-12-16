@@ -355,6 +355,9 @@ p {
   color: black;
   top: 10px;
   right: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  border-radius: 3px;
 }
 
 .courseContent {
@@ -511,7 +514,17 @@ p {
   background-color: #ffbaba;
 }
 
-#popupContainer {
+.successBox {
+  border: 1px solid;
+  margin: 10px 0px;
+  text-align: center;
+  padding: calc(var(--gap) / 2);
+
+  color: #4f8a10;
+  background-color: #dff2bf;
+}
+
+.popupContainer {
   width: 100%;
   height: 100%;
   top: 0;
@@ -521,7 +534,7 @@ p {
   background-color: rgba(22, 22, 22, 0.2); /* complimenting your modal colors */
 }
 
-#popupContainer:target {
+.popupContainer:target {
   visibility: visible;
   display: block;
 }
@@ -533,6 +546,11 @@ p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.resetPopupContainer {
+  visibility: visible;
+  display: block;
 }
 
 .resetPasswordContent {

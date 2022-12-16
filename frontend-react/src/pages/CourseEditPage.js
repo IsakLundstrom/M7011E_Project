@@ -22,6 +22,7 @@ const CourseEditPage = () => {
   const [newVidUrl, setNewVidUrl] = useState("");
 
   const [deletePressed, setDelete] = useState(false);
+  const [updated, setUpdated] = useState(false);
 
   // get course
   useEffect(() => {
@@ -55,11 +56,18 @@ const CourseEditPage = () => {
       putData["courseIMG"] = cImage;
     }
 
-    let res = await api.patch(`/courses/${params.id}/`, putData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    try {
+      let res = await api.patch(`/courses/${params.id}/`, putData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(res);
+      setUpdated(true);
+    } catch {
+      alert("Could not patch course");
+      setUpdated(false);
+    }
   };
 
   // delete course
@@ -184,6 +192,7 @@ const CourseEditPage = () => {
         />
 
         <br />
+        {updated && <div className="successBox">Course updated!</div>}
         <br />
 
         <input

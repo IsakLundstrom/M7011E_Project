@@ -19,6 +19,8 @@ const UserEditPage = () => {
 
   const [deletePressed, setDelete] = useState(false);
 
+  const [updated, setUpdated] = useState(false);
+
   useEffect(() => {
     (async () => {
       const response = await api.get(`/user/${params.id}/`);
@@ -52,8 +54,10 @@ const UserEditPage = () => {
         is_superuser: isSuperuser,
       });
       console.log(res);
+      setUpdated(true);
     } catch {
       alert("Could not patch user");
+      setUpdated(false);
     }
 
     setPassword("");
@@ -174,6 +178,7 @@ const UserEditPage = () => {
         <label htmlFor="admin">is Admin?</label>
 
         <br />
+        {updated && <div className="successBox">User updated!</div>}
         <br />
 
         <input
