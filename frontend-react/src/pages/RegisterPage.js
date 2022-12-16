@@ -79,6 +79,7 @@ const RegisterPage = () => {
           <br />
           <input
             className="inputField"
+            required
             type="password"
             name="password"
             value={password}
@@ -92,6 +93,7 @@ const RegisterPage = () => {
           <br />
           <input
             className="inputField"
+            required
             type="password"
             name="rpassword"
             value={rpassword}

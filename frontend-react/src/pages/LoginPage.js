@@ -137,7 +137,7 @@ const LoginPage = () => {
       </main>
 
       <div id="popupContainer">
-        <div id="popup" class="popup">
+        <div id="popup" className="popup">
           <div className="resetPasswordContent">
             <h2>Reset password</h2>
             <form onSubmit={sendResetEmail}>
