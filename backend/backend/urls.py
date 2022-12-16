@@ -21,7 +21,7 @@ from rest_framework import routers
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from .auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet
+from .auth.views import LoginViewSet, RegistrationViewSet, RefreshViewSet, OTPVerify
 from courses import views as cViews
 from user import views as uViews
 
@@ -44,6 +44,7 @@ urlpatterns = [
     path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
     path('resetPassword/', uViews.ResetPasswordView.as_view(), name="resetPassword"),
     path('resetPasswordConfirm/', uViews.ResetPasswordConfirmView.as_view(), name="resetPasswordConfirm"),
+    path('auth/login/2fa', OTPVerify.as_view(), name="OTPVerify"),
     path('subscriptions/', cViews.UserSubscriptions.as_view(), name="userSubscriptions"),
 
     # re_path('^courseVideo/(?P<id>.+)/$', cViews.CourseVideoView.as_view(), name="courseVideos"),

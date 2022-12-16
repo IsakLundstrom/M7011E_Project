@@ -58,8 +58,8 @@ class ResetPasswordView(generics.CreateAPIView):
             token = default_token_generator.make_token(user)
 
             send_mail.send_mail(
-                html="http://localhost:" + port + "/resetPasswordConfirm/" + str(user.id) + "/" + token + "/",
-                text='Here is your password reset link', subject='password reset',
+                html="<p>Here is your password reset link</p><h1>http://localhost:" + port + "/resetPasswordConfirm/" + str(user.id) + "/" + token + "/</h1>",
+                subject='The Sweat Zone: Password reset',
                 from_email='sweatzone1337@gmail.com',
                 to_emails=[email])
 

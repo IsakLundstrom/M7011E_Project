@@ -24,6 +24,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fName = models.CharField(max_length=100)
     lName = models.CharField(max_length=100)
     userIMG = models.ImageField(upload_to="users", default="default/default_profile.png")
+    has2FA = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
 
@@ -31,3 +32,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.email}"
+
+
+class OTP(models.Model):
+    userID = models.ForeignKey('user.User', on_delete=models.CASCADE)
+    token = models.CharField(max_length=6)
+    createdTime = models.DateTimeField(auto_now=True)

@@ -167,6 +167,6 @@ class LikeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             str(courseID),
             {
                 'type': 'likeRatioMessage',
-                'message': likeRatio
+                'message': int(likeRatio)
             }
         )
