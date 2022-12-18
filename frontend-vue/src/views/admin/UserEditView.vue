@@ -1,99 +1,188 @@
+<script setup>
+  import userService from '@/services/user.service';
+</script>
+
 <template>
   <main>
-      <h1>Edit User</h1>
-      <form action="">
-        <label htmlFor="id">ID</label>
-        <br />
-        <input
-          class="inputField"
-          required
-          type="text"
-          name="id"
-          disabled="disabled"
-          value="1"
-        />
+    <h1>Edit User</h1>
+    <form @submit.prevent="updateUser()">
+      <label htmlFor="id">ID</label>
+      <br />
+      <input
+        class="inputField"
+        required
+        type="text"
+        name="id"
+        disabled="disabled"
+        v-model="id"
+      />
 
-        <br />
+      <br />
 
-        <label htmlFor="fname">First name</label>
-        <br />
-        <input
-          class="inputField"
-          required
-          type="text"
-          name="fname"
-          value="Bob"
-        />
+      <label htmlFor="fname">First name</label>
+      <br />
+      <input
+        class="inputField"
+        required
+        type="text"
+        name="fname"
+        v-model="fName"
+      />
 
-        <br />
+      <br />
 
-        <label htmlFor="lname">Last name</label>
-        <br />
-        <input
-          class="inputField"
-          required
-          type="text"
-          name="lname"
-          value="Bobson"
-        />
+      <label htmlFor="lname">Last name</label>
+      <br />
+      <input
+        class="inputField"
+        required
+        type="text"
+        name="lname"
+        v-model="lName"
+      />
 
-        <br />
+      <br />
 
-        <label htmlFor="email">Email</label>
-        <br />
-        <input
-          class="inputField"
-          required
-          type="email"
-          name="email"
-          value="bob.bobson@gmail.com"
-        />
+      <label htmlFor="email">Email</label>
+      <br />
+      <input
+        class="inputField"
+        required
+        type="email"
+        name="email"
+        v-model="email"
+      />
 
-        <br />
+      <br />
 
-        <label htmlFor="npassword">New Password</label>
-        <br />
-        <input class="inputField" type="text" name="npassword" />
+      <label htmlFor="npassword">New Password</label>
+      <br />
+      <input 
+        class="inputField" 
+        type="password" 
+        name="npassword" 
+        v-model="password"
+      />
 
-        <br />
+      <br />
 
-        <label htmlFor="rpassword">Repeat Password</label>
-        <br />
-        <input class="inputField" type="text" name="rpassword" />
+      <label htmlFor="rpassword">Repeat Password</label>
+      <br />
+      <input 
+        class="inputField" 
+        type="password" 
+        name="rpassword" 
+        v-model="rpassword"
+      />
 
-        <br />
+      <br />
 
-        <input class="checkboxField" type="checkbox" name="staff" checked />
-        <label htmlFor="staff">is Staff?</label>
+      <input 
+        class="checkboxField" 
+        type="checkbox" 
+        name="staff" 
+        v-model="is_staff" 
+        :checked="is_staff" 
+      />
+      <label htmlFor="staff">is Staff?</label>
 
-        <br />
+      <br />
 
-        <input class="checkboxField" type="checkbox" name="admin" />
-        <label htmlFor="admin">is Admin?</label>
+      <input 
+        class="checkboxField" 
+        type="checkbox" 
+        name="admin" 
+        v-model="is_superuser" 
+        :checked="is_superuser"
+      />
+      <label htmlFor="admin">is Admin?</label>
 
-        <br />
-        <br />
+      <br />
+        <div class="successBox" v-if="updated">User updated!</div>
+      <br />
 
-        <input
-          class="profileButton profileUpdateButton"
-          type="submit"
-          value="Update user"
-        />
+      <input
+        class="profileButton profileUpdateButton"
+        type="submit"
+        value="Update user"
+      />
 
-        <br />
-        <br />
-      </form>
-      <button class="profileButton deleteButton">Delete user</button>
-    </main>
+      <br />
+      <br />
+    </form>
+    <button class="profileButton deleteButton" @click="deletePressed = true">Delete user</button>
+
+    <div v-if="deletePressed" class="confirmBox">
+      <p>Do you really want to delete this user?</p>
+      <button class="profileButton deleteButton" @click="deleteUser()">
+        Yes
+      </button>
+      <button
+        class="profileButton profileUpdateButton" @click="deletePressed = false">
+        No
+      </button>
+    </div>
+
+  </main>
 </template>
 
 <script>
 
 export default{
+  
   data() {
     return{
       id: this.$route.params.id,
+      fName: '',
+      lName: '',
+      email: '',
+      is_staff: false,
+      is_superuser: false,
+      password: '',
+      rpassword: '',
+      updated: false,
+      deletePressed: false,
     }
+  },
+
+  methods:{
+    async updateUser(){
+      if(this.password !== ""){
+        if(this.password !== this.rpassword){
+          alert("password and repeated password did not match")
+          return
+        }
+        try {
+          throw "not implemented"
+          // await userService.patchPassword(this.password)
+        } catch (e){
+          alert("Could not patch password", e);
+        }
+      }
+      await userService.patchUpdateUser(this.id, this.fName, this.lName, this.email, this.is_staff, this.is_superuser)
+      this.updated = true
+    },
+
+    async deleteUser() {
+      await userService.deleteUser(this.id)
+      this.$router.push({name: 'UserList'})
+    }
+  },
+
+  watch: {
+    '$route.params.id': {
+      async handler() {
+        const response = await userService.getUser(this.id)
+        console.log(response)
+        this.fName = response.data.fName
+        this.lName = response.data.lName
+        this.email = response.data.email
+        this.is_staff = response.data.is_staff
+        this.is_superuser = response.data.is_superuser
+      },
+      immediate: true
+      
+    },
   }
 }
 

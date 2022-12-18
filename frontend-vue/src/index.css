@@ -331,7 +331,7 @@ p {
 .courseImageContainer {
   position: relative;
   text-align: center;
-  height: 300px;
+  height: 400px;
   overflow: hidden;
   color: var(--font-color-main);
   margin-bottom: var(--gap);
@@ -355,6 +355,9 @@ p {
   color: black;
   top: 10px;
   right: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  border-radius: 3px;
 }
 
 .courseContent {
@@ -481,7 +484,7 @@ p {
 
 .profileUploadButton {
   background-color: var(--accent-color-1);
-  margin: auto;
+  margin: auto auto 0 auto;
 }
 
 .profileUpdateButton {
@@ -509,6 +512,51 @@ p {
   padding: calc(var(--gap) / 2);
   color: #d8000c;
   background-color: #ffbaba;
+}
+
+.successBox {
+  border: 1px solid;
+  margin: 10px 0px;
+  text-align: center;
+  padding: calc(var(--gap) / 2);
+
+  color: #4f8a10;
+  background-color: #dff2bf;
+}
+
+.popupContainer {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  position: absolute;
+  visibility: hidden;
+  display: none;
+  background-color: rgba(22, 22, 22, 0.2); /* complimenting your modal colors */
+}
+
+.popupContainer:target {
+  visibility: visible;
+  display: block;
+}
+
+.popup {
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.resetPopupContainer {
+  visibility: visible;
+  display: block;
+}
+
+.resetPasswordContent {
+  width: 40%;
+  background-color: white;
+  padding: var(--gap);
 }
 
 /* UserList and CourseList page */
@@ -582,12 +630,22 @@ textarea {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
+  .courseImageContainer {
+    height: 300px;
+  }
+
   .courseContent {
     grid-template-columns: 1fr;
   }
+
+  /* LOGIN */
+
+  .resetPasswordContent {
+    width: 55%;
+  }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 640px) {
   :root {
     --mainWidth: 95%;
   }
@@ -662,5 +720,11 @@ textarea {
   .profileImageContainer {
     width: 50%;
     aspect-ratio: 1/1;
+  }
+
+  /* LOGIN */
+
+  .resetPasswordContent {
+    width: 65%;
   }
 }

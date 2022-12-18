@@ -76,6 +76,30 @@ class UserService {
   getUserList(){
     return api.get("/user/");
   }
+
+  getUser(userID) {
+    return api.get(`/user/${userID}/`);
+  }
+
+  patchUpdateUser(userID, fName, lName, email, is_staff, is_superuser) {
+    return api.patch(`/user/${userID}/`, {
+      fName: fName,
+      lName: lName,
+      email: email,
+      is_staff: is_staff,
+      is_superuser: is_superuser,
+    });
+  }
+
+  patchPassword(newPassword) {
+    return api.patch(`/changePassword/`, {
+      newPassword: newPassword,
+    })
+  }
+
+  deleteUser(userID) {
+    return api.delete(`/user/${userID}/`);
+  }
 }
 
 export default new UserService();
