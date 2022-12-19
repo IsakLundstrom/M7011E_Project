@@ -27,9 +27,11 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        password = serializer.data.get("password")
-        if password is not None:
-            instance.set_password(password)
+        requestPassword = request.data.get("password")
+
+        if requestPassword is not None:
+            serializedPassword = serializer.data.get("password")
+            instance.set_password(serializedPassword)
             instance.save()
 
         if getattr(instance, '_prefetched_objects_cache', None):
