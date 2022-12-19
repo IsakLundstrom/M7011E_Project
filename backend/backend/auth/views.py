@@ -1,4 +1,6 @@
 import datetime
+import http
+
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -93,7 +95,10 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
         serializer = self.get_serializer(data=request.data)
 
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+        try:
+            user = serializer.save()
+        except:
+            return Response(status=status.HTTP_409_CONFLICT)
         refresh = RefreshToken.for_user(user)
         res = {
             "refresh": str(refresh),
