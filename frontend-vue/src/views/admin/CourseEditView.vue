@@ -97,7 +97,7 @@
             <td> {{ video.videoName }} </td>
             <td> {{ video.videoURL }} </td>
             <td>
-              <button>❌</button>
+              <button @click="deleteVideo(video.videoID)">❌</button>
             </td>
           </tr>
 
@@ -182,7 +182,7 @@
           this.course.shortDescription,
           this.course.longDescription,
           this.newCourseIMG,
-        ) //courseID, courseName, shortDesc, longDesc, courseIMG
+        ) 
         this.updated = true
       },
       setCImage(event){
@@ -191,20 +191,26 @@
       async postVideo() {
         try {
           await userService.postCourseVideo(this.cID, this.newVidName, this.newVidUrl)
-          this.newVideoAdded = true
+          this.updateVideoList = true
           this.newVidName = ''
           this.newVidUrl = ''
         } catch (error) {
           alert('could not post video')
         }
-        
       },
+
+      async deleteVideo(videoID) {
+        await userService.deleteCourseVideo(this.cID, videoID)
+        this.updateVideoList = true
+      },
+
       async getCourse() {
         const response = await userService.getCourse(this.cID)
         this.course = response.data
       },
-      deleteCourse() {
-        alert('Not implemented')
+      async deleteCourse() {
+        await userService.deleteCourse(this.cID)
+        this.$router.push({name: 'CourseList'})
       },
       async getCourseVideos() {
         try {
@@ -229,7 +235,7 @@
         newCourseIMG: null,
         newVidName: '',
         newVidUrl: '',
-        newVideoAdded: false,
+        updateVideoList: false,
 
         videos: null,
         deletePressed: false,
@@ -244,12 +250,12 @@
         },
         immediate: true
       },
-      async newVideoAdded() {
-        if(!this.newVideoAdded) {
+      async updateVideoList() {
+        if(!this.updateVideoList) {
           return
         }
         await this.getCourseVideos()
-        this.newVideoAdded = false
+        this.updateVideoList = false
       }
     }
   }
