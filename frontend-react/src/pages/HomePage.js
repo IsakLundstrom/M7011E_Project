@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { TwitterTimelineEmbed } from "react-twitter-embed";
 
 import homeImage from "../images/home_image.png";
 import dumbellSvg from "../images/dumbell_svg.svg";
@@ -7,6 +8,8 @@ import runSvg from "../images/run_svg.svg";
 import fotballSvg from "../images/fotball_svg.svg";
 
 const HomePage = () => {
+  const location = useLocation();
+
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -90,6 +93,14 @@ const HomePage = () => {
             );
           })}
       </div>
+
+      <h2 className="homeH2">News</h2>
+
+      <TwitterTimelineEmbed
+        sourceType="profile"
+        screenName="LTUniv"
+        options={{ height: 400 }}
+      />
     </main>
   );
 };
