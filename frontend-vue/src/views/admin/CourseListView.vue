@@ -1,3 +1,7 @@
+<script setup>
+  import userService from '@/services/user.service';
+</script>
+
 <template>
   <main>
       <h1>All courses</h1>
@@ -9,22 +13,53 @@
       <br />
       <br />
 
+      <form className="coursesSearchForm" @submit.prevent="handleSearchSubmit()">
+        <input
+          className="inputField"
+          type="text"
+          placeholder="Search.."
+          v-model="search"
+        />
+
+        <label>Sort by: </label>
+
+        <select
+          className="inputField"
+          name="sort"
+          v-model="ordering"
+        >
+          <option value="courseID">CourseID ⬇</option>
+          <option value="-courseID">CourseID ⬆</option>
+          <option value="likeRatio">Like ratio ⬇</option>
+          <option value="-likeRatio">Like ratio ⬆</option>
+          <option value="courseName">Name ⬇</option>
+          <option value="-courseName">Name ⬆</option>
+          <option value="owner">Owner ⬇</option>
+          <option value="-owner">Owner ⬆</option>
+        </select>
+      </form>
+
+      <br />
+
       <table class="adminTable">
         <tbody>
           <tr>
             <th>ID</th>
+            <th>Owner</th>
             <th>Name</th>
             <th>Short description</th>
             <th>Like Ratio</th>
             <th>Edit</th>
           </tr>
-            <tr v-for="course in courses" :key=course.id>
-              <td> {{ course.id }} </td>
+            <div v-if="!courses"> Loading Courses...</div>
+            <tr v-for="course in courses" :key=course.courseID>
+              <td> {{ course.courseID }} </td>
+              <td> {{ course.owner }} </td>
               <td> {{ course.courseName }} </td>
               <td> {{ course.shortDescription }} </td>
-              <td> {{ course.likeRatio }} % </td>
+              <td> {{ course.likeRatio }}% </td>
               <td>
-                <router-link :to="{name: 'CourseEdit', params: {id: course.id}}">
+                <router-link :to="{name: 'CourseEdit', params: {id: course.courseID}}">
                   &#x270D;
                 </router-link>
               </td>
@@ -36,18 +71,31 @@
 </template>
 
 <script>
+
   export default {
     data() {
       return {
-        courses: [
-          {
-            id: 1,
-            courseName: "fåbåll",
-            shortDescription: "play fåbåll",
-            likeRatio: -1,
-          },
-        ]
+        courses: null,
+        ordering: '-courseID',
+        search: '',
       }
+    },
+    methods: {
+      async getCourses() {
+        const response = await userService.getCourses(this.ordering, this.search)
+        this.courses = response.data
+      }
+    },
+    watch: {
+      search() {
+        this.getCourses()
+      },
+      ordering() {
+        this.getCourses()
+      },
+    },
+    mounted() {
+      this.getCourses()
     }
   }
 </script>
