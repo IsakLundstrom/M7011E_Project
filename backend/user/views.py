@@ -26,8 +26,11 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        instance.set_password(serializer.data.get("password"))
-        instance.save()
+
+        password = serializer.data.get("password")
+        if password is not None:
+            instance.set_password(password)
+            instance.save()
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -39,24 +42,24 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 
-class ChangePasswordView(generics.UpdateAPIView):
-    serializer_class = ChangePasswordSerializer
-    model = User
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, queryset=None):
-        obj = self.request.user
-        return obj
-
-    def update(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        serializer = self.get_serializer(data=request.data)
-
-        if serializer.is_valid():
-            self.object.set_password(serializer.data.get("newPassword"))
-            self.object.save()
-
-            return Response(serializer.data, status=status.HTTP_200_OK)
+# class ChangePasswordView(generics.UpdateAPIView):
+#     serializer_class = ChangePasswordSerializer
+#     model = User
+#     permission_classes = (IsAuthenticated,)
+#
+#     def get_object(self, queryset=None):
+#         obj = self.request.user
+#         return obj
+#
+#     def update(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         serializer = self.get_serializer(data=request.data)
+#
+#         if serializer.is_valid():
+#             self.object.set_password(serializer.data.get("newPassword"))
+#             self.object.save()
+#
+#             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ResetPasswordView(generics.CreateAPIView):

@@ -41,7 +41,7 @@ router.register(r'user', uViews.UserViewSet, basename="user")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
-    path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
+    # path('changePassword/', uViews.ChangePasswordView.as_view(), name="changePassword"),
     path('resetPassword/', uViews.ResetPasswordView.as_view(), name="resetPassword"),
     path('resetPasswordConfirm/', uViews.ResetPasswordConfirmView.as_view(), name="resetPasswordConfirm"),
     path('auth/login/2fa', OTPVerify.as_view(), name="OTPVerify"),
