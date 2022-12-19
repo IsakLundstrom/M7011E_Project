@@ -5,6 +5,15 @@ class UserService {
     return api.get(`courses/?ordering=${ordering}&search=${search}`);
   }
 
+  postCourse(courseName, shortDesc, longDesc, courseIMG) {
+    return api.post("/courses/", {
+      courseName: courseName,
+      shortDescription: shortDesc,
+      longDescription: longDesc,
+      courseIMG: courseIMG,
+    });
+  }
+
   getCourse(courseID) {
     return api.get(`http://127.0.0.1:8000/courses/${courseID}/`);
   }

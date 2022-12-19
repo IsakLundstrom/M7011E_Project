@@ -1,3 +1,8 @@
+<script setup>
+  import tokenService from '@/services/token.service';
+import userService from '@/services/user.service';
+</script>
+
 <template>
   <main>
     <h1>Create Course</h1>
@@ -42,6 +47,7 @@
       <br />
       <input
         class=""
+        required
         type="file"
         name="image"
         v-on:change="setCImage($event)"
@@ -65,18 +71,28 @@
     name: 'CourseCreateView',
     components: {  },
     methods: {
-      handleSubmit() {
-        alert(`${this.cName}, ${this.shortDescription}, ${this.longDescription}`);
+      async handleSubmit() {
+        userService.postCourse(this.cName, this.shortDescription, this.longDescription, this.courseIMG)
+        const user = await tokenService.getUserData()
+        if (user.is_superuser){
+          this.$router.push({name: 'CourseList'})
+        } else if (user.is_staff) {
+          this.$router.push({name: 'Profile'})
+        }
+        
+        
       },
       setCImage(event){
-        this.$emit('update:modelValue', event.target.files[0]); 
+        this.courseIMG = event.target.files[0]
       }
     },
     data() {
       return {
-        cName: "Example Course",
-        shortDescription: "short description",
-        longDescription: "long description",
+        cName: "",
+        shortDescription: "",
+        longDescription: "",
+        courseIMG: "",
+
       }
     }
   }

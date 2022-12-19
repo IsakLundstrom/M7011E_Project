@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main>
+  <main :key="componentKey">
       <h1>All courses</h1>
 
       <br />
@@ -78,13 +78,18 @@
         courses: null,
         ordering: '-courseID',
         search: '',
+
+        componentKey: 0,
       }
     },
     methods: {
       async getCourses() {
         const response = await userService.getCourses(this.ordering, this.search)
         this.courses = response.data
-      }
+      }, 
+      forceRerender() {
+      this.componentKey += 1;
+    },
     },
     watch: {
       search() {
@@ -93,6 +98,7 @@
       ordering() {
         this.getCourses()
       },
+      
     },
     mounted() {
       this.getCourses()
