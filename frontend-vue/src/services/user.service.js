@@ -5,8 +5,17 @@ class UserService {
     return api.get(`courses/?ordering=${ordering}&search=${search}`);
   }
 
-  getCourse(courseID){
+  getCourse(courseID) {
     return api.get(`http://127.0.0.1:8000/courses/${courseID}/`);
+  }
+
+  patchCourse(courseID, courseName, shortDesc, longDesc, courseIMG) {
+    return api.patch(`http://127.0.0.1:8000/courses/${courseID}/`, {
+      courseName: courseName,
+      shortDescription: shortDesc,
+      longDescription: longDesc,
+      courseIMG: courseIMG,
+    });
   }
 
   getCourseVideos(courseID) {
@@ -92,9 +101,7 @@ class UserService {
   }
 
   patchPassword(newPassword) {
-    return api.patch(`/changePassword/`, {
-      newPassword: newPassword,
-    })
+   
   }
 
   deleteUser(userID) {

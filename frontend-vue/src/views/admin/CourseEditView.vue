@@ -1,7 +1,11 @@
+<script setup>
+  import userService from '@/services/user.service';
+</script>
+
 <template>
   <main>
     <h1>Edit Course</h1>
-    <form @submit.prevent="putCourse">
+    <form @submit.prevent="patchCourse">
       <label htmlFor="id">ID</label>
       <br />
       <input
@@ -22,7 +26,7 @@
         required
         type="text"
         name="name"
-        v-model="cName"
+        v-model="course.courseName"
       />
 
       <br />
@@ -34,7 +38,7 @@
         required
         type="text"
         name="shortDescription"
-        v-model="shortDescription"
+        v-model="course.shortDescription"
       />
 
       <br />
@@ -46,7 +50,7 @@
         required
         name="longDescription"
         rows="5"
-        v-model="longDescription"
+        v-model="course.longDescription"
       ></textarea>
 
       <br />
@@ -62,6 +66,7 @@
       />
 
       <br />
+      <div v-if="updated" class="successBox">Course updated!</div>
       <br />
 
       <input
@@ -90,7 +95,7 @@
           <tr v-for="video in videos" :key="video.videoID">
             <td> {{ video.videoID }} </td>
             <td> {{ video.videoName }} </td>
-            <td> {{ video.videoUrl }} </td>
+            <td> {{ video.videoURL }} </td>
             <td>
               <button>❌</button>
             </td>
@@ -141,7 +146,26 @@
       <br />
     </form>
 
-    <button class="profileButton deleteButton">Delete course</button>
+    <button 
+      class="profileButton deleteButton" 
+      @click="deletePressed = true"
+    >
+      Delete course
+    </button>
+    
+    <div v-if="deletePressed" className="confirmBox">
+      <p>Do you really want to delete this course?</p>
+      <button className="profileButton deleteButton" @click="">
+        Yes
+      </button>
+      <button
+        className="profileButton profileUpdateButton"
+        @click="deletePressed = false"
+      >
+        No
+      </button>
+    </div>
+
   </main>
 </template>
 
@@ -151,33 +175,56 @@
     name: 'CourseEditView',
     components: {  },
     methods: {
-      putCourse() {
-        alert(`${this.cID}, ${this.cName}, ${this.shortDescription},  ${this.longDescription}`);
+      patchCourse() {
+        userService.patchCourse(
+          this.cID, 
+          this.course.courseName, 
+          this.course.shortDescription,
+          this.course.longDescription,
+          this.newCourseIMG,
+        ) //courseID, courseName, shortDesc, longDesc, courseIMG
+        this.updated = true
       },
       setCImage(event){
-        this.$emit('update:modelValue', event.target.files[0]); 
+        this.newCourseIMG = event.target.files[0]
       },
       postVideo() {
         alert(`not implemented`)
+      },
+      async getCourse() {
+        const response = await userService.getCourse(this.cID)
+        console.log(response.data)
+        this.course = response.data
       }
     },
     data() {
       return {
         cID: this.$route.params.id,
-        cName: 'cName',
-        shortDescription: 'shortDesc',
-        longDescription: 'longDesc',
-        newVidName: 'newVidName',
-        newVidUrl: 'newVidUrl',
-
-        videos: [
-          {          
-            videoID: -1,
-            videoName: "videName",
-            videoUrl: "videoUrl",
+        course: [
+          {
+            courseName: '',
+            shortDescription: '',
+            longDescription: '',
+            courseIMG: '',
           }
-        ]
+        ],
+        newCourseIMG: null,
+        newVidName: '',
+        newVidUrl: '',
+
+        videos: null,
+        deletePressed: false,
+        updated: false,
       }
-    }
+    },
+    watch: {
+    '$route.params.id': {
+      async handler() {
+        await this.getCourse()
+      },
+      immediate: true
+      
+    },
+  }
   }
 </script>
