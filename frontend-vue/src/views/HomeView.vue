@@ -4,6 +4,7 @@
   import runSvg from "../images/run_svg.svg";
   import fotballSvg from "../images/fotball_svg.svg";
   import userService from "@/services/user.service";
+  import TwitterTimeline from 'vue-twitter-timeline';
 </script>
 
 <template>
@@ -71,9 +72,13 @@
               </div>
             </div>
           </router-link>
-
         </div>
       </div>
+
+      <TwitterTimeline
+        url="LTUniv?ref_src=twsrc%5Etfw"
+        height="400"
+      />
       
     </main>
 </template>
@@ -82,6 +87,7 @@
 
 export default {
   name: 'HomeView',
+
   data() {
     return {
       courses: null,
