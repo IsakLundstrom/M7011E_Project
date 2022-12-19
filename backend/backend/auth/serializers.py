@@ -16,7 +16,7 @@ class LoginSerializer(TokenObtainPairSerializer):
 
         refresh = self.get_token(self.user)
 
-        # data['user'] = UserSerializer(self.user).data
+
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
 
@@ -42,7 +42,6 @@ class RegistrationSerializer(UserSerializer):
 
     class Meta:
         model = User
-        # fields = ['userID', 'fName', 'lName', 'email', 'password', 'is_active', 'created', 'updated']
         fields = ['fName', 'lName', 'email', 'password']
 
     def create(self, validated_data):

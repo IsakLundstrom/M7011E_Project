@@ -1,5 +1,5 @@
 import datetime
-
+from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.viewsets import ModelViewSet
@@ -12,13 +12,9 @@ from string import digits
 from django.utils import timezone
 
 from .serializers import LoginSerializer, RegistrationSerializer
-from ..send_mail import send_mail
-
 from user.models import OTP
 from user.serializers import OTPSerializer
 from ..send_mail import send_mail
-
-from django.contrib.auth import authenticate
 
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):
