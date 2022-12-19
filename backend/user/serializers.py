@@ -8,12 +8,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'fName', 'lName', 'password', 'is_staff', 'is_superuser', "userIMG", 'has2FA']
 
 
-class ChangePasswordSerializer(serializers.Serializer):
-    model = User
-    # fields = ['password']
-    newPassword = serializers.CharField(required=True)
-
-
 class ResetPasswordSerializer(serializers.Serializer):
     model = User
     email = serializers.CharField(required=True)

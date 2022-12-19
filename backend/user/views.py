@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.tokens import default_token_generator
 
 from .models import User
-from .serializers import UserSerializer, ChangePasswordSerializer, ResetPasswordSerializer, \
+from .serializers import UserSerializer, ResetPasswordSerializer, \
     ResetPasswordConfirmSerializer
 from .permissions import IsUserPermission
 from backend import send_mail
@@ -42,28 +42,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
-
-# class ChangePasswordView(generics.UpdateAPIView):
-#     serializer_class = ChangePasswordSerializer
-#     model = User
-#     permission_classes = (IsAuthenticated,)
-#
-#     def get_object(self, queryset=None):
-#         obj = self.request.user
-#         return obj
-#
-#     def update(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         serializer = self.get_serializer(data=request.data)
-#
-#         if serializer.is_valid():
-#             self.object.set_password(serializer.data.get("newPassword"))
-#             self.object.save()
-#
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 class ResetPasswordView(generics.CreateAPIView):
     serializer_class = ResetPasswordSerializer
     model = User
@@ -81,7 +59,8 @@ class ResetPasswordView(generics.CreateAPIView):
             token = default_token_generator.make_token(user)
 
             send_mail.send_mail(
-                html="<p>Here is your password reset link</p><h1>http://localhost:" + port + "/resetPasswordConfirm/" + str(user.id) + "/" + token + "/</h1>",
+                html="<p>Here is your password reset link</p><h1>http://localhost:" + port + "/resetPasswordConfirm/" + str(
+                    user.id) + "/" + token + "/</h1>",
                 subject='The Sweat Zone: Password reset',
                 from_email='sweatzone1337@gmail.com',
                 to_emails=[email])
