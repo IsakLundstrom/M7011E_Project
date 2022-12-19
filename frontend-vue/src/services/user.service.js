@@ -18,6 +18,10 @@ class UserService {
     });
   }
 
+  deleteCourse(courseID) {
+    return api.delete(`/courses/${courseID}/`);
+  }
+
   getCourseVideos(courseID) {
     return api.get(`http://127.0.0.1:8000/courses/${courseID}/videos/`);
   }
@@ -28,6 +32,11 @@ class UserService {
       videoName: videoName,
       videoURL: videoURL,
     })
+  }
+
+  deleteCourseVideo(courseID, videoID) {
+    return api.delete(`/courses/${courseID}/videos/${videoID}/`);
+
   }
 
   getUserList() {

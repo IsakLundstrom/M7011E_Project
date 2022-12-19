@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { TwitterShareButton } from "react-twitter-embed";
 
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
@@ -171,35 +172,50 @@ const CoursePage = () => {
 
           <div className="courseContent">
             <div className="courseLeftContent">
-              {user && (
-                <div className="courseButtons">
-                  {!subscribed ? (
-                    <button onClick={postSubscribe}>
-                      <p>Subscribe</p>
+              <div className="courseButtons">
+                {user && (
+                  <>
+                    {!subscribed ? (
+                      <button onClick={postSubscribe}>
+                        <p>Subscribe</p>
+                      </button>
+                    ) : (
+                      <button onClick={deleteSubscribe}>
+                        <p>Unsubscribe</p>
+                      </button>
+                    )}
+
+                    <button
+                      className={liked === 1 ? "coursesSortButtonActive" : ""}
+                      onClick={postPutLike}
+                      value={1}
+                    >
+                      <p>👍 </p>
                     </button>
-                  ) : (
-                    <button onClick={deleteSubscribe}>
-                      <p>Unsubscribe</p>
+
+                    <button
+                      className={liked === 0 ? "coursesSortButtonActive" : ""}
+                      onClick={postPutLike}
+                      value={0}
+                    >
+                      <p> 👎</p>
                     </button>
-                  )}
-                  <button
-                    className={liked === 1 ? "coursesSortButtonActive" : ""}
-                    onClick={postPutLike}
-                    value={1}
-                  >
-                    <p>👍 </p>
-                  </button>
-                  <button
-                    className={liked === 0 ? "coursesSortButtonActive" : ""}
-                    onClick={postPutLike}
-                    value={0}
-                  >
-                    <p> 👎</p>
-                  </button>
-                </div>
-              )}
+                  </>
+                )}
+
+                <TwitterShareButton
+                  url={window.location.href}
+                  options={{
+                    text: `Checkout this awesome course! #fitness`,
+                    size: "large",
+                  }}
+                />
+              </div>
+
               <p>Course created by: {course.owner}</p>
+
               <br />
+
               <div className="courseDescription">
                 <button onClick={() => setVisible(!visible)}>
                   Description {visible ? "▲" : "▼"}
@@ -209,7 +225,7 @@ const CoursePage = () => {
                 </div>
               </div>
             </div>
-            <Carousel showThumbs={false}>
+            <Carousel showThumbs={false} className="courseVideos">
               {videos &&
                 videos.map((video) => {
                   return (
