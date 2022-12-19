@@ -3,6 +3,7 @@
   import dumbellSvg from "../images/dumbell_svg.svg";
   import runSvg from "../images/run_svg.svg";
   import fotballSvg from "../images/fotball_svg.svg";
+  import userService from "@/services/user.service";
 </script>
 
 <template>
@@ -10,7 +11,7 @@
       <div class="homeImageContainer">
         <div class="imageGradient"></div>
         <img :src=homeImage alt="Home" />
-        <h1 class="homeH1 textBottomLeft">Home page</h1>
+        <h1 class="homeH1 textBottomLeft">The Sweat Zone</h1>
       </div>
 
       <h2 class="homeH2"> We are fitness! </h2>
@@ -52,48 +53,28 @@
         </div>
       </div>
 
-      <h2 class="homeH2"> Top 3 courses right now! </h2>
+      <h2 class="homeH2"> Our 3 latest courses! 🔥 </h2>
 
       <div class="threeCards">
-        <router-link :to="{ name: 'Course', params: {id:1}}" class="card courseCard">
-          <div>
-            <img :src=homeImage alt="course" />
-            <div class="cardTextContainer">
-              <h3>
-                <b>Course 1</b>
-              </h3>
-              <p>Come and gym for free at 24/7Fittness every Monday 7am!</p>
+        <div v-if="courses" v-for="n, index in 3" :key="index">
+          <router-link 
+            :to="{ name: 'Course', params: {id:courses[index].courseID}}" 
+            class="card courseCard"
+          >
+            <div>
+              <img :src=courses[index].courseIMG alt="course" />
+              <div class="cardTextContainer">
+                <h3>
+                  <b> {{ courses[index].courseName }} </b>
+                </h3>
+                <p> {{ courses[index].shortDescription }} </p>
+              </div>
             </div>
-          </div>
-        </router-link>
+          </router-link>
 
-        <router-link :to="{ name: 'Course', params: {id:2}}" class="card courseCard">
-          <div>
-            <img :src=homeImage alt="course" />
-            <div class="cardTextContainer">
-              <h3>
-                <b>Course 2</b>
-              </h3>
-              <p>
-                Come and do some uphill training at 3am every Sunday on
-                Ormberget's skislope!
-              </p>
-            </div>
-          </div>
-        </router-link>
-
-        <router-link :to="{ name: 'Course', params: {id:3}}" class="card courseCard">
-          <div>
-            <img :src=homeImage alt="course" />
-            <div class="cardTextContainer">
-              <h3>
-                <b>Course 3</b>
-              </h3>
-              <p>Come and play fotball with us! Everyones invited!</p>
-            </div>
-          </div>
-        </router-link>
+        </div>
       </div>
+      
     </main>
 </template>
 
@@ -101,6 +82,17 @@
 
 export default {
   name: 'HomeView',
-  components: {  }
+  data() {
+    return {
+      courses: null,
+      ordering: '-courseID',
+      search: '',
+    }
+  },
+  
+  async created() {
+    const response = await userService.getCourses(this.ordering, this.search)
+    this.courses = response.data
+  }
 }
 </script>
