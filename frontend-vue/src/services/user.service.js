@@ -22,6 +22,14 @@ class UserService {
     return api.get(`http://127.0.0.1:8000/courses/${courseID}/videos/`);
   }
 
+  postCourseVideo(courseID, videoName, videoURL) {
+    return api.post(`/courses/${courseID}/videos/`, {
+      courseID: courseID,
+      videoName: videoName,
+      videoURL: videoURL,
+    })
+  }
+
   getUserList() {
     return api.get('user/');
   }

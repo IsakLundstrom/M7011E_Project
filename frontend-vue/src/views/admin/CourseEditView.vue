@@ -153,13 +153,13 @@
       Delete course
     </button>
     
-    <div v-if="deletePressed" className="confirmBox">
+    <div v-if="deletePressed" class="confirmBox">
       <p>Do you really want to delete this course?</p>
-      <button className="profileButton deleteButton" @click="">
+      <button class="profileButton deleteButton" @click="deleteCourse">
         Yes
       </button>
       <button
-        className="profileButton profileUpdateButton"
+        class="profileButton profileUpdateButton"
         @click="deletePressed = false"
       >
         No
@@ -188,13 +188,31 @@
       setCImage(event){
         this.newCourseIMG = event.target.files[0]
       },
-      postVideo() {
-        alert(`not implemented`)
+      async postVideo() {
+        try {
+          await userService.postCourseVideo(this.cID, this.newVidName, this.newVidUrl)
+          this.newVideoAdded = true
+          this.newVidName = ''
+          this.newVidUrl = ''
+        } catch (error) {
+          alert('could not post video')
+        }
+        
       },
       async getCourse() {
         const response = await userService.getCourse(this.cID)
-        console.log(response.data)
         this.course = response.data
+      },
+      deleteCourse() {
+        alert('Not implemented')
+      },
+      async getCourseVideos() {
+        try {
+          const response = await userService.getCourseVideos(this.cID)
+          this.videos = response.data
+        } catch (error) {
+          console.log("could not load videos", error)
+        }
       }
     },
     data() {
@@ -211,6 +229,7 @@
         newCourseIMG: null,
         newVidName: '',
         newVidUrl: '',
+        newVideoAdded: false,
 
         videos: null,
         deletePressed: false,
@@ -218,13 +237,20 @@
       }
     },
     watch: {
-    '$route.params.id': {
-      async handler() {
-        await this.getCourse()
+      '$route.params.id': {
+        handler() {
+          this.getCourse()
+          this.getCourseVideos()
+        },
+        immediate: true
       },
-      immediate: true
-      
-    },
-  }
+      async newVideoAdded() {
+        if(!this.newVideoAdded) {
+          return
+        }
+        await this.getCourseVideos()
+        this.newVideoAdded = false
+      }
+    }
   }
 </script>
