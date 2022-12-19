@@ -1,6 +1,3 @@
-// import React, { useState } from "react";
-// import axios from "axios";
-
 import { AuthProvider } from "./context/AuthContext";
 
 import Header from "./components/Header";
@@ -47,7 +44,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
           <Route
-            path="/resetPasswordConfirm/:id/:token"
+            path="/auth/resetPasswordConfirm/:id/:token"
             element={<ResetPasswordPage />}
           />
 

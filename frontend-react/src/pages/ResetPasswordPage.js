@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-
-import useAxios from "../utils/useAxios";
+import { useParams, useNavigate } from "react-router-dom";
 
 const ResetPasswordPage = () => {
   const params = useParams();
-  const api = useAxios();
+  const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
@@ -20,10 +18,8 @@ const ResetPasswordPage = () => {
       return;
     }
 
-    console.log("try reset password");
-
     try {
-      await fetch("http://127.0.0.1:8000/resetPasswordConfirm/", {
+      await fetch("http://127.0.0.1:8000/auth/resetPasswordConfirm/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,6 +30,8 @@ const ResetPasswordPage = () => {
           token: params.token,
         }),
       });
+
+      navigate("/login");
     } catch {
       alert("Could not reset password");
     }

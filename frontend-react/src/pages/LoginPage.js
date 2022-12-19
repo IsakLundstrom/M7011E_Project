@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import { gapi } from "gapi-script";
 
+import google from "../secrets/google.json";
+
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
 
 const LoginPage = () => {
-  const clientId =
-    "1064260607969-f2mrhl9a60tm9g81k2qc25jtjdc0uh01.apps.googleusercontent.com";
+  const clientId = google.clientID;
 
   const api = useAxios();
 
@@ -18,6 +19,7 @@ const LoginPage = () => {
 
   const [has2FA, setHas2FA] = useState(false);
   const [error, setError] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   const { loginUser, loginUser2FA, registerUser } = useContext(AuthContext);
 
@@ -40,32 +42,31 @@ const LoginPage = () => {
 
   const sendResetEmail = async (e) => {
     e.preventDefault();
-    console.log("try send reset email ");
+
+    setResetSent(true);
 
     try {
-      console.log(email);
-
-      const response = await fetch("http://127.0.0.1:8000/resetPassword/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email, port: 3000 }),
-      });
-      const content = await response.json();
-
-      console.log(content);
+      const response = await fetch(
+        "http://127.0.0.1:8000/auth/resetPassword/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: email, port: 3000 }),
+        }
+      );
     } catch {
       alert("Could not send reset email");
     }
   };
 
-  const onGoogleSuccess = async (res) => {
-    const profile = res.profileObj;
+  const onGoogleSuccess = async (response) => {
+    const profile = response.profileObj;
 
-    let err = await loginUser(profile.email, profile.googleId);
+    let res = await loginUser(profile.email, profile.googleId);
 
-    if (err) {
+    if (res.err) {
       console.log("Registering google user...");
       await registerUser(
         profile.givenName,
@@ -154,6 +155,11 @@ const LoginPage = () => {
         <div id="popup" className="popup">
           <div className="resetPasswordContent">
             <h2>Reset password</h2>
+
+            {resetSent && (
+              <p>Link to reset your password has been sent to {email}</p>
+            )}
+
             <form onSubmit={sendResetEmail}>
               <br />
 
@@ -180,7 +186,6 @@ const LoginPage = () => {
               <br />
               <br />
             </form>
-
             <p>
               <a href="#">Close</a>
             </p>

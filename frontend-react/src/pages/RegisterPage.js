@@ -20,8 +20,8 @@ const RegisterPage = () => {
       setErrorText("Password and repeated password must match");
       return;
     }
-    registerUser(fName, lName, email, password);
-    setErrorText("");
+    const err = await registerUser(fName, lName, email, password);
+    setErrorText(err);
   };
 
   return (

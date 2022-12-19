@@ -69,7 +69,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <h2 className="homeH2"> Our 3 latest courses! 🔥 </h2>
+      <h2 className="homeH2"> Our 3 latest courses</h2>
 
       <div className="threeCards">
         {courses &&
@@ -95,6 +95,8 @@ const HomePage = () => {
       </div>
 
       <h2 className="homeH2">News</h2>
+
+      <br />
 
       <TwitterTimelineEmbed
         sourceType="profile"

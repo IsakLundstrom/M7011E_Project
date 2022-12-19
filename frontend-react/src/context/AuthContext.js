@@ -41,8 +41,6 @@ export const AuthProvider = ({ children }) => {
     const data = await response.json();
 
     if (response.status === 200) {
-      // console.log("login user", data);
-
       if (data.details) {
         res.has2FA = true;
         return res;
@@ -50,11 +48,6 @@ export const AuthProvider = ({ children }) => {
 
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
-
-      // console.log("authTokens " + authTokens);
-      // console.log("data " + data);
-      // console.log("json(data) " + JSON.stringify(data));
-      // console.log(data);
 
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
@@ -90,8 +83,6 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
 
-      // console.log(data);
-
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
       console.log("Logged in with 2FA!");
@@ -112,12 +103,14 @@ export const AuthProvider = ({ children }) => {
         lName: lName,
         email: email,
         password: password,
-        // rpassword: rpassword,
       }),
     });
     if (response.status === 201) {
-      navigate("/login");
       console.log("Registerd!");
+      await loginUser(email, password);
+      return "";
+    } else if (response.status === 409) {
+      return "Accont with this email already exists";
     } else {
       alert("Something went wrong!");
     }
