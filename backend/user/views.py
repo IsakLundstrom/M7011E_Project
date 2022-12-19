@@ -20,25 +20,48 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsUserPermission,)
     http_method_names = ['get', 'put', 'delete', 'patch']
 
-
-class ChangePasswordView(generics.UpdateAPIView):
-    serializer_class = ChangePasswordSerializer
-    model = User
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self, queryset=None):
-        obj = self.request.user
-        return obj
-
     def update(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        serializer = self.get_serializer(data=request.data)
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
 
-        if serializer.is_valid():
-            self.object.set_password(serializer.data.get("newPassword"))
-            self.object.save()
+        requestPassword = request.data.get("password")
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        if requestPassword is not None:
+            serializedPassword = serializer.data.get("password")
+            instance.set_password(serializedPassword)
+            instance.save()
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+
+
+
+# class ChangePasswordView(generics.UpdateAPIView):
+#     serializer_class = ChangePasswordSerializer
+#     model = User
+#     permission_classes = (IsAuthenticated,)
+#
+#     def get_object(self, queryset=None):
+#         obj = self.request.user
+#         return obj
+#
+#     def update(self, request, *args, **kwargs):
+#         self.object = self.get_object()
+#         serializer = self.get_serializer(data=request.data)
+#
+#         if serializer.is_valid():
+#             self.object.set_password(serializer.data.get("newPassword"))
+#             self.object.save()
+#
+#             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ResetPasswordView(generics.CreateAPIView):

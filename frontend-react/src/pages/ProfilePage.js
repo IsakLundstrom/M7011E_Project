@@ -18,6 +18,7 @@ const ProfilePage = () => {
   const [uImage, setUImage] = useState();
   const [has2FA, setHas2FA] = useState(false);
 
+  const [updated, setUpdated] = useState(false);
   const [errorText, setErrorText] = useState("");
 
   const [subscriptions, setSubsciptions] = useState([]);
@@ -46,41 +47,38 @@ const ProfilePage = () => {
   const patchUser = async (e) => {
     e.preventDefault();
 
+    const patchData = {
+      fName: fName,
+      lName: lName,
+      email: email,
+      has2FA: has2FA,
+    };
+
     if (password !== "" || rpassword !== "") {
       if (password !== rpassword) {
         setErrorText("New password and repeated password must match");
+        setUpdated(false);
+        return;
       } else {
-        try {
-          await api.patch(`/changePassword/`, { newPassword: password });
-          setErrorText("");
-        } catch {
-          alert("Could not patch password");
-        }
+        patchData.password = password;
       }
     }
 
     try {
-      await api.patch(
-        `/user/${user.user_id}/`,
-        {
-          fName: fName,
-          lName: lName,
-          email: email,
-          userIMG: uImage,
-          has2FA: has2FA,
+      await api.patch(`/user/${user.user_id}/`, patchData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      });
+      setUpdated(true);
     } catch {
       alert("Could not patch user");
+      setUpdated(false);
     }
 
     setPassword("");
     setRPassword("");
+    setErrorText("");
   };
 
   // delete user
@@ -253,6 +251,7 @@ const ProfilePage = () => {
         </form>
       </div>
 
+      {updated && <div className="successBox">Profile updated!</div>}
       {errorText !== "" && <div className="errorBox">{errorText}</div>}
 
       <br />

@@ -22,6 +22,8 @@ const UserEditPage = () => {
 
   const [updated, setUpdated] = useState(false);
 
+  const [errorText, setErrorText] = useState("");
+
   useEffect(() => {
     (async () => {
       const response = await api.get(`/user/${params.id}/`);
@@ -39,23 +41,27 @@ const UserEditPage = () => {
   const patchUser = async (e) => {
     e.preventDefault();
 
-    if (password !== "") {
-      try {
-        await api.patch(`/changePassword/`, { newPassword: password });
-      } catch {
-        alert("Could not patch password");
+    const patchData = {
+      fName: fName,
+      lName: lName,
+      email: email,
+      has2FA: has2FA,
+      is_staff: isStaff,
+      is_superuser: isSuperuser,
+    };
+
+    if (password !== "" || rpassword !== "") {
+      if (password !== rpassword) {
+        setErrorText("New password and repeated password must match");
+        setUpdated(false);
+        return;
+      } else {
+        patchData.password = password;
       }
     }
 
     try {
-      const res = await api.patch(`/user/${params.id}/`, {
-        fName: fName,
-        lName: lName,
-        email: email,
-        has2FA: has2FA,
-        is_staff: isStaff,
-        is_superuser: isSuperuser,
-      });
+      const res = await api.patch(`/user/${params.id}/`, patchData);
       console.log(res);
       setUpdated(true);
     } catch {
@@ -65,6 +71,7 @@ const UserEditPage = () => {
 
     setPassword("");
     setRPassword("");
+    setErrorText("");
   };
 
   // delete user
@@ -192,7 +199,10 @@ const UserEditPage = () => {
         <label htmlFor="admin">is Admin?</label>
 
         <br />
+
         {updated && <div className="successBox">User updated!</div>}
+        {errorText !== "" && <div className="errorBox">{errorText}</div>}
+
         <br />
 
         <input

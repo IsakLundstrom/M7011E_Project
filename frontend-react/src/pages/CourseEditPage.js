@@ -53,7 +53,7 @@ const CourseEditPage = () => {
     };
 
     if (cImage !== undefined) {
-      putData["courseIMG"] = cImage;
+      putData.courseIMG = cImage;
     }
 
     try {

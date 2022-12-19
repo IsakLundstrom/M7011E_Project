@@ -18,7 +18,6 @@ from .models import Courses, CoursesVideos, Subscription, Like
 from .permissions import IsCoursePermission, IsVideoPermission
 
 
-
 # Create your views here.
 class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Courses.objects.all()
@@ -32,8 +31,6 @@ class CoursesViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
-
 
 
 class CoursesVideoViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -54,32 +51,9 @@ class SubscriptionViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         userID = kwargs.get("pk")
         sub = Subscription.objects.all().filter(userID=int(userID), courseID=int(courseID))
         if len(sub) != 1:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({'status': 'No subscription found'}, status=status.HTTP_200_OK)
         subSerializer = SubscriptionSerializer(sub[0])
         return Response(subSerializer.data)
-
-    # def list(self, request, *args, **kwargs):
-    #     # print("list")
-    #     user = request.query_params.get("userID")
-    #     # courseID = kwargs.get("parent_lookup_courseID")
-    #     # print(user)
-    #     if user is None:
-    #         return super().list(self, request)
-    #
-    #     subs = Subscription.objects.all().filter(userID=int(user))
-    #
-    #     course = request.query_params.get("courseID")
-    #     if course is not None:
-    #         subs = subs.filter(courseID = int(course))
-    #
-    #     courses = []
-    #     for sub in subs:
-    #         courses.append(sub.courseID)
-    #     # courseSerializer = CoursesSerializer(courses, many=True)
-    #     subSerializer = SubscriptionSerializer(subs, many=True)
-    #     return Response(subSerializer.data)
-    #     # return Response({"courses": courseSerializer.data,
-    #     #                  "subscription": subSerializer.data})
 
 
 class UserSubscriptions(generics.ListAPIView):
@@ -94,7 +68,7 @@ class UserSubscriptions(generics.ListAPIView):
         try:
             subs = Subscription.objects.all().filter(userID=userID)
         except:
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response({'status': 'You have no subscriptions'}, status=status.HTTP_200_OK)
 
         courses = Courses.objects.all()
         subCoursesIDs = []
@@ -119,7 +93,7 @@ class LikeViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         userID = kwargs.get("pk")
         sub = Like.objects.all().filter(userID=int(userID), courseID=int(courseID))
         if len(sub) != 1:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({'status': 'No likes found'}, status=status.HTTP_200_OK)
         likeSerializer = LikeSerializer(sub[0])
         return Response(likeSerializer.data)
 
