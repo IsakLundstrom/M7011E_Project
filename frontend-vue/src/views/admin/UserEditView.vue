@@ -93,6 +93,7 @@
         type="checkbox" 
         name="admin" 
         v-model="is_superuser" 
+        @click="is_staff = !is_superuser || is_staff"
         :checked="is_superuser"
       />
       <label htmlFor="admin">is Admin?</label>
