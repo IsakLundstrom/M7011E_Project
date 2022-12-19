@@ -44,7 +44,22 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
             <button @click="putLikeValue(0)" :class="[ userLikeValue===0 ? 'coursesSortButtonActive' : '']">
               <p>👎</p>
             </button>
+
+            <ShareNetwork
+              network="twitter"
+              title="Checkout this awesome course!"
+              :url="twitterURL"
+              hashtags="fitness"
+            >
+              <a class="twitter-share-button" data-show-count="false">
+                Share on Twitter
+              </a> 
+
+            </ShareNetwork>
           </div>
+
+          <p>Course created by: {{owner}}</p>
+
           <div class="courseDescription">
             <button @click="toggleVisible()">
                
@@ -98,6 +113,7 @@ export default {
         this.courseName = response.data.courseName
         this.courseIMG_URL = response.data.courseIMG
         this.longDescription = response.data.longDescription
+        this.owner = response.data.owner
 
       } catch (error) {
         console.log("could not load course data", error)
@@ -115,15 +131,19 @@ export default {
 
     async checkAndUpdateIfSubscribed(){
       try {
+        console.log(this.user)
         const response = await userService.getSubscribeData(this.courseID, this.user.user_id)
-        this.userSubID = response.data.subID
+        console.log("data", response.data)
+        if(response.data.status === 'No subscription found') {
+          this.userSubID = -1
+          this.subscribed = false
+        } else {
+          this.userSubID = response.data.subID
         this.subscribed = true
+        }
 
       } catch (error) {
-
-        this.userSubID = -1
-        this.subscribed = false
-
+        console.log('could not get subscribe data', error)
       }
     },
     async checkAndupdateLikeValue() {
@@ -234,6 +254,7 @@ export default {
       courseID: this.$route.params.id,
       courseName: "",
       courseIMG_URL: homeImage,
+      owner: null,
       error: false,
       likeRatio: NaN,
       user: null,
@@ -243,6 +264,8 @@ export default {
       userSubID: NaN,
       userLikeValue: NaN,
       userLikeID: NaN,
+
+      twitterURL: window.location.href,
 
       slides: [ ]
     }

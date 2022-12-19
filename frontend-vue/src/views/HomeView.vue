@@ -75,9 +75,14 @@
         </div>
       </div>
 
+      <h2 className="homeH2">News</h2>
+
+      <br />
+
       <TwitterTimeline
         url="LTUniv?ref_src=twsrc%5Etfw"
         height="400"
+        description="Loading Twitter..."
       />
       
     </main>
