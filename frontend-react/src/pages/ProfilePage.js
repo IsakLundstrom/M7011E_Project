@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
   const api = useAxios();
   const { user, logoutUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -37,6 +37,8 @@ const ProfilePage = () => {
         setEmail(response.data.email);
         setUImageURL(response.data.userIMG);
         setHas2FA(response.data.has2FA);
+
+        props.sendUpdateToHeader(response.data.userIMG);
       } catch {
         navigate("/login");
       }
@@ -116,6 +118,7 @@ const ProfilePage = () => {
     })();
   }, []);
 
+  // update image
   const handleImageChange = async (e) => {
     await api.patch(
       `/user/${user.user_id}/`,

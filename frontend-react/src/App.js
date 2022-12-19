@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import { AuthProvider } from "./context/AuthContext";
 
 import Header from "./components/Header";
@@ -24,10 +26,16 @@ import StaffRoute from "./utils/StaffRoute";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
+  const ref = useRef();
+
+  function sendUpdateToHeader(imageURL) {
+    ref.current.updateHeaderImage(imageURL);
+  }
+
   return (
     <Router>
       <AuthProvider>
-        <Header />
+        <Header ref={ref} />
         <Routes>
           <Route path="/" element={<HomePage />} />
 
@@ -37,7 +45,10 @@ function App() {
 
           <Route path="/about" element={<AboutPage />} />
 
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/profile"
+            element={<ProfilePage sendUpdateToHeader={sendUpdateToHeader} />}
+          />
 
           <Route path="/login" element={<LoginPage />} />
 

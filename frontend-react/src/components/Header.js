@@ -1,10 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { Link } from "react-router-dom";
 
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 
-const Header = () => {
+const Header = forwardRef((props, ref) => {
+  useImperativeHandle(ref, () => ({
+    updateHeaderImage(imageURL) {
+      setUImageURL(imageURL);
+    },
+  }));
+
   const api = useAxios();
 
   const { user, logoutUser } = useContext(AuthContext);
@@ -20,6 +32,7 @@ const Header = () => {
       );
       const parsed = await response.json();
       setCourses(parsed);
+      console.log("get header");
     })();
   }, [search]);
 
@@ -134,6 +147,6 @@ const Header = () => {
       </ul>
     </nav>
   );
-};
+});
 
 export default Header;
