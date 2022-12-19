@@ -27,7 +27,7 @@
       </li>
 
       <li class="floatLeft">
-        <router-link v-if="loggedIn && superUser" :to="{ name: 'AdminView' }" class='mainLink'>Admin Pages</router-link>
+        <router-link v-if="loggedIn && superUser" :to="{ name: 'AdminView' }" class='mainLink'> Admin </router-link>
       </li>
 
       <li class="floatRight">
