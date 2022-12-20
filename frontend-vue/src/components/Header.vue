@@ -33,12 +33,6 @@
       <li class="floatRight">
       <router-link v-if="!loggedIn" :to="{ name: 'Register' }" class='mainLink'>Register </router-link>
       </li>
-
-      <li class="floatRight">
-        <router-link v-if="loggedIn" @click="logOut" :to="{ name: 'Home' }" class='mainLink'>Log out</router-link> <!--should also log out a person and only visible to inlogged person-->
-        <router-link v-else :to="{ name: 'Login' }" class='mainLink'>Log in</router-link>
-      </li>
-
       <li class="floatRight">
       <router-link v-if="loggedIn" :to="{ name: 'Profile' }" class='mainLink profileImageLink'>
         <div className="headerProfileImageContainer">
@@ -46,6 +40,12 @@
         </div>
       </router-link>
       </li>
+
+      <li class="floatRight">
+        <router-link v-if="loggedIn" @click="logOut" :to="{ name: 'Home' }" class='mainLink'>Log out</router-link> <!--should also log out a person and only visible to inlogged person-->
+        <router-link v-else :to="{ name: 'Login' }" class='mainLink'>Log in</router-link>
+      </li>
+
     </ul>
       
   </nav>
