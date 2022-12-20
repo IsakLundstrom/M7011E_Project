@@ -10,8 +10,6 @@ import googleAPI from './secrets/google.json'
 
 setupInterceptors(store)
 
-console.log(googleAPI, "googleAPI")
-
 createApp(App)
     .use(router)
     .use(store)

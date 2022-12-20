@@ -3,6 +3,7 @@
 
   import UserService from "../services/user.service";
   import tokenService from "../services/token.service";
+  import userService from "../services/user.service";
 </script>
 
 <template>
@@ -109,14 +110,28 @@
         </form>
       </div>
 
+      <div v-if="updated" class="successBox">Profile updated!</div>
+      <div v-if="errorText !== ''" class="errorBox"> {{ errorText }} </div>
+
       <br />
 
-      <h2>Subscriptions</h2>
+      <h2>Your Subscriptions</h2>
       <div class="threeCards">
+
+        <p v-if="user.subscriptions && user.subscriptions.length===0">
+          You have not subscribed to any courses
+          <br />
+          <br />
+        </p>
+        <p v-if="!user.subscriptions">
+          Loading Subscriptions...
+          <br />
+          <br />
+        </p>
 
         <router-link v-for="subscription in user.subscriptions"
           :key="subscription.courseID"
-          :to="{ name: 'Courses', params:{id: subscription.courseID}}"
+          :to="{ name: 'Course', params:{id: subscription.courseID}}"
           class="card courseCard"
         >
           <div>
@@ -132,9 +147,25 @@
 
       </div>
 
-      <button class="profileButton profileDeleteButton deleteButton">
+      <button class="profileButton profileDeleteButton deleteButton"
+        @click="deletePressed = true"
+      >
         Delete profile
       </button>
+
+      <div v-if="deletePressed" class="confirmBox">
+        <p>Do you really want to delete your profile?</p>
+        <button class="profileButton deleteButton" @click="deleteUser">
+          Yes
+        </button>
+        <button
+          class="profileButton profileUpdateButton"
+          @click="deletePressed = false"
+        >
+          No
+        </button>
+      </div>
+
     </main>
   </template>
   
@@ -144,8 +175,16 @@
     name: 'ProfileView',
     components: {  },
     methods: {
-      patchUser() {
-        alert(`not implemented`)
+      async patchUser() {
+        await userService.patchUser(this.user.id, this.user.fName, this.user.lName, this.user.email)
+        this.updated = true
+      },
+      async deleteUser() {
+        await userService.deleteUser(this.user.id)
+        await this.$store.dispatch("auth/logout", this.user)
+        this.$router.push({name: 'Home'})
+
+        
       },
     },
     computed: {
@@ -160,10 +199,12 @@
           password: '',
           rpassword: '',
           uImageURL: profileImage,
-          subscriptions: [ ],
+          subscriptions: {},
         },
         
-        
+        deletePressed: false,
+        updated: false,
+        errorText: '',
       }
     },
     computed: {
@@ -173,9 +214,8 @@
     },
     async mounted() {
       const userID = await tokenService.getUserData().user_id
-      UserService.getProfile(userID).then(
+      await UserService.getProfile(userID).then(
         (response) => {
-          console.log("räspåns", response)
           this.user = response.data;
           this.user.password = ''
 
@@ -187,8 +227,8 @@
               error.response.data.message) ||
             error.message ||
             error.toString();
-      }
-    );
+        }
+      );
       if (!this.currentUser) {
         this.$router.push({name: 'Login'});
       }

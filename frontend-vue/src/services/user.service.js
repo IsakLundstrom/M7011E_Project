@@ -116,6 +116,14 @@ class UserService {
     return api.get(`/user/${userID}/`);
   }
 
+  patchUser(userID, fName, lName, email) {
+    return api.patch(`/user/${userID}/`, {
+      fName: fName,
+      lName: lName,
+      email: email,
+    });
+  }
+
   patchUpdateUser(userID, fName, lName, email, is_staff, is_superuser) {
     return api.patch(`/user/${userID}/`, {
       fName: fName,

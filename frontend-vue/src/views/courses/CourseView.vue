@@ -53,7 +53,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
               :url="twitterURL"
               hashtags="fitness"
             >
-              <button class="twitter-share-button">
+              <button style="background-color: #1da1f2;" class="twitter-share-button">
                 <p>Tweet</p>
               </button> 
 
