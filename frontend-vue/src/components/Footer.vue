@@ -24,7 +24,7 @@
         </RouterLink>
       </div>
 
-      <p>© 2022 Website Name</p>
+      <p>© 2022 The Sweat Zone</p>
     </footer>
 </template>
 <script>
