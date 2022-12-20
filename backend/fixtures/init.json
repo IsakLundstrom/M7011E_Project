@@ -1,0 +1,224 @@
+[
+  {
+    "model": "courses.courses",
+    "pk": 1,
+    "fields": {
+      "courseName": "Treadmill Running 101",
+      "shortDescription": "Improve your running skills at the gym.",
+      "longDescription": "Join our treadmill running course at the gym and improve your running technique, endurance, and speed. Our experienced instructors will guide you through a series of workouts that are tailored to your fitness level and goals. You'll have access to state-of-the-art treadmills and a supportive community of runners. Whether you're a beginner looking to get started or an experienced runner looking to take your training to the next level, this course has something for everyone. Sign up today and start your journey towards better fitness and healthier habits.",
+      "courseIMG": "courses/pexels-andrea-piacquadio-3757957.jpg",
+      "owner": 1,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 2,
+    "fields": {
+      "courseName": "Golf Swing Revolution",
+      "shortDescription": "Expert golf instruction and practice facilities.",
+      "longDescription": "Take your golf game to the next level with our comprehensive golf training course. Our experienced instructors will teach you the proper techniques for driving, putting, and chipping, as well as provide tips on course management and strategy. You'll also have access to state-of-the-art practice facilities and equipment, including a driving range, putting green, and short game area. Whether you're a beginner looking to get started or an experienced golfer looking to fine-tune your skills, this course has something for everyone. Sign up today and start improving your golf game.",
+      "courseIMG": "courses/pexels-tyler-hendy-54123.jpg",
+      "owner": 2,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 3,
+    "fields": {
+      "courseName": "Mountain Cycling Bootcamp",
+      "shortDescription": "Cycling training in beautiful mountains.",
+      "longDescription": "Join our group cycling training course in the mountains and take your cycling skills to new heights. Our experienced instructors will lead you on challenging rides through the stunning mountain scenery, helping you improve your endurance, strength, and technique. You'll have access to high-quality road bikes and will ride with a supportive community of fellow cyclists. Whether you're a beginner looking to get started or an experienced cyclist looking to take on new challenges, this course has something for everyone. Sign up today and start your journey towards peak fitness.",
+      "courseIMG": "courses/pexels-pixabay-163407.jpg",
+      "owner": 1,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 4,
+    "fields": {
+      "courseName": "Catch the Wave",
+      "shortDescription": "Learn to surf with experts.",
+      "longDescription": "Join our surfing training course and learn how to ride the waves like a pro. Our experienced instructors will teach you the basics of surfing, including how to paddle, pop up, and navigate the surf. You'll also learn about ocean safety and how to read the waves. You'll have access to high-quality surfboards and wetsuits, and you'll learn in a supportive community of fellow surfers. Whether you're a beginner looking to try surfing for the first time or an experienced surfer looking to improve your skills, this course has something for everyone. Sign up today and start your journey towards becoming a surfing master.",
+      "courseIMG": "courses/pexels-pixabay-390051.jpg",
+      "owner": 1,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 5,
+    "fields": {
+      "courseName": "Score More Goals",
+      "shortDescription": "Improve your fotball skills with experts.",
+      "longDescription": "Join our football training course for teams and take your team's skills to the next level. Our experienced coaches will work with your team to improve techniques, strategies, and teamwork. You'll have access to top-quality training facilities and equipment, and you'll have the opportunity to train with other teams and compete in friendly matches. Whether you're a beginner team looking to get started or an experienced team looking to improve, this course has something for everyone. Sign up today and start your journey towards peak performance.",
+      "courseIMG": "courses/pexels-pixabay-274506.jpg",
+      "owner": 2,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 6,
+    "fields": {
+      "courseName": "Golf Swing Revolution",
+      "shortDescription": "Tennis instruction and practice.",
+      "longDescription": "Join our tennis training course and take your skills to the next level. Our experienced coaches will teach you the proper techniques for forehand, backhand, serve, and volley, as well as provide tips on strategy and court positioning. You'll have access to top-quality training facilities and equipment, and you'll have the opportunity to practice and improve in a supportive community of fellow tennis players. Whether you're a beginner looking to get started or an experienced player looking to fine-tune your skills, this course has something for everyone. Sign up today and start your journey towards becoming a tennis master.",
+      "courseIMG": "courses/pexels-pixabay-209977.jpg",
+      "owner": 2,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 7,
+    "fields": {
+      "courseName": "Swimming 101",
+      "shortDescription": "Swimming technique and endurance training",
+      "longDescription": "Welcome to our swimming course! In this course, you will learn the basic techniques of swimming and build endurance through a series of progressively challenging workouts. You will have the opportunity to practice freestyle, backstroke, breaststroke, and butterfly strokes, as well as learn proper breathing techniques and turns. Whether you are a beginner looking to learn how to swim or an experienced swimmer looking to improve your skills, this course is perfect for you. Our experienced instructors will provide individualized attention and support to help you reach your goals. By the end of the course, you will have the knowledge and confidence to swim efficiently and enjoy the many benefits of this fun and rewarding activity.",
+      "courseIMG": "courses/pexels-guduru-ajay-bhargav-863988.jpg",
+      "owner": 2,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 8,
+    "fields": {
+      "courseName": "Marathon Mastery",
+      "shortDescription": "Marathon training and preparation",
+      "longDescription": "Welcome to our marathon running course! In this course, you will learn how to train for and successfully complete a marathon. You will learn about proper running form, pacing strategies, and how to properly fuel and hydrate during training and on race day. You will also learn how to create and stick to a training plan that works for you, and how to properly warm up and cool down before and after your runs. This course is designed for both beginner and experienced runners looking to take on the challenge of a marathon. Our experienced coaches will provide support and guidance every step of the way to help you achieve your goals. By the end of the course, you will be well-prepared to tackle a marathon and cross the finish line with confidence and a sense of accomplishment.",
+      "courseIMG": "courses/pexels-pixabay-34495.jpg",
+      "owner": 1,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 9,
+    "fields": {
+      "courseName": "Cardio Blast",
+      "shortDescription": "Group cardio fitness training",
+      "longDescription": "Welcome to our cardio group training course! In this course, you will participate in high-energy, full-body workouts designed to get your heart rate up and boost your cardiovascular endurance. Our experienced instructors will lead you through a variety of cardio exercises, including running, cycling, rowing, and more, in a fun and supportive group setting. Each session will be designed to challenge you and help you reach your fitness goals, whether you are a beginner looking to improve your overall health or an experienced athlete looking to take your performance to the next level. In addition to improving your physical fitness, this course is a great opportunity to meet new people and build a sense of community. By the end of the course, you will have the skills and motivation to maintain a healthy and active lifestyle.",
+      "courseIMG": "courses/pexels-maarten-van-den-heuvel-4254902.jpg",
+      "owner": 1,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 10,
+    "fields": {
+      "courseName": "Sand and Sun Yoga",
+      "shortDescription": "Beach yoga for all levels",
+      "longDescription": "Welcome to our yoga at the beach course! In this course, you will experience the beauty and serenity of practicing yoga in a natural outdoor setting. Nestled on the sandy shores of the beach, you will be guided through a series of yoga postures, breathing techniques, and meditation practices that will help you connect with your body, mind, and surroundings. Our experienced instructors will provide modifications and variations to accommodate all levels of experience, so whether you are a beginner or a seasoned yogi, you will be able to find your flow and deepen your practice. In addition to the physical benefits of yoga, this course is a great opportunity to relax and unwind, and connect with nature. By the end of the course, you will feel rejuvenated, balanced, and centered.",
+      "courseIMG": "courses/pexels-the-lazy-artist-gallery-1117493.jpg",
+      "owner": 2,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 11,
+    "fields": {
+      "courseName": "Beach Running",
+      "shortDescription": "Endurance and enjoy the beach",
+      "longDescription": "Welcome to our beach running course! In this course, you will have the opportunity to experience the beauty and serenity of running on the beach while improving your cardiovascular fitness and endurance. Our experienced instructors will guide you through a series of progressively challenging workouts designed to help you reach your goals, whether you are a beginner looking to get started with running or an experienced runner looking to take your performance to the next level. You will learn about proper running form, pacing strategies, and how to properly fuel and hydrate during your runs. In addition to the physical benefits of running, this course is a great opportunity to relax and unwind, and connect with nature. By the end of the course, you will have the skills and motivation to maintain a consistent running routine and achieve your fitness goals.",
+      "courseIMG": "courses/pexels-pixabay-40751.jpg",
+      "owner": 1,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.courses",
+    "pk": 12,
+    "fields": {
+      "courseName": "Strength Matters",
+      "shortDescription": "Build strength and muscle",
+      "longDescription": "Welcome to our strength training course! In this course, you will learn how to properly execute a variety of exercises that will help you build muscle, increase strength, and improve overall physical fitness. Our experienced instructors will provide individualized attention and guidance to help you achieve your goals, whether you are a beginner looking to get started with strength training or an experienced athlete looking to take your performance to the next level. You will learn how to use a variety of equipment, including dumbbells, barbells, kettlebells, and more, to target specific muscle groups and progress your workouts. In addition to improving your physical strength, this course is a great opportunity to boost your confidence and feel empowered. By the end of the course, you will have the skills and motivation to maintain a consistent strength training routine and achieve your fitness goals.",
+      "courseIMG": "courses/pexels-victor-freitas-841130.jpg",
+      "owner": 2,
+      "likeRatio": 0,
+      "createDate": "2022-12-08T14:00:44.915Z"
+    }
+  },
+  {
+    "model": "courses.coursesvideos",
+    "pk": 1,
+    "fields": {
+      "courseID": 1,
+      "videoName": "Video 1",
+      "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    }
+  },
+  {
+    "model": "courses.coursesvideos",
+    "pk": 2,
+    "fields": {
+      "courseID": 1,
+      "videoName": "Video 2",
+      "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    }
+  },
+  {
+    "model": "courses.coursesvideos",
+    "pk": 3,
+    "fields": {
+      "courseID": 1,
+      "videoName": "Video 3",
+      "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    }
+  },
+  {
+    "model": "courses.coursesvideos",
+    "pk": 4,
+    "fields": {
+      "courseID": 2,
+      "videoName": "Video 1",
+      "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$OxVPkgH75D4uStXBCaBi1Y$ZUpXSe7w4GMftM8IabBDdrxSNN+GWfcZweq+DFRjQx8=",
+      "last_login": null,
+      "is_superuser": true,
+      "is_staff": true,
+      "email": "admin@admin.com",
+      "fName": "ad",
+      "lName": "min",
+      "userIMG": "users/nyancat.gif",
+      "has2FA": false
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$OxVPkgH75D4uStXBCaBi1Y$ZUpXSe7w4GMftM8IabBDdrxSNN+GWfcZweq+DFRjQx8=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": true,
+      "email": "staff@staff.com",
+      "fName": "st",
+      "lName": "aff",
+      "userIMG": "users/download.gif",
+      "has2FA": false
+    }
+  }
+]

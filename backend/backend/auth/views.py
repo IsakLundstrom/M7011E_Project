@@ -43,7 +43,6 @@ class LoginViewSet(ModelViewSet, TokenObtainPairView):
             send_mail(
                 html="<p>Here is your 2FA code</p><h1>" + token + "</h1>",
                 subject='The Sweat Zone: 2FA token',
-                from_email='sweatzone1337@gmail.com',
                 to_emails=[email])
 
             return Response({"details": "2FA required"}, status=status.HTTP_200_OK)
