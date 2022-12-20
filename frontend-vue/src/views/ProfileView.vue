@@ -1,5 +1,4 @@
 <script setup>
-  import homeImage from "../images/home_image.png";
   import profileImage from "../images/default_profile.png";
 
   import UserService from "../services/user.service";
@@ -41,7 +40,7 @@
                   class="inputField"
                   type="text"
                   name="fname"
-                  v-model="fName"
+                  v-model="user.fName"
                 />
               </div>
 
@@ -53,7 +52,7 @@
                   required
                   type="text"
                   name="lname"
-                  v-model="lName"
+                  v-model="user.lName"
                 />
               </div>
             </div>
@@ -68,7 +67,7 @@
               required
               type="email"
               name="email"
-              v-model="email"
+              v-model="user.email"
             />
             <br />
             <br />
@@ -83,7 +82,7 @@
                   type="password"
                   name="npassword"
                   placeholder="New password"
-                  v-model="password"
+                  v-model="user.password"
                 />
               </div>
 
@@ -95,7 +94,7 @@
                   type="password"
                   name="rpassword"
                   placeholder="Reapeat new password"
-                  v-model="rpassword"
+                  v-model="user.rpassword"
                 />
               </div>
 
@@ -115,13 +114,13 @@
       <h2>Subscriptions</h2>
       <div class="threeCards">
 
-        <router-link v-for="subscription in subscriptions"
+        <router-link v-for="subscription in user.subscriptions"
           :key="subscription.courseID"
-          :to="{ name: 'Courses', params:{id: subscription.courseID} }"
+          :to="{ name: 'Courses', params:{id: subscription.courseID}}"
           class="card courseCard"
         >
           <div>
-            <img :src="homeImage" alt="course" />
+            <img :src="subscription.courseIMG" alt="course" />
             <div class="cardTextContainer">
               <h3>
                 <b> {{ subscription.courseName }} </b>
@@ -154,12 +153,17 @@
     },
     data() {
       return {
-        fName: '',
-        lName: '',
-        email: '',
-        password: '',
-        rpassword: '',
-        subscriptions: [ ]
+        user: {
+          fName: '',
+          lName: '',
+          email: '',
+          password: '',
+          rpassword: '',
+          uImageURL: profileImage,
+          subscriptions: [ ],
+        },
+        
+        
       }
     },
     computed: {
@@ -167,13 +171,14 @@
         return this.$store.state.auth.user;
       }
     },
-    mounted() {
-      const userID = tokenService.getUserData().user_id
+    async mounted() {
+      const userID = await tokenService.getUserData().user_id
       UserService.getProfile(userID).then(
         (response) => {
-          this.fName = response.data.fName;
-          this.lName = response.data.lName;
-          this.email = response.data.email;
+          console.log("räspåns", response)
+          this.user = response.data;
+          this.user.password = ''
+
         },
         (error) => {
           this.content =
@@ -190,7 +195,7 @@
 
       UserService.getSubscriptions(userID).then(
         (response) => {
-          this.subscriptions = response.data.subscriptions;
+          this.user.subscriptions = response.data;
         }
       )
     },
