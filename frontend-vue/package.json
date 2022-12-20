@@ -17,6 +17,7 @@
     "vue-router": "^4.0.3",
     "vue-social-sharing": "^4.0.0-alpha4",
     "vue-twitter-timeline": "^1.0.2",
+    "vue3-google-login": "^2.0.12",
     "vueperslides": "^3.5.1",
     "vuex": "^4.1.0",
     "yup": "^0.32.11"

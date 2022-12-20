@@ -10,22 +10,29 @@
     <main class="profile">
       <h1>Profile</h1>
       <div class="profileContent">
+        <form @submit.prevent="patchUser">
+        
         <div class="profileUploadContaienr">
           <div class="profileImageContainer">
             <img :src=profileImage alt="Profile" />
           </div>
 
-          <form>
-            <input
-              class="profileButton profileUploadButton"
-              type="submit"
-              value="Upload ⬆"
+          <input
+              type="file"
+              id="image"
+              :style="{ visibility: 'hidden' }"
+              accept="image/jpeg,image/png,image/gif"
+              @change="handleImageChange()"
             />
-          </form>
+            <label
+              htmlFor="image"
+              className="profileButton profileUploadButton"
+            >
+              Upload ⬆
+            </label>
         </div>
 
         <div class="profileFormContainer">
-          <form @submit.prevent="patchUser">
             <div class="twoForm">
               <div>
                 <label htmlFor="fname">Name</label>
@@ -99,8 +106,8 @@
               type="submit"
               value="Update profile"
             />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
 
       <br />

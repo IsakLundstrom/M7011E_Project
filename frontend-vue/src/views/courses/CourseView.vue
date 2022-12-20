@@ -44,19 +44,22 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
             <button @click="putLikeValue(0)" :class="[ userLikeValue===0 ? 'coursesSortButtonActive' : '']">
               <p>👎</p>
             </button>
+          </div>
 
+          <div class="courseButtons">
             <ShareNetwork
               network="twitter"
               title="Checkout this awesome course!"
               :url="twitterURL"
               hashtags="fitness"
             >
-              <a class="twitter-share-button" data-show-count="false">
-                Share on Twitter
-              </a> 
+              <button class="twitter-share-button">
+                <p>Tweet</p>
+              </button> 
 
             </ShareNetwork>
           </div>
+          
 
           <p>Course created by: {{owner}}</p>
 
