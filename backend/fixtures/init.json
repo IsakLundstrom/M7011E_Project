@@ -68,7 +68,7 @@
     "model": "courses.courses",
     "pk": 6,
     "fields": {
-      "courseName": "Golf Swing Revolution",
+      "courseName": "Forehand Frenzy Tennis",
       "shortDescription": "Tennis instruction and practice.",
       "longDescription": "Join our tennis training course and take your skills to the next level. Our experienced coaches will teach you the proper techniques for forehand, backhand, serve, and volley, as well as provide tips on strategy and court positioning. You'll have access to top-quality training facilities and equipment, and you'll have the opportunity to practice and improve in a supportive community of fellow tennis players. Whether you're a beginner looking to get started or an experienced player looking to fine-tune your skills, this course has something for everyone. Sign up today and start your journey towards becoming a tennis master.",
       "courseIMG": "courses/pexels-pixabay-209977.jpg",
@@ -159,7 +159,7 @@
     "model": "courses.coursesvideos",
     "pk": 1,
     "fields": {
-      "courseID": 1,
+      "courseID": 12,
       "videoName": "Video 1",
       "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
     }
@@ -168,7 +168,7 @@
     "model": "courses.coursesvideos",
     "pk": 2,
     "fields": {
-      "courseID": 1,
+      "courseID": 12,
       "videoName": "Video 2",
       "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
     }
@@ -177,7 +177,7 @@
     "model": "courses.coursesvideos",
     "pk": 3,
     "fields": {
-      "courseID": 1,
+      "courseID": 12,
       "videoName": "Video 3",
       "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
     }
@@ -186,7 +186,7 @@
     "model": "courses.coursesvideos",
     "pk": 4,
     "fields": {
-      "courseID": 2,
+      "courseID": 11,
       "videoName": "Video 1",
       "videoURL": "https://www.youtube.com/embed/tgbNymZ7vqY"
     }
