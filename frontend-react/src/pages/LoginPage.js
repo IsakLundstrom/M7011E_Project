@@ -157,7 +157,9 @@ const LoginPage = () => {
             <h2>Reset password</h2>
 
             {resetSent && (
-              <p>Link to reset your password has been sent to {email}</p>
+              <p>
+                Link to reset your password has been sent to <b>{email}</b>
+              </p>
             )}
 
             <form onSubmit={sendResetEmail}>
@@ -187,7 +189,9 @@ const LoginPage = () => {
               <br />
             </form>
             <p>
-              <a href="#">Close</a>
+              <a href="#" style={{ color: "black", textDecoration: "none" }}>
+                ❌
+              </a>
             </p>
           </div>
         </div>
@@ -199,8 +203,8 @@ const LoginPage = () => {
             <div className="resetPasswordContent">
               <h2>2FA</h2>
               <p>
-                Two factor authentication nedded, an mail to {email} with the
-                code has been sent.
+                Two factor authentication nedded, the code has been sent to{" "}
+                <b>{email}</b>.
               </p>
               <form onSubmit={send2FA}>
                 <br />
@@ -230,7 +234,16 @@ const LoginPage = () => {
               </form>
 
               <p>
-                <a href="#">Close</a>
+                <a
+                  onClick={(e) => setHas2FA(false)}
+                  style={{
+                    color: "black",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  ❌
+                </a>
               </p>
             </div>
           </div>
