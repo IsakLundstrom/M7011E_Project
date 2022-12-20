@@ -23,7 +23,7 @@ Instructions to run the application on your own machine
 #### Prerequisites
 
 - A Gmail accont for sending emails with a application password
-- A Google Cloud OAuth 2.0 Client (that allows http://localhost, http://localhost:3000 and http://localhost:8080)
+- A Google Cloud OAuth 2.0 Client (that allows http://localhost, http://localhost:3000 and http://localhost:8080 to authorized javascript origins and authorized redirect URIs)
 
 #### MySQL
 
