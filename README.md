@@ -42,8 +42,11 @@ PASSWORD = 'YOUR_PASSWORD'
 def getEmailPassaword():
     return PASSWORD
 ```
-
-- Type `python manage.py migrate` in any console while standing in `/backend` (Must be done after setting up the MySQL database)
+(Below must be done after setting up the MySQL database)
+- Type `python manage.py migrate` in any console while standing in `/backend` 
+- Type `python manage.py loaddata fixtures/init.json` in any console while standing in `/backend` to populate the database with courses, some course videos, a admin user and a staff user
+    - The admin login credentials is `email=admin@admin.com` with `password=123` 
+    - The staff login credentials is `email=staff@staff.com` with `password=123` 
 
 #### React
 
