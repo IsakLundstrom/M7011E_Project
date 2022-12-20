@@ -1,7 +1,6 @@
 <script setup>
   import profileImage from "../images/default_profile.png";
 
-  import UserService from "../services/user.service";
   import tokenService from "../services/token.service";
   import userService from "../services/user.service";
 </script>
@@ -14,7 +13,7 @@
         
         <div class="profileUploadContaienr">
           <div class="profileImageContainer">
-            <img :src=profileImage alt="Profile" />
+            <img :src="user.userIMG" alt="Profile" />
           </div>
 
           <input
@@ -101,6 +100,18 @@
 
               <br />
             </div>
+
+            <label htmlFor="2fa">2 Factor Authentication </label>
+            <input
+              class="checkboxField"
+              type="checkbox"
+              name="2fa"
+              @change="async (e) => setHas2FA(e.target.checked)"
+            />
+
+            <br />
+            <br />
+
             <input
               class="profileButton profileUpdateButton"
               type="submit"
@@ -147,6 +158,50 @@
 
       </div>
 
+
+
+
+      
+      <div v-if="user.is_staff">
+        <h2>Your Courses</h2>
+        <br />
+        <router-link class="coursesSortButton" :to="{name: 'CourseCreate'}">
+          Create new course
+        </router-link>
+        <br />
+        <br />
+        <table class="adminTable">
+          <tbody>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Short description</th>
+              <th>Like Ratio</th>
+              <th>Edit</th>
+            </tr>
+
+            <tr v-for="course in ownCourses" :key="course.courseID">
+              <td>{{course.courseID}}</td>
+              <td>{{course.courseName}}</td>
+              <td>{{course.shortDescription}}</td>
+              <td>{{`${course.likeRatio}%`}}</td>
+              <td>
+                <router-link :to="{name: 'CourseEdit', params: {id: course.courseID}}">
+                  &#x270D;
+                </router-link>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <br />
+        <br />
+      </div>
+
+
+
+
       <button class="profileButton profileDeleteButton deleteButton"
         @click="deletePressed = true"
       >
@@ -187,9 +242,7 @@
         
       },
     },
-    computed: {
-      
-    },
+
     data() {
       return {
         user: {
@@ -198,10 +251,11 @@
           email: '',
           password: '',
           rpassword: '',
-          uImageURL: profileImage,
+          userIMG: profileImage,
           subscriptions: {},
         },
-        
+        ownCourses: {},
+
         deletePressed: false,
         updated: false,
         errorText: '',
@@ -214,7 +268,7 @@
     },
     async mounted() {
       const userID = await tokenService.getUserData().user_id
-      await UserService.getProfile(userID).then(
+      await userService.getProfile(userID).then(
         (response) => {
           this.user = response.data;
           this.user.password = ''
@@ -233,11 +287,18 @@
         this.$router.push({name: 'Login'});
       }
 
-      UserService.getSubscriptions(userID).then(
+      userService.getSubscriptions(userID).then(
         (response) => {
           this.user.subscriptions = response.data;
         }
       )
+
+      userService.getCoursesFromOwner(userID).then(
+        (response) => {
+          this.ownCourses = response.data
+        }
+      )
+
     },
   }
   </script>

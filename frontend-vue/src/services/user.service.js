@@ -5,6 +5,10 @@ class UserService {
     return api.get(`courses/?ordering=${ordering}&search=${search}`);
   }
 
+  getCoursesFromOwner(OwnerID) {
+    return api.get(`courses/?owner=${OwnerID}`);
+  }
+
   postCourse(courseName, shortDesc, longDesc, courseIMG) {
     return api.post("/courses/", {
       courseName: courseName,

@@ -6,19 +6,19 @@
 
 <template>
   <footer>
-      <div className="socialContainer">
-        <RouterLink className="socialLink" to="/">
-          <div className="socialSvg">
+      <div class="socialContainer">
+        <RouterLink class="socialLink" to="/">
+          <div class="socialSvg">
             <img :src="facebookSvg" alt="Facebook" />
           </div>
         </RouterLink>
-        <RouterLink className="socialLink" to="/">
-          <div className="socialSvg">
+        <RouterLink class="socialLink" to="/">
+          <div class="socialSvg">
             <img :src="twitterSvg" alt="Twitter" />
           </div>
         </RouterLink>
-        <RouterLink className="socialLink" to="/">
-          <div className="socialSvg">
+        <RouterLink class="socialLink" to="/">
+          <div class="socialSvg">
             <img :src="instagramSvg" alt="Instagram" />
           </div>
         </RouterLink>

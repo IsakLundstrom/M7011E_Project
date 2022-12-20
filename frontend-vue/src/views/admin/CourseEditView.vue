@@ -176,14 +176,23 @@
     components: {  },
     methods: {
       patchCourse() {
+     
         userService.patchCourse(
           this.cID, 
           this.course.courseName, 
           this.course.shortDescription,
           this.course.longDescription,
           this.newCourseIMG,
+        ).then(
+          () => {
+            this.updated = true
+          }, (error) => {
+            alert('could not update course')
+            console.log(error)
+          } 
         ) 
-        this.updated = true
+
+        
       },
       setCImage(event){
         this.newCourseIMG = event.target.files[0]
