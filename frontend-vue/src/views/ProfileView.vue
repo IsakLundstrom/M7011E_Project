@@ -6,7 +6,7 @@
 </script>
 
 <template>
-    <main class="profile">
+    <main class="profile" :key="componentKey">
       <h1>Profile</h1>
       <div class="profileContent">
         <form @submit.prevent="patchUser">
@@ -21,7 +21,7 @@
               id="image"
               :style="{ visibility: 'hidden' }"
               accept="image/jpeg,image/png,image/gif"
-              @change="handleImageChange()"
+              @change="handleImageChange($event)"
             />
             <label
               htmlFor="image"
@@ -229,22 +229,41 @@
   export default {
     name: 'ProfileView',
     components: {  },
+
     methods: {
+
+      forceRerender() {
+        this.componentKey += 1;
+      },
+
       async patchUser() {
         await userService.patchUser(this.user.id, this.user.fName, this.user.lName, this.user.email)
         this.updated = true
       },
+
+      // v-on:change="setCImage($event)"
+
+      async handleImageChange(event) {
+        try {
+          await userService.patchUserImage(this.user.id, event.target.files[0])
+          this.newIMG = event.target.files[0]
+        } catch (error) {
+          this.errorText = `could not update profile picture`
+        }
+        
+        
+      },
+
       async deleteUser() {
         await userService.deleteUser(this.user.id)
         await this.$store.dispatch("auth/logout", this.user)
         this.$router.push({name: 'Home'})
-
-        
       },
     },
 
     data() {
       return {
+        componentKey: 0,
         user: {
           fName: '',
           lName: '',
@@ -259,6 +278,7 @@
         deletePressed: false,
         updated: false,
         errorText: '',
+        newIMG: '',
       }
     },
     computed: {
@@ -266,6 +286,7 @@
         return this.$store.state.auth.user;
       }
     },
+    
     async mounted() {
       const userID = await tokenService.getUserData().user_id
       await userService.getProfile(userID).then(
@@ -300,6 +321,21 @@
       )
 
     },
+
+    watch: {
+      newIMG() {
+        userService.getProfile(this.user.id).then(
+          (response) => {
+            this.user = response.data;
+            this.user.password = ''
+            this.forceRerender()
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    }
   }
   </script>
   

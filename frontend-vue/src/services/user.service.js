@@ -138,6 +138,14 @@ class UserService {
     });
   }
 
+  patchUserImage(userID, image) {
+    return api.patch(`/user/${userID}/`,
+      {
+        userIMG: image,
+      },
+    );
+  }
+
   patchPassword(newPassword) {
    
   }

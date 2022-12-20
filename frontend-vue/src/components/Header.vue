@@ -68,9 +68,8 @@ import userService from "@/services/user.service";
       async getUserInfo(){
         const response = await tokenService.getUserData()
         if(response){
-          console.log(response)
           this.superUser = response.is_superuser
-          
+
           const user = await userService.getProfile(response.user_id)
           this.userIMG = user.data.userIMG
         }
