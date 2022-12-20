@@ -605,7 +605,7 @@ textarea {
 
 /* ##### PHONE BREAK POINT ##### */
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1150px) {
   :root {
     --mainWidth: 85%;
   }
