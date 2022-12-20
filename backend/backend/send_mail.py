@@ -3,11 +3,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from .pas import getEmailPassaword
 
-username = 'sweatzone1337@gmail.com'
 password = getEmailPassaword()
 
-
-def send_mail(html, text='Email_body', subject='Hello word', from_email='', to_emails=[]):
+def send_mail(html, text='Email_body', subject='Hello word', from_email='sweatzone1337@gmail.com', to_emails=[]):
     assert isinstance(to_emails, list)
     msg = MIMEMultipart('alternative')
     msg['From'] = from_email
@@ -23,6 +21,6 @@ def send_mail(html, text='Email_body', subject='Hello word', from_email='', to_e
     server = smtplib.SMTP(host='smtp.gmail.com', port=587)
     server.ehlo()
     server.starttls()
-    server.login(username, password)
+    server.login(from_email, password)
     server.sendmail(from_email, to_emails, msg_str)
     server.quit()
