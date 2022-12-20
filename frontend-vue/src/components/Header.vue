@@ -2,6 +2,7 @@
   import profileImage from "../images/default_profile.png"
   import coursesForHeader from "../views/courses/CourseHeaderView.vue"
   import tokenService from "@/services/token.service";
+import userService from "@/services/user.service";
 </script>
 <template>
   <nav class="mainNav">
@@ -36,7 +37,7 @@
       <li class="floatRight">
       <router-link v-if="loggedIn" :to="{ name: 'Profile' }" class='mainLink profileImageLink'>
         <div className="headerProfileImageContainer">
-          <img :src="profileImage" alt="Profile" />
+          <img :src="userIMG" alt="Profile" />
         </div>
       </router-link>
       </li>
@@ -64,10 +65,14 @@
       isloggedIn(){        
         this.loggedIn = this.$store.state.auth.user
       },
-      isSuperUser(){
-        const response = tokenService.getUserData()
+      async getUserInfo(){
+        const response = await tokenService.getUserData()
         if(response){
+          console.log(response)
           this.superUser = response.is_superuser
+          
+          const user = await userService.getProfile(response.user_id)
+          this.userIMG = user.data.userIMG
         }
       },
       async logOut(user) {
@@ -80,7 +85,7 @@
       return {
         loggedIn: false,
         superUser: false,
-        
+        userIMG: profileImage,
       }
     },
 
@@ -88,7 +93,7 @@
       '$store.state.auth.user': {
         handler(nq) {
           this.isloggedIn()
-          this.isSuperUser()
+          this.getUserInfo()
         },
         immediate: true
       }
