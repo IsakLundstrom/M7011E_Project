@@ -134,9 +134,7 @@ export default {
 
     async checkAndUpdateIfSubscribed(){
       try {
-        console.log(this.user)
         const response = await userService.getSubscribeData(this.courseID, this.user.user_id)
-        console.log("data", response.data)
         if(response.data.status === 'No subscription found') {
           this.userSubID = -1
           this.subscribed = false
