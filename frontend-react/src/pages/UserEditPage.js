@@ -211,6 +211,17 @@ const UserEditPage = () => {
           value="Update user"
         />
 
+        <button
+          className="profileButton profileUploadButton"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate(-1);
+          }}
+          style={{ marginLeft: "2rem" }}
+        >
+          Go back
+        </button>
+
         <br />
         <br />
       </form>

@@ -5,9 +5,18 @@ const AdminPage = () => {
   return (
     <main>
       <h1>Admin pages</h1>
-      <Link to="/admin/users">User List Page</Link>
       <br />
-      <Link to="/admin/courses">Course List Page</Link>
+      <br />
+      <h2>
+        <Link to="/admin/users">List, edit and delete users</Link>
+      </h2>
+      <br />
+      <br />
+      <h2>
+        <Link to="/admin/courses">Create, list, edit and delete courses</Link>
+      </h2>
+      <br />
+      <br />
     </main>
   );
 };
