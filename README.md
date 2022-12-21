@@ -42,11 +42,13 @@ PASSWORD = 'YOUR_PASSWORD'
 def getEmailPassaword():
     return PASSWORD
 ```
+
 (Below must be done after setting up the MySQL database)
-- Type `python manage.py migrate` in any console while standing in `/backend` 
+
+- Type `python manage.py migrate` in any console while standing in `/backend`
 - Type `python manage.py loaddata fixtures/init.json` in any console while standing in `/backend` to populate the database with courses, some course videos, a admin user and a staff user
-    - The admin login credentials is `email=admin@admin.com` with `password=123` 
-    - The staff login credentials is `email=staff@staff.com` with `password=123` 
+  - The admin login credentials is `email=admin@admin.com` with `password=123`
+  - The staff login credentials is `email=staff@staff.com` with `password=123`
 
 #### React
 
@@ -82,4 +84,25 @@ def getEmailPassaword():
 - Isak Lundström - isalun-9@student.ltu.se
 - Ludvig Hedlund - ludhed-8@student.ltu.se
 
-## Performace evaluations
+## Performace evaluation
+
+To evaluate the performance of the two different frontend framework implmententaions of React and Vue the open source website performance tool [Sitespeed.io](https://github.com/sitespeedio/sitespeed.io) was used. The full reports is located at `/frontend-react/sitespeed-result` and at `/frontend-vue/sitespeed-result` respectivly.
+
+Here is a summerization of relavant the results:
+
+| Metric                        | React | Vue |
+| ----------------------------- | ----- | --- |
+| First Paint Time              |       |     |
+| First Contentful Paint Time   |       |     |
+| Largest Contentful Paint Time |       |     |
+| Page Load Time                |       |     |
+| Fully Loaded Time             |       |     |
+| Total Blocking Time           |       |     |
+| Max Potential FID Time        |       |     |
+| Total Long Tasks Time         |       |     |
+| Number of Long Tasks          |       |     |
+| Best Practice Score           |       |     |
+| Performance Score             |       |     |
+| Overall Score                 |       |     |
+| HTML Transfer Size            |       |     |
+| JavaScript Content Size       |       |     |

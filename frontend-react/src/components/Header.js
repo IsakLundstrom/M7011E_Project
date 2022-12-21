@@ -32,7 +32,6 @@ const Header = forwardRef((props, ref) => {
       );
       const parsed = await response.json();
       setCourses(parsed);
-      console.log("get header");
     })();
   }, [search]);
 

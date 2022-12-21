@@ -6,12 +6,9 @@ import { gapi } from "gapi-script";
 import google from "../secrets/google.json";
 
 import AuthContext from "../context/AuthContext";
-import useAxios from "../utils/useAxios";
 
 const LoginPage = () => {
   const clientId = google.clientID;
-
-  const api = useAxios();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +32,9 @@ const LoginPage = () => {
 
   const send2FA = async (e) => {
     e.preventDefault();
-    console.log("send 2FA");
+
+    console.log("Send 2FA");
+
     let res = await loginUser2FA(email, password, token2FA);
     setError(res.err);
   };
@@ -46,16 +45,13 @@ const LoginPage = () => {
     setResetSent(true);
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/auth/resetPassword/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email, port: 3000 }),
-        }
-      );
+      await fetch("http://127.0.0.1:8000/auth/resetPassword/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email, port: 3000 }),
+      });
     } catch {
       alert("Could not send reset email");
     }
@@ -68,6 +64,7 @@ const LoginPage = () => {
 
     if (res.err) {
       console.log("Registering google user...");
+
       await registerUser(
         profile.givenName,
         profile.familyName,
@@ -76,6 +73,7 @@ const LoginPage = () => {
       );
 
       console.log("Logging in google user now...");
+
       await loginUser(profile.email, profile.googleId);
     } else if (res.has2FA) {
       setEmail(profile.email);
