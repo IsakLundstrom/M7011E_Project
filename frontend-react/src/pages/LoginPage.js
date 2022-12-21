@@ -77,6 +77,10 @@ const LoginPage = () => {
 
       console.log("Logging in google user now...");
       await loginUser(profile.email, profile.googleId);
+    } else if (res.has2FA) {
+      setEmail(profile.email);
+      setPassword(profile.googleId);
+      setHas2FA(true);
     }
   };
 
@@ -214,6 +218,7 @@ const LoginPage = () => {
                 <input
                   className="inputField"
                   required
+                  autoComplete="off"
                   type="text"
                   name="2fa"
                   value={token2FA}
