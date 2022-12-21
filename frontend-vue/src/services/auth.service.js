@@ -15,6 +15,20 @@ class AuthService {
           return response.data;
         });
     }
+
+    async login2fa({email, password, token}) {
+      return api.post('auth/login/2fa', {
+        email,
+        password,
+        token
+      })
+      .then(response => {
+        if (response.data.access) {
+          TokenService.setUser(response.data);
+        }
+        return response.data;
+      });
+    }
   
     logout() {
       TokenService.removeUser();

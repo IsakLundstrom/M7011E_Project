@@ -7,7 +7,7 @@
   <main class="login">
     <div class="loginContent">
         <h1>Login page</h1>
-        <form @submit.prevent="handleSubmit(email, password)">
+        <form @submit.prevent="handleSubmit()">
           <br />
           <div v-if="error" class="errorBox">Wrong email or password</div>
 
@@ -18,7 +18,7 @@
             required
             type="email"
             name="email"
-            v-model="email"
+            v-model="user.email"
           />
 
           <br />
@@ -30,7 +30,7 @@
             class="inputField"
             type="password"
             name="password"
-            v-model="password"
+            v-model="user.password"
           />
 
           <br />
@@ -52,8 +52,112 @@
           Don't have an account? Register&nbsp;
           <router-link :to="{ name: 'Register'}">here</router-link>!
         </p>
+
+        <p>
+          Forgot your password? Click&nbsp;
+          <a href="#resetPasswordPopup">here</a>.
+        </p>
       </div>
   </main>
+
+  <div id="resetPasswordPopup" class="popupContainer">
+    <div id="popup" class="popup">
+      <div class="resetPasswordContent">
+        <h2>Reset password</h2>
+
+
+        <p v-if="resetSent">
+          Link to reset your password has been sent to <b>{{user.email}}</b>
+        </p>
+
+        <form @submit.prevent="sendResetEmail">
+          <br />
+
+          <label htmlFor="email">Email</label>
+          <br />
+          <input
+            class="inputField"
+            required
+            type="email"
+            name="email"
+            v-model="user.email"
+          />
+
+          <br />
+          <br />
+
+          <input
+            class="profileButton profileUpdateButton"
+            type="submit"
+            value="Send"
+          />
+
+          <br />
+          <br />
+        </form>
+        <p>
+          <a href="#" style="color:black, textDecoration:none">
+            ❌
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="user.has2FA" class="popupContainer resetPopupContainer">
+    <div id="popup" class="popup">
+      <div class="resetPasswordContent">
+        <div v-if="error2fa" class="errorBox">Wrong code</div>
+        <h2>2FA</h2>
+        <p>
+          Two factor authentication nedded, the code has been sent to{{" "}}
+          <b> {{ user.email }} </b>.
+        </p>
+        <form @submit.prevent="send2FA">
+          <br />
+
+          <label htmlFor="2fa">Code</label>
+          <br />
+          <input
+            class="inputField"
+            required
+            autoComplete="off"
+            type="text"
+            name="2fa"
+            v-model="user.token"
+          />
+
+          <br />
+          <br />
+
+          <input
+            class="profileButton profileUpdateButton"
+            type="submit"
+            value="Login"
+          />
+
+          <br />
+          <br />
+        </form>
+
+        <p>
+          <a
+            @click="user.has2FA = false"
+            style="
+            color: black;
+            textDecoration: none; 
+            cursor: pointer;
+            " 
+          >
+            ❌
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
 </template>
 
 <script>
@@ -62,27 +166,65 @@ export default {
   name: 'LoginView',
   components: {  },
   
+  data() {
+    return {
+
+      user: {
+        email: "test@test.com",
+        password: 'test',
+        has2FA: null,
+        token: null,
+      },
+      error: false,
+      error2fa: false,
+      
+      resetSent: false,
+    }
+  },
+
   methods: {
+    sendResetEmail() {
+
+    },
+
+    async send2FA() {
+      
+      this.$store.dispatch("auth/login2fa", this.user).then(
+        (res) => {
+          this.error2fa = false
+          this.$router.push({name: 'Profile'})
+          },
+          (error) => {
+          this.error2fa = true;
+          console.log(error)
+          throw error.message
+          }
+      )
+    },
+
     googleLogin(response) {
       const userData = decodeCredential(response.credential)
       console.log("Handle the userData", userData)
 
-      let user = {}
-      user.email = userData.email
-      user.password = userData.sub
-      user.fName = userData.given_name
-      user.lName = userData.family_name
+      this.user.email = userData.email
+      this.user.password = userData.sub
+      this.user.fName = userData.given_name
+      this.user.lName = userData.family_name
 
-      this.$store.dispatch("auth/login", user).then(
-        () => {
-          this.$router.push({ name: 'Profile'});
+      this.$store.dispatch("auth/login", this.user).then(
+        (res) => {
+          if(res.details === '2FA required') {
+            this.user.has2FA = true
+          } else {
+            this.$router.push({ name: 'Profile'});
+          }
         },
         (error) => {
           console.log("new account?", error)  
 
-          userService.postRegisterProfile(user.fName, user.lName, user.email, user.password).then(
+          userService.postRegisterProfile(this.user.fName, this.user.lName, this.user.email, this.user.password).then(
             () => {
-              this.$store.dispatch("auth/login", user).then(
+              this.$store.dispatch("auth/login", this.user).then(
                 () => {
                   this.$router.push({ name: 'Profile'});
                 },
@@ -96,36 +238,30 @@ export default {
               alert(`could not create profile, please contact webpage owner`)
               console.log(error)
             }
+            )
+          },
           )
-        },
-      )
     },
 
-    async handleSubmit(email, password) {
-      let user = {}
-      user.email = email
-      user.password = password    
+    async handleSubmit() {  
 
-      this.$store.dispatch("auth/login", user).then(
-        () => {
-          this.$router.push({ name: 'Profile'});
+      this.$store.dispatch("auth/login", this.user).then(
+        (res) => {
+          this.error = false
+          if(res.details === '2FA required') {
+            this.user.has2FA = true
+          } else {
+            this.$router.push({ name: 'Profile'});
+          }
         },
         (error) => {
           this.error = true;
-          this.password = '';
+          this.user.password = '';
           console.log(error)
           throw error.message
         }
       );
     },
-  },
-  data() {
-    return {
-      error: false,
-      email: "test@test.com",
-      password: 'test',
-
-    }
   },
   created() {
     if (this.loggedIn) {

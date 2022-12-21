@@ -21,6 +21,20 @@ export const auth = {
         }
       );
     },
+
+    login2fa({ commit }, user) {
+      return AuthService.login2fa(user).then(
+        user => {
+          commit('loginSuccess', user);
+          return Promise.resolve(user);
+        },
+        error => {
+          commit('loginFailure');
+          return Promise.reject(error);
+        }
+      )
+    },
+
     logout({ commit }) {
       AuthService.logout();
       commit('logout');
