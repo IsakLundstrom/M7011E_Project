@@ -120,11 +120,12 @@ class UserService {
     return api.get(`/user/${userID}/`);
   }
 
-  patchUser(userID, fName, lName, email) {
+  patchUser(userID, fName, lName, email, has2FA) {
     return api.patch(`/user/${userID}/`, {
       fName: fName,
       lName: lName,
       email: email,
+      has2FA: has2FA,
     });
   }
 
@@ -146,8 +147,10 @@ class UserService {
     );
   }
 
-  patchPassword(newPassword) {
-   
+  patchPassword(userID, newPassword) {
+    return api.patch(`/user/${userID}/`, {
+      password: newPassword,
+    });
   }
 
   deleteUser(userID) {

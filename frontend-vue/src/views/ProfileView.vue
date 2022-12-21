@@ -106,7 +106,7 @@
               class="checkboxField"
               type="checkbox"
               name="2fa"
-              @change="async (e) => setHas2FA(e.target.checked)"
+              v-model="user.has2FA"
             />
 
             <br />
@@ -129,18 +129,18 @@
       <h2>Your Subscriptions</h2>
       <div class="threeCards">
 
-        <p v-if="user.subscriptions && user.subscriptions.length===0">
+        <p v-if="subscriptions && subscriptions.length===0">
           You have not subscribed to any courses
           <br />
           <br />
         </p>
-        <p v-if="!user.subscriptions">
+        <p v-if="!subscriptions">
           Loading Subscriptions...
           <br />
           <br />
         </p>
 
-        <router-link v-for="subscription in user.subscriptions"
+        <router-link v-for="subscription in subscriptions"
           :key="subscription.courseID"
           :to="{ name: 'Course', params:{id: subscription.courseID}}"
           class="card courseCard"
@@ -237,21 +237,29 @@
       },
 
       async patchUser() {
-        await userService.patchUser(this.user.id, this.user.fName, this.user.lName, this.user.email)
+        if(this.user.password !== ''){
+          if(this.user.password !== this.user.rpassword) {
+            this.errorText = 'The two passwords did not match'
+            this.updated = false
+            return
+          }
+          userService.patchPassword(this.user.id, this.user.password)
+        }
+        
+        await userService.patchUser(this.user.id, this.user.fName, this.user.lName, this.user.email, this.user.has2FA)
+        this.errorText = ''
         this.updated = true
       },
-
-      // v-on:change="setCImage($event)"
 
       async handleImageChange(event) {
         try {
           await userService.patchUserImage(this.user.id, event.target.files[0])
           this.newIMG = event.target.files[0]
+          this.errorText = 'some changes might need a reload to apply'
         } catch (error) {
           this.errorText = `could not update profile picture`
         }
-        
-        
+
       },
 
       async deleteUser() {
@@ -271,14 +279,16 @@
           password: '',
           rpassword: '',
           userIMG: profileImage,
-          subscriptions: {},
+          has2FA: undefined,
         },
-        ownCourses: {},
 
+        subscriptions: {},
+        ownCourses: {},
         deletePressed: false,
         updated: false,
         errorText: '',
         newIMG: '',
+        
       }
     },
     computed: {
@@ -291,6 +301,7 @@
       const userID = await tokenService.getUserData().user_id
       await userService.getProfile(userID).then(
         (response) => {
+          console.log("räs", response)
           this.user = response.data;
           this.user.password = ''
 
@@ -310,7 +321,7 @@
 
       userService.getSubscriptions(userID).then(
         (response) => {
-          this.user.subscriptions = response.data;
+          this.subscriptions = response.data;
         }
       )
 
