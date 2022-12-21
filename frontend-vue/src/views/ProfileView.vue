@@ -301,7 +301,7 @@
       const userID = await tokenService.getUserData().user_id
       await userService.getProfile(userID).then(
         (response) => {
-          console.log("räs", response)
+          
           this.user = response.data;
           this.user.password = ''
 

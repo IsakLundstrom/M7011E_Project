@@ -17,7 +17,7 @@ class AuthService {
     }
 
     async login2fa({email, password, token}) {
-      return api.post('auth/login/2fa', {
+      return api.post('auth/login/2fa/', {
         email,
         password,
         token
@@ -28,6 +28,13 @@ class AuthService {
         }
         return response.data;
       });
+    }
+
+    async resetPassword({email}) {
+      return api.post('auth/resetPassword/', {
+        email,
+        port: 8080,
+      })
     }
   
     logout() {

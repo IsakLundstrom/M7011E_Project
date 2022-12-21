@@ -184,7 +184,15 @@ export default {
 
   methods: {
     sendResetEmail() {
-
+      this.$store.dispatch("auth/resetPassword", this.user).then(
+        (res) => {
+          this.resetSent = true
+          },
+          (error) => {
+          console.log(error)
+          }
+      )
+      
     },
 
     async send2FA() {

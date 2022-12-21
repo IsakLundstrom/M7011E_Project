@@ -35,6 +35,19 @@ export const auth = {
       )
     },
 
+    resetPassword({ commit }, user) {
+      return AuthService.resetPassword(user).then(
+        user => {
+          commit('resetPasswordSuccess', user);
+          return Promise.resolve(user);
+        },
+        error => {
+          commit('resetPasswordFailure');
+          return Promise.reject(error);
+        }
+      )
+    },
+
     logout({ commit }) {
       AuthService.logout();
       commit('logout');
