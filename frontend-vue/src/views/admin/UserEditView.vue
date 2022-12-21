@@ -153,12 +153,7 @@ export default{
           alert("password and repeated password did not match")
           return
         }
-        try {
-          throw "not implemented"
-          // await userService.patchPassword(this.password)
-        } catch (e){
-          alert("Could not patch password", e);
-        }
+        userService.patchPassword(this.id, this.password)
       }
       await userService.patchUpdateUser(this.id, this.fName, this.lName, this.email, this.is_staff, this.is_superuser)
       this.updated = true
