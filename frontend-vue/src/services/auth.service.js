@@ -36,6 +36,14 @@ class AuthService {
         port: 8080,
       })
     }
+
+    async resetPasswordConfirm({password, uID, token}) {
+      return api.post(`auth/resetPasswordConfirm/`, {
+        password,
+        uID,
+        token,
+      })
+    }
   
     logout() {
       TokenService.removeUser();

@@ -68,12 +68,19 @@ const routes = [
     name: 'CourseEdit',
     component: () => import('../views/admin/CourseEditView.vue')
   },
+  {
+    path: '/auth/resetPasswordConfirm/:id/:token/', //this path is not editable (redirect if it's a must)
+    name: 'ResetPassword',
+    component: () => import('../views/ResetPasswordView.vue')
+  },
+
   //redirect
   {
     path: '/redirect-me',
     redirect: '/'
   },
-  //catch all 404
+
+  //catch most 404
   {
     path: '/:catchAll(.*)',
     name: 'NotFound',

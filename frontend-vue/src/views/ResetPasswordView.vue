@@ -2,10 +2,10 @@
   <main>
     <div className="loginContent">
       <h1>Reset Password</h1>
-      <form @submit="handleSubmit">
+      <form @submit.prevent="handleSubmit">
         <br />
 
-        {errorText !== "" && <div className="errorBox">{errorText}</div>}
+        <div v-if="errorText !== ''" class="errorBox">{{errorText}}</div>
 
         <label htmlFor="password">New Password</label>
         <br />
@@ -13,8 +13,7 @@
           className="inputField"
           type="password"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          v-model="user.password"
         />
 
         <br />
@@ -26,8 +25,7 @@
           className="inputField"
           type="password"
           name="rpassword"
-          value={rpassword}
-          onChange={(e) => setRPassword(e.target.value)}
+          v-model="rpassword"
         />
 
         <br />
@@ -47,15 +45,37 @@
 </template>
 
 <script>
+
   export default {
     data() {
       return {
-
+        user: {
+          password: '',
+          uID: this.$route.params.id,
+          token: this.$route.params.token
+        },
+        
+        rpassword: '',
+        errorText: '',
       }
     }, 
     methods: {
       handleSubmit() {
-        
+        if (this.user.password !== this.rpassword) {
+          this.errorText = "Password and repeated password must match"
+          return
+        }
+
+        this.$store.dispatch("auth/resetPasswordConfirm", this.user).then(
+          () => {
+            this.$router.push({name: 'Login'})
+            this.errorText = ''
+          }, 
+          (error) => {
+            alert("could not reset password")
+            console.log(error)
+          }
+        )
       }
     }
   }
