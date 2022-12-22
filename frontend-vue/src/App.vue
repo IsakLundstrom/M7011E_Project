@@ -1,14 +1,14 @@
 <script setup>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+  import Header from './components/Header.vue'
+  import Footer from './components/Footer.vue'
 </script>
 
 <template>
   <nav>
-    <Header></Header>
+    <Header :headerProp="trigger"></Header>
   </nav>
 
-  <router-view/>
+  <router-view @updateHeader="updateHeader"/>
   
   <nav>
     <Footer></Footer>
@@ -18,41 +18,23 @@ import Footer from './components/Footer.vue'
 
 <script>
 
-export default {
-  name: 'App',
-  components: { Header, Footer },
-  
-  
-  data() {
-    return {
-      title: 'The Best Free Gym in Luleå'
+  export default {
+    name: 'App',
+    components: { Header, Footer },
+    
+    data() {
+      return {
+        trigger: 0,
+      }
+    }, 
+    methods: {
+      updateHeader() {
+        this.trigger +=1      
+      }
     }
-  }, 
-  methods: {  }
-
-}
-
+  }
 </script>
 
 <style>
-@import "./index.css";
-
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-} */
-
-
+  @import "./index.css";
 </style>

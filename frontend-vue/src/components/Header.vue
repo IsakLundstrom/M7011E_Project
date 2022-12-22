@@ -55,6 +55,7 @@ import userService from "@/services/user.service";
 <script>
   export default{
     name:'Header',
+    props:['headerProp'],
     components: {
       coursesForHeader
     }, 
@@ -95,6 +96,9 @@ import userService from "@/services/user.service";
           this.getUserInfo()
         },
         immediate: true
+      },
+      headerProp: function() {
+        this.getUserInfo()
       }
     }
   }

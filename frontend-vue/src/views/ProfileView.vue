@@ -255,7 +255,8 @@
         try {
           await userService.patchUserImage(this.user.id, event.target.files[0])
           this.newIMG = event.target.files[0]
-          this.errorText = 'some changes might need a reload to apply'
+          this.$emit('updateHeader')
+          
         } catch (error) {
           this.errorText = `could not update profile picture`
         }

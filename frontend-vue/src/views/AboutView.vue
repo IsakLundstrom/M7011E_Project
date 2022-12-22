@@ -1,5 +1,5 @@
 <template>
   <main class="about">
-    <h1>This is an about page</h1>
+    <h3>contact us: sweatzone1337@gmail.com</h3>
   </main>
 </template>
