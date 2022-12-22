@@ -69,12 +69,12 @@ import { VueperSlides, VueperSlide } from 'vueperslides';
               <div v-if="visible"> Description ▲ </div> 
               <div v-else> Description ▼ </div> 
             </button>
-            <div v-if="visible" class="courseDescriptionTextBox ">
-              <p> {{ longDescription }} </p>
+            <div class="courseDescriptionTextBox ">
+              <p v-if="visible"> {{ longDescription }} </p>
             </div>
           </div>
         </div>
-        <div class="courseVideos">
+        <div v-if="slides && slides.length > 0" class="courseVideos">
           <vueper-slides 
             fixed-height="true"
             fixed-width="true"
