@@ -90,19 +90,26 @@ To evaluate the performance of the two different frontend framework implmententa
 
 Here is a summerization of relavant the results:
 
-| Metric                        | React | Vue |
-| ----------------------------- | ----- | --- |
-| First Paint Time              |       |     |
-| First Contentful Paint Time   |       |     |
-| Largest Contentful Paint Time |       |     |
-| Page Load Time                |       |     |
-| Fully Loaded Time             |       |     |
-| Total Blocking Time           |       |     |
-| Max Potential FID Time        |       |     |
-| Total Long Tasks Time         |       |     |
-| Number of Long Tasks          |       |     |
-| Best Practice Score           |       |     |
-| Performance Score             |       |     |
-| Overall Score                 |       |     |
-| HTML Transfer Size            |       |     |
-| JavaScript Content Size       |       |     |
+| Metric                        | React    | Vue      |
+| ----------------------------- | -------- | -------- |
+| First Paint Time              | 951ms    | 871 ms   |
+| First Contentful Paint Time   | 951 ms   | 872 ms   |
+| Largest Contentful Paint Time | 1.268 s  | 1.215 s  |
+| Page Load Time                | 826 ms   | 1.135 s  |
+| Fully Loaded Time             | 3.800 s  | 3.656 s  |
+| Total Blocking Time           | 1.584 s  | 1.054 s  |
+| Max Potential FID Time        | 604 ms   | 438 ms   |
+| Total Long Tasks Time         | 2.542 s  | 1.910 s  |
+| Number of Long Tasks          | 8        | 8        |
+| Best Practice Score           | 84       | 75       |
+| Performance Score             | 67       | 66       |
+| Overall Score                 | 70       | 68       |
+| HTML Transfer Size            | 218.4 KB | 124.9 KB |
+| JavaScript Transfer Size      | 1.3 MB   | 1.8 MB   |
+| JavaScript Content Size       | 4.9 MB   | 6.2 MB   |
+| Third Party Transfer Size     | 7.9 MB   | 1.1 MB   |
+| Third Party Requests          | 41       | 36       |
+
+### Conclusion
+
+A simple conclusion of the results is that the Vue implementation is a bit faster usually, especially in the Total Blocking Time metric as its half a second faster then in the React implementation. The Vue implementaion is also better when it comes to third party packages as the transfer size is almost 8 times less then in React. The React implementation is really only better in the Best Practice metric.
