@@ -7,21 +7,21 @@
 <template>
   <footer>
       <div class="socialContainer">
-        <RouterLink class="socialLink" to="/">
+        <a class="socialLink" href="https://www.facebook.com/">
           <div class="socialSvg">
             <img :src="facebookSvg" alt="Facebook" />
           </div>
-        </RouterLink>
-        <RouterLink class="socialLink" to="/">
+        </a>
+        <a class="socialLink" href="https://www.twitter.com/">
           <div class="socialSvg">
             <img :src="twitterSvg" alt="Twitter" />
           </div>
-        </RouterLink>
-        <RouterLink class="socialLink" to="/">
+        </a>
+        <a class="socialLink" href="https://www.instagram.com/">
           <div class="socialSvg">
             <img :src="instagramSvg" alt="Instagram" />
           </div>
-        </RouterLink>
+        </a>
       </div>
 
       <p>© 2022 The Sweat Zone</p>
