@@ -54,25 +54,25 @@
     </div>
   </div>
 
-  <h2 class="homeH2"> Our 3 latest courses! 🔥 </h2>
+  <h2 class="homeH2"> Our 3 latest courses</h2>
 
-  <div class="threeCards">
-    <div v-if="courses" v-for="n, index in 3" :key="index">
-      <router-link 
-        :to="{ name: 'Course', params: {id:courses[index].courseID}}" 
-        class="card courseCard"
-      >
-        <div>
-          <img :src=courses[index].courseIMG alt="course" />
-          <div class="cardTextContainer">
-            <h3>
-              <b> {{ courses[index].courseName }} </b>
-            </h3>
-            <p> {{ courses[index].shortDescription }} </p>
-          </div>
+  <div v-if="courses" class="threeCards">
+    <router-link 
+      v-for="n, index in 3" :key="index"
+      :to="{ name: 'Course', params: {id:courses[index].courseID}}" 
+      class="card courseCard"
+    >
+      <div >
+        <img :src=courses[index].courseIMG alt="course" />
+        <div class="cardTextContainer">
+          <h3>
+            <b> {{ courses[index].courseName }} </b>
+          </h3>
+          <p> {{ courses[index].shortDescription }} </p>
         </div>
-      </router-link>
-    </div>
+      </div>
+    </router-link>
+    
   </div>
 
   <h2 className="homeH2">News</h2>
