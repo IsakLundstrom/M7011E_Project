@@ -1,5 +1,4 @@
 <script setup>
-  import homeImage from '../../images/home_image.png'
   import userService from '../../services/user.service.js';
 </script>
 
@@ -33,7 +32,7 @@
       class="card courseCard"
       >
         <div>
-          <img :src=homeImage alt="course" />
+          <img :src=course.courseIMG alt="course" />
           <div class="cardTextContainer">
             <h3>
               <b> {{ course.courseName }} </b>

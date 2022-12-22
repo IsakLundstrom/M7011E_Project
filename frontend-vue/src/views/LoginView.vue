@@ -170,8 +170,8 @@ export default {
     return {
 
       user: {
-        email: "test@test.com",
-        password: 'test',
+        email: "",
+        password: '',
         has2FA: null,
         token: null,
       },
