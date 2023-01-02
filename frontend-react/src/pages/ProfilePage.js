@@ -290,7 +290,7 @@ const ProfilePage = (props) => {
         </p>
       )}
 
-      {user.is_staff && (
+      {user && user.is_staff && (
         <>
           <h2>Your Courses</h2>
           <br />
