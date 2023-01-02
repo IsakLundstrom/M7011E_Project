@@ -113,3 +113,8 @@ Here is a summerization of relavant the results:
 ### Conclusion
 
 A simple conclusion of the results is that the Vue implementation is a bit faster usually, especially in the Total Blocking Time metric as its half a second faster then in the React implementation. The Vue implementaion is also better when it comes to third party packages as the transfer size is almost 8 times less then in React. The React implementation is really only better in the Best Practice metric.
+
+## Screenshots of the website
+
+
+[Here](screenshots/README.MD) is a collention of screenshots of the website.
